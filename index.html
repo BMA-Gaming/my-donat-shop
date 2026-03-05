@@ -2,65 +2,70 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donat Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BMA Premium Gaming</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            background-color: #000; /* Qora fon */
-            color: #fff; /* Oq matn */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0; padding: 20px;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        h2 { border-bottom: 2px solid #fff; padding-bottom: 10px; width: 100%; text-align: center; }
-        .card {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 15px; margin: 10px 0;
-            width: 90%;
-            display: flex; justify-content: space-between; align-items: center;
-            transition: 0.3s;
-        }
-        .card:hover { border-color: #fff; }
-        .price { font-weight: bold; color: #00ff00; }
-        button {
-            background: #fff; color: #000;
-            border: none; padding: 10px 20px;
-            border-radius: 8px; font-weight: bold; cursor: pointer;
-        }
-        button:active { transform: scale(0.95); }
+        :root { --bg: #0d1117; --card: #161b22; --accent: #58a6ff; --text: #c9d1d9; --success: #238636; }
+        body { background-color: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica; margin: 0; padding: 15px; -webkit-user-select: none; }
+        .header { text-align: center; padding: 20px 0; border-bottom: 1px solid #30363d; margin-bottom: 20px; }
+        .header h1 { font-size: 20px; color: #fff; letter-spacing: 1px; margin: 0; }
+        .section-title { font-size: 14px; text-transform: uppercase; color: #8b949e; margin: 15px 0 10px 5px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card { background: var(--card); border: 1px solid #30363d; border-radius: 16px; padding: 15px; text-align: center; transition: 0.2s; position: relative; overflow: hidden; }
+        .card:active { transform: scale(0.96); border-color: var(--accent); }
+        .card img { width: 50px; height: 50px; border-radius: 10px; margin-bottom: 8px; filter: drop-shadow(0 0 5px rgba(88, 166, 255, 0.3)); }
+        .item-name { font-weight: 600; font-size: 15px; color: #f0f6fc; }
+        .price { font-size: 13px; color: #3fb950; margin-top: 5px; font-weight: bold; }
+        .badge { position: absolute; top: 0; right: 0; background: var(--accent); color: #000; font-size: 10px; padding: 2px 8px; border-bottom-left-radius: 10px; font-weight: bold; }
+        .main-btn { position: fixed; bottom: 20px; left: 5%; width: 90%; background: var(--success); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
-    <h2>DONAT DO'KONI</h2>
-    
-    <div class="card">
-        <div>
-            <div>60 UC</div>
-            <div class="price">12,000 so'm</div>
+    <div class="header"><h1>BMA PREMIUM</h1></div>
+    <div class="section-title">Ommabop o'yinlar</div>
+    <div class="grid">
+        <div class="card" onclick="selectItem('PUBG 60 UC', 12000)">
+            <div class="badge">TOP</div>
+            <img src="https://logowik.com/content/uploads/images/pubg-mobile5688.jpg">
+            <div class="item-name">60 UC</div>
+            <div class="price">12,000 UZS</div>
         </div>
-        <button onclick="sendOrder('60 UC')">Sotib olish</button>
-    </div>
-
-    <div class="card">
-        <div>
-            <div>325 UC</div>
-            <div class="price">60,000 so'm</div>
+        <div class="card" onclick="selectItem('PUBG 325 UC', 62000)">
+            <img src="https://logowik.com/content/uploads/images/pubg-mobile5688.jpg">
+            <div class="item-name">325 UC</div>
+            <div class="price">62,000 UZS</div>
         </div>
-        <button onclick="sendOrder('325 UC')">Sotib olish</button>
+        <div class="card" onclick="selectItem('FF 110 Gems', 15000)">
+            <img src="https://static.wikia.nocookie.net/garenafreefire/images/e/e3/Garena_Free_Fire_App_Icon.png">
+            <div class="item-name">110 Gems</div>
+            <div class="price">15,000 UZS</div>
+        </div>
+        <div class="card" onclick="selectItem('FF 530 Gems', 68000)">
+            <img src="https://static.wikia.nocookie.net/garenafreefire/images/e/e3/Garena_Free_Fire_App_Icon.png">
+            <div class="item-name">530 Gems</div>
+            <div class="price">68,000 UZS</div>
+        </div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Oynani to'liq ochish
+        tg.expand();
+        tg.MainButton.setText("XARID QILISH");
+        tg.MainButton.textColor = "#FFFFFF";
+        tg.MainButton.color = "#238636";
 
-        function sendOrder(item) {
-            let data = { item: item };
-            tg.sendData(JSON.stringify(data)); // Ma'lumotni botga yuborish
-            tg.close(); // WebAppni yopish
+        let selected = null;
+
+        function selectItem(name, price) {
+            selected = { item: name, amount: price };
+            tg.MainButton.setText(`SOTIB OLISH: ${price.toLocaleString()} UZS`);
+            tg.MainButton.show();
         }
+
+        tg.onEvent('mainButtonClicked', function() {
+            tg.sendData(JSON.stringify(selected));
+        });
     </script>
 </body>
 </html>
