@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donat Shop</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: #000; /* Qora fon */
+            color: #fff; /* Oq matn */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        h2 { border-bottom: 2px solid #fff; padding-bottom: 10px; width: 100%; text-align: center; }
+        .card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 15px; margin: 10px 0;
+            width: 90%;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: 0.3s;
+        }
+        .card:hover { border-color: #fff; }
+        .price { font-weight: bold; color: #00ff00; }
+        button {
+            background: #fff; color: #000;
+            border: none; padding: 10px 20px;
+            border-radius: 8px; font-weight: bold; cursor: pointer;
+        }
+        button:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+    <h2>DONAT DO'KONI</h2>
+    
+    <div class="card">
+        <div>
+            <div>60 UC</div>
+            <div class="price">12,000 so'm</div>
+        </div>
+        <button onclick="sendOrder('60 UC')">Sotib olish</button>
+    </div>
+
+    <div class="card">
+        <div>
+            <div>325 UC</div>
+            <div class="price">60,000 so'm</div>
+        </div>
+        <button onclick="sendOrder('325 UC')">Sotib olish</button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Oynani to'liq ochish
+
+        function sendOrder(item) {
+            let data = { item: item };
+            tg.sendData(JSON.stringify(data)); // Ma'lumotni botga yuborish
+            tg.close(); // WebAppni yopish
+        }
+    </script>
+</body>
+</html>
