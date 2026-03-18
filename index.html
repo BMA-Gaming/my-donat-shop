@@ -8,116 +8,172 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
-            --bg: #000000; 
-            --surface: #0a0a0a; 
+            --bg: #0b0e14; 
+            --card-bg: #161b22; 
             --accent: #00ff88; 
-            --text-primary: #ffffff; 
-            --text-secondary: #777777; 
-            --glass: rgba(255, 255, 255, 0.03); 
+            --text: #ffffff; 
+            --sub-text: #8b949e; 
+            --purple: #5865f2;
         }
         
-        body { background-color: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; margin: 0; padding: 0 0 80px 0; overflow-x: hidden; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0 0 80px 0; overflow-x: hidden; }
 
-        /* --- 📐 YON TARAFLARDAGI GEOMETRIK ANIMATSIYA --- */
-        .side-shape {
+        /* --- 📐 YONDAGI GEOMETRIK SHAKLLAR --- */
+        .side-design {
             position: fixed;
-            width: 150px;
-            height: 150px;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            z-index: -1;
-            pointer-events: none;
-            animation: float 10s linear infinite;
+            width: 200px; height: 200px;
+            border: 2px solid rgba(0, 255, 136, 0.1);
+            z-index: -1; pointer-events: none;
+            animation: rotate 15s linear infinite;
         }
-        .shape-left {
-            top: 20%;
-            left: -50px;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Uchburchak */
-        }
-        .shape-right {
-            bottom: 25%;
-            right: -50px;
-            border-radius: 20px; /* To'rtburchak */
-        }
-        @keyframes float {
-            0% { transform: rotate(0deg) translateY(0px); opacity: 0.2; }
-            50% { transform: rotate(180deg) translateY(20px); opacity: 0.5; }
-            100% { transform: rotate(360deg) translateY(0px); opacity: 0.2; }
-        }
+        .shape-left { top: 10%; left: -100px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+        .shape-right { bottom: 15%; right: -100px; border-radius: 30px; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- ⚡️ ELEKTR TOK SIMI (SEKINLASHTIRILGAN) --- */
-        .electric-wrapper { display: flex; align-items: center; justify-content: center; padding: 10px 20px; gap: 8px; }
-        .triangle-geom { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
-        .t-l { border-right: 10px solid var(--accent); }
-        .t-r { border-left: 10px solid var(--accent); }
-        .line-flow {
-            height: 1px; flex-grow: 1;
-            background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent);
-            background-size: 200% 100%;
-            animation: flow 5s linear infinite;
-        }
-        @keyframes flow { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        /* --- ⚡️ TOK SIMI --- */
+        .electric-bar { display: flex; align-items: center; padding: 10px 20px; gap: 8px; }
+        .tri { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+        .tri-l { border-right: 10px solid var(--accent); }
+        .tri-r { border-left: 10px solid var(--accent); }
+        .glow-line { height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent); background-size: 200% 100%; animation: move 4s linear infinite; }
+        @keyframes move { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        /* --- INTERFEYS ELEMENTLARI --- */
-        .header { padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .profile { display: flex; align-items: center; gap: 12px; }
-        .profile img { width: 45px; height: 45px; border-radius: 50%; border: 1.5px solid var(--accent); background: #111; object-fit: cover; }
-        
-        .card-balance { margin: 0 20px; background: var(--surface); padding: 25px; border-radius: 24px; border: 1px solid var(--glass); text-align: left; }
-        .balance-val { font-size: 32px; font-weight: 900; color: #fff; margin-top: 5px; }
+        /* --- HEADER --- */
+        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .user-info img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--purple); background: #222; }
+        .coin-badge { background: var(--purple); padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 5px; }
 
-        .grid-games { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .game-item { background: #0f0f0f; border-radius: 20px; padding: 20px 10px; text-align: center; border: 1px solid var(--glass); transition: 0.3s; }
-        .game-item:active { transform: scale(0.95); border-color: var(--accent); }
-        .game-item img { width: 65px; height: 65px; margin-bottom: 10px; object-fit: contain; }
-        .game-title { font-size: 13px; font-weight: 600; color: #ccc; }
+        /* --- BALANCE CARD --- */
+        .balance-card { margin: 0 20px; background: linear-gradient(135deg, #3d34eb, #2119a1); padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .balance-title { font-size: 26px; font-weight: 800; display: block; }
+        .balance-sub { color: rgba(255,255,255,0.7); font-size: 12px; }
 
-        /* --- MODAL (TUZATILGAN) --- */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; display: none; flex-direction: column; padding: 25px; }
+        /* --- CATALOG --- */
+        .section-name { padding: 20px 20px 10px; font-weight: bold; color: var(--sub-text); text-transform: uppercase; font-size: 13px; letter-spacing: 1px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 20px; }
+        .item-card { background: var(--card-bg); border-radius: 15px; padding: 20px 10px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .item-card img { width: 60px; height: 60px; margin-bottom: 8px; border-radius: 10px; }
+        .item-card span { display: block; font-size: 12px; font-weight: 600; }
+
+        /* --- MODAL --- */
+        .modal { position: fixed; inset: 0; background: #000; z-index: 2000; display: none; flex-direction: column; padding: 20px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .price-card { background: #161616; padding: 18px; border-radius: 166px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border: 1px solid var(--glass); }
-        .btn-buy { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 12px; }
+        .price-row { background: #1c2128; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .buy-btn { background: var(--accent); color: #000; border: none; padding: 8px 15px; border-radius: 8px; font-weight: 900; }
 
         /* --- NAV --- */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #050505; display: flex; padding: 15px 0; border-top: 1px solid var(--glass); z-index: 500; }
-        .nav-tab { flex: 1; text-align: center; color: #444; font-size: 10px; cursor: pointer; }
-        .nav-tab.active { color: var(--accent); }
-        .nav-tab i { font-size: 20px; display: block; margin-bottom: 4px; }
-
-        /* Profil Tahrirlash Inputlari */
-        .custom-input { width: 100%; background: var(--bg); border: 1px solid var(--glass); color: white; padding: 15px; border-radius: 10px; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; }
-        .custom-input:focus { border-color: var(--accent); outline: none; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; padding: 20px; box-sizing: border-box; }
-        .modal-content { overflow-y: auto; flex-grow: 1; }
-
-        .page { display: none; }
-        .active-page { display: block; }
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #0d1117; display: flex; padding: 15px 0; border-top: 1px solid #30363d; }
+        .nav-item { flex: 1; text-align: center; color: var(--sub-text); font-size: 11px; }
+        .nav-item.active { color: var(--purple); }
+        .nav-item i { display: block; font-size: 20px; margin-bottom: 3px; }
     </style>
 </head>
 <body>
 
-    <div class="side-shape shape-left"></div>
-    <div class="side-shape shape-right"></div>
+    <div class="side-design shape-left"></div>
+    <div class="side-design shape-right"></div>
 
-    <div id="page-home" class="page active-page">
+    <div id="main-ui">
         <div class="header">
-            <div class="profile">
-                <img id="user-avatar" src="https://i.ibb.co/6NGp879/default-avatar.png">
-                <span id="user-name" style="font-weight: 700;">Mijoz</span>
+            <div class="user-info">
+                <img id="avatar" src="https://ui-avatars.com/api/?name=User&background=random">
+                <span id="name" style="font-weight: 700;">Yuklanmoqda...</span>
             </div>
-            <div style="color: var(--accent); font-weight: 800;"><i class="fas fa-bolt"></i> BMA</div>
+            <div class="coin-badge"><i class="fas fa-coins" style="color: gold;"></i> <span id="coins">0</span></div>
         </div>
 
-        <div class="electric-wrapper">
-            <div class="triangle-geom t-l"></div>
-            <div class="line-flow"></div>
-            <div class="triangle-geom t-r"></div>
+        <div class="electric-bar">
+            <div class="tri tri-l"></div>
+            <div class="glow-line"></div>
+            <div class="tri tri-r"></div>
         </div>
 
-        <div class="card-balance">
-            <div style="font-size: 12px; color: var(--text-secondary);">Mening hisobim:</div>
-            <div class="balance-val">0 UZS</div>
+        <div class="balance-card">
+            <span class="balance-title">0 UZS</span>
+            <span class="balance-sub">Telegram username: <span id="tg-user">@username</span></span>
         </div>
 
-        <div class="grid-games">
-            <div class="game-item" onclick="showPrices('pubg')">
-                <img id="pubg-logo" src="
+        <div class="section-name">O'yinlar</div>
+        <div class="grid" id="catalog-grid">
+            </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-header">
+            <h2 id="modal-title" style="margin:0">Narxlar</h2>
+            <i class="fas fa-times fa-2x" onclick="closeM()"></i>
+        </div>
+        <div id="modal-list" style="overflow-y: auto;"></div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-item active"><i class="fas fa-home"></i>Asosiy</div>
+        <div class="nav-item"><i class="fas fa-history"></i>Tarix</div>
+        <div class="nav-item" onclick="tg.showAlert('Admin: @BMA_Owner')"><i class="fas fa-cog"></i>Sozlamalar</div>
+    </nav>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        const data = {
+            pubg: { title: "PUBG Mobile", img: "https://www.pubgmobile.com/common/images/icon_logo.png", prices: ["60 UC - 13 000", "325 UC - 58 000", "660 UC - 114 000"] },
+            ff: { title: "Free Fire", img: "https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png", prices: ["110💎 - 19 000", "583💎 - 74 000"] },
+            mlbb: { title: "Mobile Legends", img: "https://m.mobilelegends.com/static/images/index/logo.png", prices: ["86💎 - 16 500", "172💎 - 32 000"] },
+            aloqa: { title: "Aloqa", img: "https://cdn-icons-png.flaticon.com/512/3532/3532157.png", prices: ["10 000 - 10 000", "20 000 - 20 000"] }
+        };
+
+        function initApp() {
+            // Profilni aniqlash
+            const user = tg.initDataUnsafe?.user;
+            if(user) {
+                document.getElementById('name').innerText = user.first_name;
+                document.getElementById('tg-user').innerText = user.username ? "@" + user.username : "ID: " + user.id;
+                if(user.photo_url) document.getElementById('avatar').src = user.photo_url;
+            } else {
+                document.getElementById('name').innerText = "Baxtiyor";
+                document.getElementById('tg-user').innerText = "@Baxti_dev";
+            }
+
+            // Katalogni chiqarish
+            const grid = document.getElementById('catalog-grid');
+            grid.innerHTML = "";
+            Object.keys(data).forEach(key => {
+                grid.innerHTML += `
+                    <div class="item-card" onclick="openM('${key}')">
+                        <img src="${data[key].img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/588/588308.png'">
+                        <span>${data[key].title}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function openM(key) {
+            const list = document.getElementById('modal-list');
+            document.getElementById('modal-title').innerText = data[key].title;
+            list.innerHTML = "";
+            data[key].prices.forEach(p => {
+                list.innerHTML += `
+                    <div class="price-row">
+                        <span>${p} UZS</span>
+                        <button class="buy-btn" onclick="order('${p}')">SOTIB OLISH</button>
+                    </div>
+                `;
+            });
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeM() { document.getElementById('modal').style.display = 'none'; }
+
+        function order(val) {
+            tg.sendData(JSON.stringify({order: val}));
+            tg.close();
+        }
+
+        // Dasturni ishga tushirish
+        initApp();
+    </script>
+</body>
+</html>
