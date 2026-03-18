@@ -21,134 +21,33 @@
             color: var(--text-primary);
             font-family: 'Inter', -apple-system, sans-serif;
             margin: 0;
-            padding: 0 0 80px 0; /* Pastki menyu uchun joy */
+            padding: 0 0 80px 0;
             user-select: none;
+            display: block !important;
         }
 
-        /* Profile Header */
-        .profile-header {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .profile-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .user-info { display: flex; align-items: center; gap: 10px; }
-        .user-info img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); }
+        .user-info img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); background: #222; }
         .user-name { font-weight: 700; font-size: 16px; }
         
-        .coin-balance {
-            background: var(--surface);
-            padding: 5px 12px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid var(--glass);
-        }
+        .coin-balance { background: var(--surface); padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; border: 1px solid var(--glass); }
 
-        /* Wallet Card */
-        .wallet-card {
-            margin: 0 15px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-            padding: 20px;
-            border-radius: 24px;
-            border: 1px solid var(--glass);
-        }
+        .wallet-card { margin: 0 15px; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); padding: 20px; border-radius: 24px; border: 1px solid var(--glass); }
         .wallet-amount { font-size: 24px; font-weight: 800; margin-bottom: 15px; }
         .wallet-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .action-btn {
-            background: var(--glass);
-            border: none;
-            padding: 10px;
-            border-radius: 12px;
-            color: white;
-            font-size: 10px;
-            text-align: center;
-        }
+        .action-btn { background: var(--glass); border: none; padding: 10px; border-radius: 12px; color: white; font-size: 10px; text-align: center; }
         .action-btn i { font-size: 18px; display: block; margin-bottom: 5px; color: var(--accent); }
 
-        /* Banner Slider */
-        .banner-container {
-            margin: 20px 0;
-            padding-left: 15px;
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-        }
-        .banner {
-            min-width: 85%;
-            height: 120px;
-            background: linear-gradient(90deg, #00ff8833, #000);
-            border-radius: 20px;
-            scroll-snap-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--accent);
-            font-weight: bold;
-        }
+        .banner-container { margin: 20px 0; padding-left: 15px; display: flex; gap: 10px; overflow-x: auto; }
+        .banner { min-width: 85%; height: 100px; background: linear-gradient(90deg, #00ff8833, #000); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent); font-weight: bold; font-size: 14px; text-align: center; padding: 0 10px; }
 
-        /* Quick Filters */
-        .filters {
-            display: flex;
-            gap: 8px;
-            padding: 0 15px;
-            margin-bottom: 20px;
-        }
-        .filter-btn {
-            background: var(--surface);
-            border: 1px solid var(--glass);
-            color: var(--text-secondary);
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 13px;
-        }
-        .filter-btn.active { background: var(--accent); color: #000; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 0 15px; }
+        .game-card { background: var(--surface); border-radius: 18px; padding: 10px; text-align: center; border: 1px solid var(--glass); }
+        .game-card img { width: 100%; border-radius: 12px; margin-bottom: 8px; min-height: 80px; background: #222; }
+        .game-name { font-size: 11px; font-weight: 600; display: block; }
 
-        /* Game Grid */
-        .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin-bottom: 15px; }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
-            padding: 0 15px;
-        }
-        .game-card {
-            background: var(--surface);
-            border-radius: 18px;
-            padding: 10px;
-            text-align: center;
-            position: relative;
-            border: 1px solid var(--glass);
-        }
-        .game-card img { width: 100%; border-radius: 12px; margin-bottom: 8px; }
-        .game-name { font-size: 12px; font-weight: 600; display: block; }
-        .game-badge {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: var(--accent);
-            color: #000;
-            font-size: 8px;
-            padding: 2px 6px;
-            border-radius: 6px;
-            font-weight: 900;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(10, 10, 10, 0.9);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            border-top: 1px solid var(--glass);
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--glass); z-index: 100; }
         .nav-item { text-align: center; color: var(--text-secondary); font-size: 10px; text-decoration: none; }
         .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
         .nav-item.active { color: var(--accent); }
@@ -158,3 +57,79 @@
 
     <div class="profile-header">
         <div class="user-info">
+            <img id="user-photo" src="https://i.ibb.co/6NGp879/default-avatar.png" alt="User">
+            <span class="user-name" id="user-full-name">Yuklanmoqda...</span>
+        </div>
+        <div class="coin-balance">
+            <i class="fas fa-coins" style="color: gold;"></i>
+            <span>12</span>
+        </div>
+    </div>
+
+    <div class="wallet-card">
+        <div class="wallet-amount">998 so'm</div>
+        <div class="wallet-actions">
+            <div class="action-btn"><i class="fas fa-wallet"></i>To'ldirish</div>
+            <div class="action-btn"><i class="fas fa-gift"></i>Bonus</div>
+            <div class="action-btn"><i class="fas fa-history"></i>Tarix</div>
+        </div>
+    </div>
+
+    <div class="banner-container">
+        <div class="banner">BMA PREMIUM: ARZON VA TEZKOR!</div>
+    </div>
+
+    <div class="grid">
+        <div class="game-card" onclick="selectItem('PUBG Mobile', 'game')">
+            <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Pubg_mobile_logo.png">
+            <span class="game-name">PUBG</span>
+        </div>
+        <div class="game-card" onclick="selectItem('Free Fire', 'game')">
+            <img src="https://i.ibb.co/m0f6mXm/ff-diamond.png">
+            <span class="game-name">Free Fire</span>
+        </div>
+        <div class="game-card" onclick="selectItem('Mobile Legends', 'game')">
+            <img src="https://logowik.com/content/uploads/images/mobile-legends-bang-bang1811.jpg">
+            <span class="game-name">MLBB</span>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active"><i class="fas fa-home"></i>Asosiy</div>
+        <div class="nav-item"><i class="fas fa-tags"></i>Gift</div>
+        <div class="nav-item"><i class="fas fa-clock"></i>Tarix</div>
+        <div class="nav-item"><i class="fas fa-cog"></i>Sozlamalar</div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Foydalanuvchi ma'lumotlarini xavfsiz yuklash
+        try {
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                let user = tg.initDataUnsafe.user;
+                document.getElementById('user-full-name').innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
+                if (user.photo_url) {
+                    document.getElementById('user-photo').src = user.photo_url;
+                }
+            } else {
+                document.getElementById('user-full-name').innerText = "Baxti";
+            }
+        } catch (e) {
+            document.getElementById('user-full-name').innerText = "Mehmon";
+        }
+
+        function selectItem(name, type) {
+            let selected = { item: name, category: type };
+            tg.MainButton.setText(`TANLANDI: ${name.toUpperCase()}`);
+            tg.MainButton.show();
+            tg.MainButton.setParams({ color: "#00ff88", text_color: "#000000" });
+            
+            tg.onEvent('mainButtonClicked', function() {
+                tg.sendData(JSON.stringify(selected));
+            });
+        }
+    </script>
+</body>
+</html>
