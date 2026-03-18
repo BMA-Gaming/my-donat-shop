@@ -7,184 +7,167 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --bg: #0a0a0a;
-            --surface: #141414;
-            --accent: #00ff88;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --glass: rgba(255, 255, 255, 0.05);
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0 0 80px 0;
-            overflow-x: hidden;
-        }
-
-        /* Profile & Wallet */
+        :root { --bg: #0a0a0a; --surface: #141414; --accent: #00ff88; --text-primary: #ffffff; --text-secondary: #a0a0a0; --glass: rgba(255, 255, 255, 0.05); }
+        body { background-color: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; margin: 0; padding: 0 0 80px 0; user-select: none; }
         .profile-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .user-info { display: flex; align-items: center; gap: 10px; }
-        .user-info img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); }
-        
+        .user-info img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
         .wallet-card { margin: 0 15px; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); padding: 20px; border-radius: 24px; border: 1px solid var(--glass); }
-        .wallet-amount { font-size: 24px; font-weight: 800; margin-bottom: 15px; }
-
-        /* Grid */
+        .wallet-amount { font-size: 24px; font-weight: 800; }
         .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin: 20px 0 15px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 0 15px; }
-        .game-card { background: var(--surface); border-radius: 18px; padding: 10px; text-align: center; border: 1px solid var(--glass); cursor: pointer; }
+        .game-card { background: var(--surface); border-radius: 18px; padding: 10px; text-align: center; border: 1px solid var(--glass); cursor: pointer; transition: 0.3s; }
+        .game-card:active { transform: scale(0.95); }
         .game-card img { width: 100%; border-radius: 12px; margin-bottom: 8px; }
-        .game-name { font-size: 11px; font-weight: 600; }
-
-        /* Modal (Narxlar oynasi) */
-        .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 1000;
-            display: none; flex-direction: column;
-            padding: 20px; box-sizing: border-box;
-        }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .game-name { font-size: 10px; font-weight: 600; display: block; }
+        
+        /* Modal Style */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; padding: 20px; box-sizing: border-box; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--glass); padding-bottom: 10px; }
         .modal-content { overflow-y: auto; flex-grow: 1; }
-        .price-item {
-            background: var(--surface); margin-bottom: 10px; padding: 15px;
-            border-radius: 15px; display: flex; justify-content: space-between;
-            align-items: center; border: 1px solid var(--glass);
-        }
-        .buy-btn { background: var(--accent); color: #000; padding: 8px 15px; border-radius: 10px; font-weight: bold; border: none; }
+        .price-item { background: var(--surface); margin-bottom: 10px; padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass); }
+        .buy-btn { background: var(--accent); color: #000; padding: 8px 12px; border-radius: 10px; font-weight: bold; border: none; font-size: 12px; }
+        
+        /* Input for Custom Amount */
+        .custom-input { width: 100%; background: var(--surface); border: 1px solid var(--accent); color: white; padding: 15px; border-radius: 12px; font-size: 16px; margin-bottom: 15px; }
 
-        /* Settings Section */
-        #settings-page { display: none; padding: 20px; }
-        .settings-item { background: var(--surface); padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; }
+        /* Pages */
+        .page { display: none; }
+        .active-page { display: block; }
 
-        /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--glass); }
-        .nav-item { text-align: center; color: var(--text-secondary); font-size: 10px; cursor: pointer; }
+        .nav-item { text-align: center; color: var(--text-secondary); font-size: 10px; }
         .nav-item.active { color: var(--accent); }
         .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="home-page">
+    <div id="home" class="page active-page">
         <div class="profile-header">
             <div class="user-info">
-                <img id="u-img" src="https://i.pravatar.cc/150?u=baxti">
-                <span class="user-name" id="u-name">Yuklanmoqda...</span>
+                <img id="profile-pic" src="https://i.ibb.co/6NGp879/default-avatar.png">
+                <span class="user-name" id="display-name">Baxti</span>
             </div>
         </div>
-
         <div class="wallet-card">
             <div class="wallet-amount">0 so'm</div>
-            <div style="font-size: 12px; color: var(--text-secondary);">Sizning balansingiz</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Balans</div>
         </div>
-
-        <div class="section-title">O'yinlar</div>
+        <div class="section-title">Xizmatlar</div>
         <div class="grid">
-            <div class="game-card" onclick="openPrices('pubg')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Pubg_mobile_logo.png">
-                <span class="game-name">PUBG Mobile</span>
+            <div class="game-card" onclick="openModal('pubg')">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Pubg_mobile_logo.png"><span class="game-name">PUBG</span>
             </div>
-            <div class="game-card" onclick="openPrices('ff')">
-                <img src="https://i.ibb.co/m0f6mXm/ff-diamond.png">
-                <span class="game-name">Free Fire</span>
+            <div class="game-card" onclick="openModal('ff')">
+                <img src="https://i.ibb.co/m0f6mXm/ff-diamond.png"><span class="game-name">Free Fire</span>
             </div>
-            <div class="game-card" onclick="openPrices('mlbb')">
-                <img src="https://logowik.com/content/uploads/images/mobile-legends-bang-bang1811.jpg">
-                <span class="game-name">Mobile Legends</span>
+            <div class="game-card" onclick="openModal('mlbb')">
+                <img src="https://logowik.com/content/uploads/images/mobile-legends-bang-bang1811.jpg"><span class="game-name">MLBB</span>
+            </div>
+            <div class="game-card" onclick="openModal('phone')">
+                <img src="https://cdn-icons-png.flaticon.com/512/3532/3532157.png"><span class="game-name">Aloqa</span>
             </div>
         </div>
     </div>
 
-    <div id="settings-page">
+    <div id="settings" class="page">
         <h2 class="section-title">Sozlamalar</h2>
-        <div class="settings-item" onclick="tg.showAlert('Hozircha o\'zgartirib bo\'lmaydi')">
-            <i class="fas fa-user-edit"></i> Profilni tahrirlash
-        </div>
-        <div class="settings-item" onclick="tg.openTelegramLink('https://t.me/BMA_Owner')">
-            <i class="fas fa-headset"></i> Qo'llab-quvvatlash
+        <div style="padding: 0 20px;">
+            <div class="price-item" onclick="tg.showAlert('Profil rasmini tez kunda bot orqali o\'zgartirishingiz mumkin bo\'ladi!')">
+                <span>📸 Profil rasmini o'zgartirish</span><i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="price-item" onclick="tg.openTelegramLink('https://t.me/BMA_Owner')">
+                <span>🎧 Qo'llab-quvvatlash (Admin)</span><i class="fas fa-headset"></i>
+            </div>
         </div>
     </div>
 
-    <div id="price-modal" class="modal">
+    <div id="modal" class="modal">
         <div class="modal-header">
-            <h2 id="modal-title">Narxlar</h2>
-            <i class="fas fa-times" onclick="closeModal()" style="font-size: 24px;"></i>
+            <h3 id="modal-title">Narxlar</h3>
+            <i class="fas fa-times" onclick="closeModal()"></i>
         </div>
-        <div class="modal-content" id="modal-list">
-            </div>
+        <div id="modal-content" class="modal-content"></div>
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i>Asosiy</div>
-        <div class="nav-item" onclick="tg.showAlert('Tez kunda')"><i class="fas fa-clock"></i>Tarix</div>
-        <div class="nav-item" onclick="showPage('settings')"><i class="fas fa-cog"></i>Sozlamalar</div>
+        <div class="nav-item active" onclick="nav('home')"><i class="fas fa-home"></i>Do'kon</div>
+        <div class="nav-item" onclick="nav('settings')"><i class="fas fa-cog"></i>Profil</div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Foydalanuvchi ma'lumotlari
-        if (tg.initDataUnsafe?.user) {
-            document.getElementById('u-name').innerText = tg.initDataUnsafe.user.first_name;
-            if (tg.initDataUnsafe.user.photo_url) document.getElementById('u-img').src = tg.initDataUnsafe.user.photo_url;
+        // Profil ismini to'g'irlash
+        let user = tg.initDataUnsafe?.user;
+        if(user) {
+            document.getElementById('display-name').innerText = user.first_name;
+            if(user.photo_url) document.getElementById('profile-pic').src = user.photo_url;
         }
 
-        const data = {
+        const prices = {
             pubg: [
-                {id: "60uc", n: "60 UC", p: "13.000 so'm"},
-                {id: "120uc", n: "120 UC", p: "25.000 so'm"},
-                {id: "325uc", n: "325 UC", p: "58.000 so'm"},
-                {id: "660uc", n: "660 UC", p: "114.000 so'm"}
+                {n: "60 UC", p: "13.000"}, {n: "120 UC", p: "25.000"}, {n: "180 UC", p: "36.000"},
+                {n: "240 UC", p: "50.000"}, {n: "325 UC", p: "58.000"}, {n: "385 UC", p: "70.000"},
+                {n: "445 UC", p: "82.000"}, {n: "660 UC", p: "114.000"}, {n: "720 UC", p: "126.000"},
+                {n: "985 UC", p: "172.000"}, {n: "1320 UC", p: "228.000"}, {n: "1800 UC", p: "280.000"}
             ],
             ff: [
-                {id: "110d", n: "110 💎", p: "19.000 so'm"},
-                {id: "231d", n: "231 💎", p: "35.000 so'm"},
-                {id: "weekly", n: "Haftalik obuna", p: "37.000 so'm"}
+                {n: "110💎", p: "19.000"}, {n: "231💎", p: "35.000"}, {n: "583💎", p: "74.000"},
+                {n: "1188💎", p: "147.000"}, {n: "2420💎", p: "274.000"},
+                {n: "Haftalik obuna", p: "37.000"}, {n: "Oylik obuna", p: "148.000"}, {n: "Booyah pass", p: "52.000"}
             ],
             mlbb: [
-                {id: "55ml", n: "55 💎 (50+5)", p: "10.500 so'm"},
-                {id: "86ml", n: "86 💎 (78+8)", p: "16.500 so'm"},
-                {id: "weekly_ml", n: "Haftalik propusk", p: "19.800 so'm"}
+                {n: "55💎 (50+5)", p: "10.500"}, {n: "86💎 (78+8)", p: "16.500"}, {n: "165💎", p: "31.400"},
+                {n: "Haftalik propusk", p: "19.800"}, {n: "Sumerechniy propusk", p: "107.000"}
             ]
         };
 
-        function openPrices(game) {
-            const list = document.getElementById('modal-list');
-            const title = document.getElementById('modal-title');
-            list.innerHTML = "";
-            title.innerText = game.toUpperCase() + " Narxlari";
-            
-            data[game].forEach(item => {
-                list.innerHTML += `
-                    <div class="price-item">
-                        <div>
-                            <b>${item.n}</b><br>
-                            <small>${item.p}</small>
-                        </div>
-                        <button class="buy-btn" onclick="order('${item.n}', '${game}')">Sotib olish</button>
-                    </div>
+        function openModal(type) {
+            let content = document.getElementById('modal-content');
+            let title = document.getElementById('modal-title');
+            content.innerHTML = "";
+            document.getElementById('modal').style.display = 'flex';
+
+            if(type === 'phone') {
+                title.innerText = "Uyali aloqa";
+                content.innerHTML = `
+                    <p>To'lov miqdorini kiriting (UZS):</p>
+                    <input type="number" id="custom-sum" class="custom-input" placeholder="Masalan: 10000">
+                    <button class="buy-btn" style="width:100%; padding:15px;" onclick="sendOrder('custom')">Davom etish</button>
                 `;
-            });
-            document.getElementById('price-modal').style.display = 'flex';
+            } else {
+                title.innerText = type.toUpperCase() + " Narxlari";
+                prices[type].forEach(item => {
+                    content.innerHTML += `
+                        <div class="price-item">
+                            <span>${item.n} - <b>${item.p} UZS</b></span>
+                            <button class="buy-btn" onclick="sendOrder('${item.n}', '${type}')">Sotib olish</button>
+                        </div>
+                    `;
+                });
+            }
         }
 
-        function closeModal() { document.getElementById('price-modal').style.display = 'none'; }
-
-        function order(item, game) {
-            tg.sendData(JSON.stringify({item: item, category: game}));
+        function sendOrder(item, category) {
+            let val = item;
+            if(item === 'custom') {
+                val = document.getElementById('custom-sum').value + " UZS (Aloqa)";
+                category = "phone";
+            }
+            tg.sendData(JSON.stringify({item: val, category: category}));
             closeModal();
         }
 
-        function showPage(page) {
-            document.getElementById('home-page').style.display = page === 'home' ? 'block' : 'none';
-            document.getElementById('settings-page').style.display = page === 'settings' ? 'block' : 'none';
-            
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+        
+        function nav(p) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
+            document.getElementById(p).classList.add('active-page');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             event.currentTarget.classList.add('active');
         }
     </script>
