@@ -11,169 +11,184 @@
             --bg: #0b0e14; 
             --card-bg: #161b22; 
             --accent: #00ff88; 
+            --purple: #5865f2;
             --text: #ffffff; 
             --sub-text: #8b949e; 
-            --purple: #5865f2;
         }
         
-        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0 0 80px 0; overflow-x: hidden; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0 0 90px 0; overflow-x: hidden; }
 
-        /* --- 📐 YONDAGI GEOMETRIK SHAKLLAR --- */
-        .side-design {
-            position: fixed;
-            width: 200px; height: 200px;
-            border: 2px solid rgba(0, 255, 136, 0.1);
-            z-index: -1; pointer-events: none;
-            animation: rotate 15s linear infinite;
-        }
-        .shape-left { top: 10%; left: -100px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
-        .shape-right { bottom: 15%; right: -100px; border-radius: 30px; }
+        /* --- 📐 GEOMETRIK ANIMATSIYA (YONDAGI SHAKLLAR) --- */
+        .geo-shape { position: fixed; border: 2px solid rgba(0, 255, 136, 0.15); z-index: -1; pointer-events: none; animation: rotate 20s linear infinite; }
+        .shape-l { top: 15%; left: -80px; width: 180px; height: 180px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+        .shape-r { bottom: 20%; right: -80px; width: 160px; height: 160px; border-radius: 25px; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- ⚡️ TOK SIMI --- */
-        .electric-bar { display: flex; align-items: center; padding: 10px 20px; gap: 8px; }
-        .tri { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
-        .tri-l { border-right: 10px solid var(--accent); }
-        .tri-r { border-left: 10px solid var(--accent); }
-        .glow-line { height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent); background-size: 200% 100%; animation: move 4s linear infinite; }
+        /* --- ⚡️ ELEKTR TOK SIMI --- */
+        .electric-flow { display: flex; align-items: center; padding: 10px 20px; gap: 8px; }
+        .t-geom { width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+        .t-l { border-right: 12px solid var(--accent); }
+        .t-r { border-left: 12px solid var(--accent); }
+        .spark-line { height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent); background-size: 200% 100%; animation: move 3s linear infinite; }
         @keyframes move { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
         /* --- HEADER --- */
         .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .user-info { display: flex; align-items: center; gap: 10px; }
-        .user-info img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--purple); background: #222; }
-        .coin-badge { background: var(--purple); padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 5px; }
+        .user-card { display: flex; align-items: center; gap: 12px; }
+        .user-card img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--purple); object-fit: cover; }
+        .coin-box { background: var(--purple); padding: 6px 14px; border-radius: 12px; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 6px; }
 
-        /* --- BALANCE CARD --- */
-        .balance-card { margin: 0 20px; background: linear-gradient(135deg, #3d34eb, #2119a1); padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .balance-title { font-size: 26px; font-weight: 800; display: block; }
-        .balance-sub { color: rgba(255,255,255,0.7); font-size: 12px; }
+        /* --- BALANCE --- */
+        .balance-section { margin: 0 20px; background: linear-gradient(135deg, #4e44ff, #2a1fd1); padding: 25px; border-radius: 22px; box-shadow: 0 8px 25px rgba(0,0,0,0.4); position: relative; overflow: hidden; }
+        .balance-num { font-size: 28px; font-weight: 900; display: block; }
+        .balance-user { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 5px; display: block; }
 
-        /* --- CATALOG --- */
-        .section-name { padding: 20px 20px 10px; font-weight: bold; color: var(--sub-text); text-transform: uppercase; font-size: 13px; letter-spacing: 1px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 20px; }
-        .item-card { background: var(--card-bg); border-radius: 15px; padding: 20px 10px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-        .item-card img { width: 60px; height: 60px; margin-bottom: 8px; border-radius: 10px; }
-        .item-card span { display: block; font-size: 12px; font-weight: 600; }
+        /* --- GRID --- */
+        .label { padding: 25px 20px 12px; font-weight: 800; color: var(--sub-text); text-transform: uppercase; font-size: 12px; letter-spacing: 1.5px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 15px; }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 15px 5px; text-align: center; border: 1px solid rgba(255,255,255,0.03); transition: 0.2s; position: relative; }
+        .card:active { transform: scale(0.95); background: #1c2128; }
+        .card img { width: 50px; height: 50px; border-radius: 8px; margin-bottom: 8px; }
+        .card span { display: block; font-size: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .m-badge { position: absolute; top: 5px; right: 5px; background: orange; color: black; font-size: 7px; font-weight: 900; padding: 1px 4px; border-radius: 3px; }
 
         /* --- MODAL --- */
         .modal { position: fixed; inset: 0; background: #000; z-index: 2000; display: none; flex-direction: column; padding: 20px; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .price-row { background: #1c2128; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .buy-btn { background: var(--accent); color: #000; border: none; padding: 8px 15px; border-radius: 8px; font-weight: 900; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .price-item { background: #1c2128; padding: 18px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .btn-pay { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 900; font-size: 12px; }
+        
+        /* Aloqa uchun maxsus input */
+        .custom-input { width: 100%; background: #111; border: 1px solid var(--purple); color: white; padding: 18px; border-radius: 12px; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; }
 
         /* --- NAV --- */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #0d1117; display: flex; padding: 15px 0; border-top: 1px solid #30363d; }
-        .nav-item { flex: 1; text-align: center; color: var(--sub-text); font-size: 11px; }
-        .nav-item.active { color: var(--purple); }
-        .nav-item i { display: block; font-size: 20px; margin-bottom: 3px; }
+        .navbar { position: fixed; bottom: 0; left: 0; right: 0; background: #0d1117; display: flex; padding: 15px 0; border-top: 1px solid #30363d; z-index: 1000; }
+        .nav-tab { flex: 1; text-align: center; color: var(--sub-text); font-size: 10px; }
+        .nav-tab.active { color: var(--purple); }
+        .nav-tab i { display: block; font-size: 20px; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
-    <div class="side-design shape-left"></div>
-    <div class="side-design shape-right"></div>
+    <div class="geo-shape shape-l"></div>
+    <div class="geo-shape shape-r"></div>
 
-    <div id="main-ui">
+    <div id="app-content">
         <div class="header">
-            <div class="user-info">
-                <img id="avatar" src="https://ui-avatars.com/api/?name=User&background=random">
-                <span id="name" style="font-weight: 700;">Yuklanmoqda...</span>
+            <div class="user-card">
+                <img id="u-ava" src="https://ui-avatars.com/api/?name=B&background=random">
+                <span id="u-name" style="font-weight: 700;">Aniqlanmoqda...</span>
             </div>
-            <div class="coin-badge"><i class="fas fa-coins" style="color: gold;"></i> <span id="coins">0</span></div>
+            <div class="coin-box"><i class="fas fa-coins" style="color: gold;"></i> <span id="u-coins">0</span></div>
         </div>
 
-        <div class="electric-bar">
-            <div class="tri tri-l"></div>
-            <div class="glow-line"></div>
-            <div class="tri tri-r"></div>
+        <div class="electric-flow">
+            <div class="t-geom t-l"></div>
+            <div class="spark-line"></div>
+            <div class="t-geom t-r"></div>
         </div>
 
-        <div class="balance-card">
-            <span class="balance-title">0 UZS</span>
-            <span class="balance-sub">Telegram username: <span id="tg-user">@username</span></span>
+        <div class="balance-section">
+            <span class="balance-num">0 so'm</span>
+            <span class="balance-user" id="u-handle">@loading...</span>
         </div>
 
-        <div class="section-name">O'yinlar</div>
-        <div class="grid" id="catalog-grid">
+        <div class="label">Mashhur o'yinlar</div>
+        <div class="grid" id="game-grid">
             </div>
     </div>
 
     <div id="modal" class="modal">
         <div class="modal-header">
-            <h2 id="modal-title" style="margin:0">Narxlar</h2>
-            <i class="fas fa-times fa-2x" onclick="closeM()"></i>
+            <h2 id="m-title" style="margin:0">Narxlar</h2>
+            <i class="fas fa-times-circle fa-2x" onclick="closeModal()"></i>
         </div>
-        <div id="modal-list" style="overflow-y: auto;"></div>
+        <div id="m-body" style="overflow-y: auto; flex: 1;"></div>
     </div>
 
-    <nav class="nav">
-        <div class="nav-item active"><i class="fas fa-home"></i>Asosiy</div>
-        <div class="nav-item"><i class="fas fa-history"></i>Tarix</div>
-        <div class="nav-item" onclick="tg.showAlert('Admin: @BMA_Owner')"><i class="fas fa-cog"></i>Sozlamalar</div>
+    <nav class="navbar">
+        <div class="nav-tab active"><i class="fas fa-home"></i>Asosiy</div>
+        <div class="nav-tab" onclick="tg.showAlert('Yaqinda...')"><i class="fas fa-gem"></i>Gift arenda</div>
+        <div class="nav-tab" onclick="tg.showAlert('Tarix bo\'sh')"><i class="fas fa-clock"></i>Tarix</div>
+        <div class="nav-tab" onclick="tg.showAlert('Admin: @BMA_Owner')"><i class="fas fa-user-cog"></i>Sozlamalar</div>
     </nav>
 
     <script>
-        let tg = window.Telegram.WebApp;
+        const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
 
-        const data = {
-            pubg: { title: "PUBG Mobile", img: "https://www.pubgmobile.com/common/images/icon_logo.png", prices: ["60 UC - 13 000", "325 UC - 58 000", "660 UC - 114 000"] },
-            ff: { title: "Free Fire", img: "https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png", prices: ["110💎 - 19 000", "583💎 - 74 000"] },
-            mlbb: { title: "Mobile Legends", img: "https://m.mobilelegends.com/static/images/index/logo.png", prices: ["86💎 - 16 500", "172💎 - 32 000"] },
-            aloqa: { title: "Aloqa", img: "https://cdn-icons-png.flaticon.com/512/3532/3532157.png", prices: ["10 000 - 10 000", "20 000 - 20 000"] }
-        };
+        // Barcha o'yinlar va valyutalar
+        const games = [
+            { id: 'pubg', name: 'PUBG Mobile', img: 'https://www.pubgmobile.com/common/images/icon_logo.png', prices: ['60 UC - 12 000', '325 UC - 58 000', '660 UC - 115 000', '1320 UC - 230 000'] },
+            { id: 'ff', name: 'Free Fire', img: 'https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png', prices: ['110💎 - 19 000', '231💎 - 38 000', '583💎 - 75 000'] },
+            { id: 'mlbb', name: 'Mobile Legends', img: 'https://m.mobilelegends.com/static/images/index/logo.png', prices: ['86💎 - 16 000', '172💎 - 32 000', '257💎 - 48 000'] },
+            { id: 'genshin', name: 'Genshin Impact', img: 'https://genshin.hoyoverse.com/_nuxt/img/1598583.74313f8.png', prices: ['60 Crystals - 13 000', '300 Crystals - 60 000'] },
+            { id: 'delta', name: 'Delta Force', img: 'https://img-os.hoyolab.com/community/20240524/1716535260844.png', prices: ['100 Points - 15 000', '500 Points - 70 000'] },
+            { id: 'aloqa', name: 'Uyali Aloqa', img: 'https://cdn-icons-png.flaticon.com/512/3532/3532157.png', custom: true }
+        ];
 
-        function initApp() {
-            // Profilni aniqlash
+        function init() {
+            // Profil aniqlash (Buypin uslubida)
             const user = tg.initDataUnsafe?.user;
-            if(user) {
-                document.getElementById('name').innerText = user.first_name;
-                document.getElementById('tg-user').innerText = user.username ? "@" + user.username : "ID: " + user.id;
-                if(user.photo_url) document.getElementById('avatar').src = user.photo_url;
+            if (user) {
+                document.getElementById('u-name').innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
+                document.getElementById('u-handle').innerText = user.username ? "@" + user.username : "ID: " + user.id;
+                if (user.photo_url) document.getElementById('u-ava').src = user.photo_url;
             } else {
-                document.getElementById('name').innerText = "Baxtiyor";
-                document.getElementById('tg-user').innerText = "@Baxti_dev";
+                document.getElementById('u-name').innerText = "Baxtiyor Masharipov";
+                document.getElementById('u-handle').innerText = "@Baxti_dev";
             }
 
-            // Katalogni chiqarish
-            const grid = document.getElementById('catalog-grid');
+            // Gridni to'ldirish
+            const grid = document.getElementById('game-grid');
             grid.innerHTML = "";
-            Object.keys(data).forEach(key => {
+            games.forEach(g => {
                 grid.innerHTML += `
-                    <div class="item-card" onclick="openM('${key}')">
-                        <img src="${data[key].img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/588/588308.png'">
-                        <span>${data[key].title}</span>
+                    <div class="card" onclick="openGame('${g.id}')">
+                        <div class="m-badge">Mashhur</div>
+                        <img src="${g.img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/588/588308.png'">
+                        <span>${g.name}</span>
                     </div>
                 `;
             });
         }
 
-        function openM(key) {
-            const list = document.getElementById('modal-list');
-            document.getElementById('modal-title').innerText = data[key].title;
-            list.innerHTML = "";
-            data[key].prices.forEach(p => {
-                list.innerHTML += `
-                    <div class="price-row">
-                        <span>${p} UZS</span>
-                        <button class="buy-btn" onclick="order('${p}')">SOTIB OLISH</button>
-                    </div>
+        function openGame(id) {
+            const game = games.find(g => g.id === id);
+            const body = document.getElementById('m-body');
+            document.getElementById('m-title').innerText = game.name;
+            body.innerHTML = "";
+
+            if (game.custom) {
+                // Aloqa uchun maxsus summa kiritish
+                body.innerHTML = `
+                    <p style="color:var(--sub-text)">To'lov qilmoqchi bo'lgan summani kiriting:</p>
+                    <input type="number" id="c-sum" class="custom-input" placeholder="Summani yozing (masalan: 15000)">
+                    <button class="btn-pay" style="width:100%; padding:20px" onclick="sendOrder('Aloqa: ' + document.getElementById('c-sum').value + ' so\'m')">SOTIB OLISH</button>
                 `;
-            });
+            } else {
+                game.prices.forEach(p => {
+                    body.innerHTML += `
+                        <div class="price-item">
+                            <span style="font-weight:700">${p.split(' - ')[0]}</span>
+                            <span style="color:var(--accent)">${p.split(' - ')[1]} UZS</span>
+                            <button class="btn-pay" onclick="sendOrder('${game.name}: ${p}')">SOTIB OLISH</button>
+                        </div>
+                    `;
+                });
+            }
             document.getElementById('modal').style.display = 'flex';
         }
 
-        function closeM() { document.getElementById('modal').style.display = 'none'; }
-
-        function order(val) {
-            tg.sendData(JSON.stringify({order: val}));
-            tg.close();
+        function sendOrder(desc) {
+            tg.sendData(JSON.stringify({ order: desc }));
+            setTimeout(() => tg.close(), 100);
         }
 
-        // Dasturni ishga tushirish
-        initApp();
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+        init();
     </script>
 </body>
 </html>
