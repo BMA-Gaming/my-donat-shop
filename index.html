@@ -9,238 +9,223 @@
     <style>
         :root { 
             --bg: #000000; 
-            --surface: #111111; 
+            --surface: #121212; 
             --accent: #00ff88; 
             --text-primary: #ffffff; 
-            --text-secondary: #888888; 
-            --glass: #222222; 
+            --text-secondary: #a0a0a0; 
+            --glass: rgba(255, 255, 255, 0.05); 
         }
-        body { background-color: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; margin: 0; padding: 0 0 80px 0; user-select: none; }
         
-        .profile-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .user-info { display: flex; align-items: center; gap: 15px; }
-        .user-info img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
+        body { background-color: var(--bg); color: var(--text-primary); font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0 0 80px 0; overflow-x: hidden; }
+
+        /* --- ELEKTR TOK ANIMATSIYASI --- */
+        .electric-container { display: flex; align-items: center; justify-content: center; padding: 10px 20px; gap: 10px; }
+        .triangle { width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+        .t-left { border-right: 12px solid var(--accent); }
+        .t-right { border-left: 12px solid var(--accent); }
         
-        /* ⚡️ YANGI GEOMETRIK TOK SIMI (SEKINLASHTIRILGAN) */
-        .line-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 15px;
-            margin: 5px 0 15px 0;
-            gap: 5px;
-        }
-        .triangle-left {
-            width: 0; height: 0;
-            border-top: 5px solid transparent;
-            border-bottom: 5px solid transparent;
-            border-right: 10px solid var(--accent);
-        }
-        .triangle-right {
-            width: 0; height: 0;
-            border-top: 5px solid transparent;
-            border-bottom: 5px solid transparent;
-            border-left: 10px solid var(--accent);
-        }
         .electric-line {
-            height: 2px;
-            flex-grow: 1;
-            background: linear-gradient(90deg, #000, #00ff88, #ffffff, #00ff88, #000);
+            height: 2px; flex-grow: 1;
+            background: linear-gradient(90deg, #000, var(--accent), #fff, var(--accent), #000);
             background-size: 200% 100%;
-            animation: spark 5s linear infinite; /* 5 soniya: juda sekin */
+            animation: spark 6s linear infinite; /* Juda sekin oqim */
         }
-        @keyframes spark {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        @keyframes spark { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* --- HEADER & PROFILE --- */
+        .header { padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .user-box { display: flex; align-items: center; gap: 12px; }
+        .user-box img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; background: #222; }
+        .user-name { font-weight: 700; font-size: 18px; }
+        
+        .coin-box { background: rgba(0, 255, 136, 0.15); color: var(--accent); padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 5px; }
+
+        /* --- BALANCE CARD --- */
+        .balance-card { margin: 0 20px; background: linear-gradient(145deg, #1a1a1a, #0d0d0d); padding: 25px; border-radius: 20px; border: 1px solid var(--glass); position: relative; overflow: hidden; }
+        .balance-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0,255,136,0.05) 0%, transparent 70%); pointer-events: none; }
+        .balance-label { color: var(--text-secondary); font-size: 13px; margin-bottom: 5px; }
+        .balance-amount { font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+
+        /* --- GRID SYSTEM --- */
+        .section-header { padding: 25px 20px 15px; font-size: 14px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 20px; }
+        
+        .card { 
+            background: var(--surface); border-radius: 18px; padding: 20px 10px; text-align: center; 
+            border: 1px solid var(--glass); transition: 0.3s; position: relative;
         }
+        .card:active { transform: translateY(3px); border-color: var(--accent); }
+        .card img { width: 70px; height: 70px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); }
+        .card-name { font-size: 13px; font-weight: 600; color: #eee; }
+        .badge { position: absolute; top: 10px; right: 10px; background: var(--accent); color: #000; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 5px; text-transform: uppercase; }
 
-        .wallet-card { margin: 0 15px; background: #0a0a0a; padding: 20px; border-radius: 16px; border: 1px solid var(--glass); }
-        .wallet-amount { font-size: 24px; font-weight: 800; color: #fff; }
-        
-        .section-title { padding: 0 20px; font-size: 14px; font-weight: 700; margin: 25px 0 15px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); }
-        
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 15px; }
-        .game-card { background: var(--surface); border-radius: 16px; padding: 15px 10px; text-align: center; border: 1px solid var(--glass); cursor: pointer; transition: 0.2s; }
-        .game-card:active { transform: scale(0.95); border-color: var(--accent); }
-        .game-card img { width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px; }
-        .game-name { font-size: 12px; font-weight: 600; display: block; }
-        
-        /* Modallar */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; padding: 20px; box-sizing: border-box; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--glass); padding-bottom: 10px; }
-        .modal-content { overflow-y: auto; flex-grow: 1; padding-bottom: 30px; }
-        
-        .price-item { background: var(--surface); margin-bottom: 10px; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass); }
-        .buy-btn { background: var(--accent); color: #000; padding: 8px 15px; border-radius: 8px; font-weight: bold; border: none; font-size: 12px; }
-        
-        /* Inputlar */
-        .custom-input { width: 100%; background: var(--bg); border: 1px solid var(--glass); color: white; padding: 15px; border-radius: 10px; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; }
-        .custom-input:focus { border-color: var(--accent); outline: none; }
+        /* --- MODALS --- */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; display: none; flex-direction: column; padding: 20px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .price-list { overflow-y: auto; flex: 1; }
+        .price-row { background: #181818; padding: 18px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border: 1px solid var(--glass); }
+        .btn-buy { background: var(--accent); color: #000; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 13px; }
 
-        .page { display: none; }
+        /* --- NAVIGATION --- */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #080808; display: flex; padding: 15px 0; border-top: 1px solid var(--glass); z-index: 999; }
+        .nav-link { flex: 1; text-align: center; color: #555; font-size: 11px; cursor: pointer; transition: 0.3s; }
+        .nav-link.active { color: var(--accent); }
+        .nav-link i { font-size: 22px; display: block; margin-bottom: 5px; }
+
+        .page { display: none; animation: fadeIn 0.4s ease; }
         .active-page { display: block; }
-
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #050505; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--glass); z-index: 500; }
-        .nav-item { text-align: center; color: var(--text-secondary); font-size: 10px; cursor: pointer; flex-grow: 1; padding: 5px 0; }
-        .nav-item.active { color: var(--accent); }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        input { width: 100%; background: #1a1a1a; border: 1px solid var(--glass); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-    <div id="home" class="page active-page">
-        <div class="profile-header">
-            <div class="user-info">
-                <img id="profile-pic" src="https://i.ibb.co/6NGp879/default-avatar.png">
-                <span class="user-name" id="display-name">Mijoz</span>
+    <div id="p-home" class="page active-page">
+        <div class="header">
+            <div class="user-box">
+                <img id="u-img" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix">
+                <div class="user-name" id="u-name">Yuklanmoqda...</div>
             </div>
+            <div class="coin-box"><i class="fas fa-coins"></i> <span id="u-coins">0</span></div>
         </div>
-        
-        <div class="line-wrapper">
-            <div class="triangle-left"></div>
+
+        <div class="electric-container">
+            <div class="triangle t-left"></div>
             <div class="electric-line"></div>
-            <div class="triangle-right"></div>
+            <div class="triangle t-right"></div>
         </div>
 
-        <div class="wallet-card">
-            <div class="wallet-amount">0 UZS</div>
-            <div style="font-size: 12px; color: var(--text-secondary);">Mening balansingiz</div>
+        <div class="balance-card">
+            <div class="balance-label">Asosiy balans</div>
+            <div class="balance-amount">0 UZS</div>
         </div>
 
-        <div class="section-title">Katalog</div>
+        <div class="section-header">Mashhur o'yinlar</div>
         <div class="grid">
-            <div class="game-card" onclick="openModal('pubg')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Pubg_mobile_logo.png">
-                <span class="game-name">PUBG Mobile</span>
+            <div class="card" onclick="openPrices('pubg')">
+                <div class="badge">Global</div>
+                <img src="https://www.pubgmobile.com/common/images/icon_logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/8002/8002123.png'">
+                <div class="card-name">PUBG Mobile</div>
             </div>
-            <div class="game-card" onclick="openModal('ff')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Free_Fire_logo.svg/512px-Free_Fire_logo.svg.png">
-                <span class="game-name">Free Fire</span>
+            <div class="card" onclick="openPrices('ff')">
+                <div class="badge">SNG</div>
+                <img src="https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/588/588308.png'">
+                <div class="card-name">Free Fire</div>
             </div>
-            <div class="game-card" onclick="openModal('mlbb')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/2/23/Mobile_Legends_Bang_Bang_logo.png">
-                <span class="game-name">Mobile Legends</span>
+            <div class="card" onclick="openPrices('mlbb')">
+                <div class="badge">Global</div>
+                <img src="https://m.mobilelegends.com/static/images/index/logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/681/681494.png'">
+                <div class="card-name">Mobile Legends</div>
             </div>
-            <div class="game-card" onclick="openModal('phone')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3532/3532157.png" style="filter: grayscale(100%) brightness(200%);">
-                <span class="game-name">Uyali Aloqa</span>
-            </div>
-        </div>
-    </div>
-
-    <div id="settings" class="page">
-        <div class="line-wrapper">
-            <div class="triangle-left"></div>
-            <div class="electric-line"></div>
-            <div class="triangle-right"></div>
-        </div>
-        <h2 class="section-title">Profil va Sozlamalar</h2>
-        <div style="padding: 0 15px;">
-            <div class="price-item" onclick="openEditProfile()">
-                <span><i class="fas fa-user-edit"></i> Profilni tahrirlash</span><i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="price-item" onclick="window.location.href='https://t.me/BMA_Owner'">
-                <span><i class="fas fa-headset"></i> Admin bilan aloqa</span><i class="fas fa-external-link-alt"></i>
+            <div class="card" onclick="openPrices('phone')">
+                <img src="https://cdn-icons-png.flaticon.com/512/3414/3414552.png" style="filter: hue-rotate(90deg) brightness(1.5);">
+                <div class="card-name">Uyali Aloqa</div>
             </div>
         </div>
     </div>
 
-    <div id="modal" class="modal">
+    <div id="p-settings" class="page">
+        <div class="section-header">Sozlamalar</div>
+        <div style="padding: 0 20px;">
+            <div class="price-row" onclick="openEdit()">
+                <span><i class="fas fa-edit"></i> Profilni tahrirlash</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="price-row" onclick="window.location.href='https://t.me/BMA_Owner'">
+                <span><i class="fas fa-headset"></i> Qo'llab-quvvatlash</span>
+                <i class="fas fa-external-link-alt"></i>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-link active" onclick="showPage('home', this)"><i class="fas fa-th-large"></i>Asosiy</div>
+        <div class="nav-link" onclick="showPage('settings', this)"><i class="fas fa-user-gear"></i>Profil</div>
+    </nav>
+
+    <div id="m-prices" class="modal">
         <div class="modal-header">
-            <h3 id="modal-title">Narxlar</h3>
-            <i class="fas fa-times" onclick="closeModal('modal')" style="font-size: 20px; color: var(--text-secondary);"></i>
+            <h2 id="m-title" style="margin:0">Narxlar</h2>
+            <i class="fas fa-times fa-lg" onclick="closeM('m-prices')"></i>
         </div>
-        <div id="modal-content" class="modal-content"></div>
+        <div id="m-list" class="price-list"></div>
     </div>
 
-    <div id="edit-modal" class="modal">
-        <div class="modal-header">
-            <h3>Profilni tahrirlash</h3>
-            <i class="fas fa-times" onclick="closeModal('edit-modal')" style="font-size: 20px; color: var(--text-secondary);"></i>
+    <div id="m-edit" class="modal">
+        <div class="modal-header"><h2>Tahrirlash</h2><i class="fas fa-times fa-lg" onclick="closeM('m-edit')"></i></div>
+        <div style="flex:1">
+            <input type="text" id="in-name" placeholder="Ismingiz">
+            <input type="text" id="in-img" placeholder="Rasm linki (URL)">
+            <button class="btn-buy" style="width:100%; padding:18px" onclick="saveUser()">SAQLASH</button>
         </div>
-        <div class="modal-content">
-            <p style="color: var(--text-secondary); font-size: 12px;">Ismingizni kiriting:</p>
-            <input type="text" id="edit-name" class="custom-input" placeholder="Yangi ism">
-            
-            <p style="color: var(--text-secondary); font-size: 12px;">Rasm havolasini (URL) kiriting:</p>
-            <input type="text" id="edit-pic" class="custom-input" placeholder="https://rasm-linki.com/rasm.png">
-            
-            <button class="buy-btn" style="width: 100%; padding: 15px; font-size: 14px;" onclick="saveProfile()">Saqlash</button>
-        </div>
-    </div>
-
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="nav('home', this)"><i class="fas fa-store"></i>Do'kon</div>
-        <div class="nav-item" onclick="nav('settings', this)"><i class="fas fa-user-cog"></i>Profil</div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand();
         tg.ready();
+        tg.expand();
 
-        // 🛑 XATOLIKNI OLDINI OLISH UCHUN TRY...CATCH QO'SHILDI
-        function loadProfile() {
-            let savedName = null;
-            let savedPic = null;
-            
+        // Ma'lumotlarni xavfsiz yuklash
+        function init() {
             try {
-                savedName = localStorage.getItem('bma_name');
-                savedPic = localStorage.getItem('bma_pic');
-            } catch (error) {
-                console.log("LocalStorage ruxsat etilmagan");
-            }
-            
-            let tgName = tg.initDataUnsafe?.user?.first_name || "Mijoz";
-            let tgPic = tg.initDataUnsafe?.user?.photo_url || "https://i.ibb.co/6NGp879/default-avatar.png";
-
-            document.getElementById('display-name').innerText = savedName ? savedName : tgName;
-            document.getElementById('profile-pic').src = savedPic ? savedPic : tgPic;
+                const name = localStorage.getItem('u_name') || tg.initDataUnsafe?.user?.first_name || "Mijoz";
+                const img = localStorage.getItem('u_img') || tg.initDataUnsafe?.user?.photo_url || "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix";
+                
+                document.getElementById('u-name').innerText = name;
+                document.getElementById('u-img').src = img;
+            } catch (e) { console.error("Storage error"); }
         }
-        
-        // Dastur ishga tushganda profilni yuklash
-        loadProfile();
+        init();
 
-        function openEditProfile() { document.getElementById('edit-modal').style.display = 'flex'; }
-        
-        function saveProfile() {
-            let n = document.getElementById('edit-name').value;
-            let p = document.getElementById('edit-pic').value;
-            
-            try {
-                if(n) localStorage.setItem('bma_name', n);
-                if(p) localStorage.setItem('bma_pic', p);
-                tg.showAlert("Profil muvaffaqiyatli yangilandi!");
-            } catch (error) {
-                tg.showAlert("Xatolik: Qurilmangiz xotiraga yozishga ruxsat bermayapti.");
-            }
-            
-            loadProfile();
-            closeModal('edit-modal');
-        }
-
-        const prices = {
-            pubg: [ {n: "60 UC", p: "13.000"}, {n: "120 UC", p: "25.000"}, {n: "180 UC", p: "36.000"}, {n: "240 UC", p: "50.000"}, {n: "325 UC", p: "58.000"}, {n: "385 UC", p: "70.000"}, {n: "445 UC", p: "82.000"}, {n: "660 UC", p: "114.000"}, {n: "720 UC", p: "126.000"}, {n: "985 UC", p: "172.000"}, {n: "1320 UC", p: "228.000"}, {n: "1800 UC", p: "280.000"} ],
-            ff: [ {n: "110💎", p: "19.000"}, {n: "231💎", p: "35.000"}, {n: "583💎", p: "74.000"}, {n: "1188💎", p: "147.000"}, {n: "2420💎", p: "274.000"}, {n: "Haftalik obuna", p: "37.000"}, {n: "Oylik obuna", p: "148.000"}, {n: "Booyah pass", p: "52.000"} ],
-            mlbb: [ {n: "55💎 (50+5)", p: "10.500"}, {n: "86💎 (78+8)", p: "16.500"}, {n: "165💎", p: "31.400"}, {n: "Haftalik propusk", p: "19.800"}, {n: "Sumerechniy propusk", p: "107.000"} ]
+        const db = {
+            pubg: [{n: "60 UC", p: "13 000"}, {n: "325 UC", p: "58 000"}, {n: "660 UC", p: "114 000"}],
+            ff: [{n: "110💎", p: "19 000"}, {n: "583💎", p: "74 000"}],
+            mlbb: [{n: "86💎", p: "16 500"}, {n: "172💎", p: "32 000"}]
         };
 
-        function openModal(type) {
-            let content = document.getElementById('modal-content');
-            let title = document.getElementById('modal-title');
-            content.innerHTML = "";
-            document.getElementById('modal').style.display = 'flex';
-
-            if(type === 'phone') {
-                title.innerText = "UYALI ALOQA";
-                content.innerHTML = `
-                    <p style="color:var(--text-secondary); font-size:12px;">Qancha summa tashlamoqchisiz? (UZS)</p>
-                    <input type="number" id="custom-sum" class="custom-input" placeholder="Masalan: 10000">
-                    <button class="buy-btn" style="width:100%; padding:15px;" onclick="sendOrder('custom')">Tasdiqlash</button>
-                `;
+        function openPrices(key) {
+            const list = document.getElementById('m-list');
+            const title = document.getElementById('m-title');
+            list.innerHTML = "";
+            
+            if(key === 'phone') {
+                title.innerText = "ALOKA";
+                list.innerHTML = `<input type="number" id="c-sum" placeholder="Summani kiriting (UZS)"><button class="btn-buy" style="width:100%" onclick="send('custom')">TASDIQLASH</button>`;
             } else {
-                title.innerText = type.toUpperCase() + " NARXLARI";
-                prices[type].forEach(item => {
-                    content.innerHTML += `
-                        <div class="price-item">
-                            <span style="font-size: 14px;">${item.n} <br><b style="color:var(--accent);">${item.p} UZS
+                title.innerText = key.toUpperCase();
+                db[key].forEach(i => {
+                    list.innerHTML += `<div class="price-row"><div>${i.n}<br><small style="color:var(--accent)">${i.p} UZS</small></div><button class="btn-buy" onclick="send('${i.n}')">SOTIB OLISH</button></div>`;
+                });
+            }
+            document.getElementById('m-prices').style.display = 'flex';
+        }
+
+        function send(item) {
+            let res = item;
+            if(item === 'custom') res = document.getElementById('c-sum').value + " UZS";
+            tg.sendData(JSON.stringify({item: res}));
+            closeM('m-prices');
+        }
+
+        function showPage(p, el) {
+            document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active-page'));
+            document.getElementById('p-' + p).classList.add('active-page');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function openEdit() { document.getElementById('m-edit').style.display = 'flex'; }
+        function closeM(id) { document.getElementById(id).style.display = 'none'; }
+        
+        function saveUser() {
+            const n = document.getElementById('in-name').value;
+            const i = document.getElementById('in-img').value;
+            if(n) localStorage.setItem('u_name', n);
+            if(i) localStorage.setItem('u_img', i);
+            init(); closeM('m-edit');
+            tg.showAlert("Tayyor!");
+        }
+    </script>
+</body>
+</html>
