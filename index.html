@@ -9,222 +9,203 @@
     <style>
         :root { 
             --bg: #000000; 
-            --surface: #121212; 
+            --surface: #0a0a0a; 
             --accent: #00ff88; 
             --text-primary: #ffffff; 
-            --text-secondary: #a0a0a0; 
-            --glass: rgba(255, 255, 255, 0.05); 
+            --text-secondary: #777777; 
+            --glass: rgba(255, 255, 255, 0.03); 
         }
         
-        body { background-color: var(--bg); color: var(--text-primary); font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0 0 80px 0; overflow-x: hidden; }
+        body { background-color: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; margin: 0; padding: 0 0 80px 0; overflow-x: hidden; }
 
-        /* --- ELEKTR TOK ANIMATSIYASI --- */
-        .electric-container { display: flex; align-items: center; justify-content: center; padding: 10px 20px; gap: 10px; }
-        .triangle { width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
-        .t-left { border-right: 12px solid var(--accent); }
-        .t-right { border-left: 12px solid var(--accent); }
-        
-        .electric-line {
-            height: 2px; flex-grow: 1;
-            background: linear-gradient(90deg, #000, var(--accent), #fff, var(--accent), #000);
+        /* --- 📐 YON TARAFLARDAGI GEOMETRIK ANIMATSIYA --- */
+        .side-shape {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            z-index: -1;
+            pointer-events: none;
+            animation: float 10s linear infinite;
+        }
+        .shape-left {
+            top: 20%;
+            left: -50px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Uchburchak */
+        }
+        .shape-right {
+            bottom: 25%;
+            right: -50px;
+            border-radius: 20px; /* To'rtburchak */
+        }
+        @keyframes float {
+            0% { transform: rotate(0deg) translateY(0px); opacity: 0.2; }
+            50% { transform: rotate(180deg) translateY(20px); opacity: 0.5; }
+            100% { transform: rotate(360deg) translateY(0px); opacity: 0.2; }
+        }
+
+        /* --- ⚡️ ELEKTR TOK SIMI (TEZROQ VA SEKINROQ VARIANTLAR UCHUN SOZLANGAN) --- */
+        .electric-wrapper { display: flex; align-items: center; justify-content: center; padding: 10px 20px; gap: 8px; }
+        .triangle-geom { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+        .t-l { border-right: 10px solid var(--accent); }
+        .t-r { border-left: 10px solid var(--accent); }
+        .line-flow {
+            height: 1px; flex-grow: 1;
+            background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent);
             background-size: 200% 100%;
-            animation: spark 6s linear infinite; /* Juda sekin oqim */
+            animation: flow 5s linear infinite;
         }
-        @keyframes spark { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        @keyframes flow { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        /* --- HEADER & PROFILE --- */
+        /* --- INTERFEYS ELEMENTLARI --- */
         .header { padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .user-box { display: flex; align-items: center; gap: 12px; }
-        .user-box img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; background: #222; }
-        .user-name { font-weight: 700; font-size: 18px; }
+        .profile { display: flex; align-items: center; gap: 12px; }
+        .profile img { width: 45px; height: 45px; border-radius: 50%; border: 1.5px solid var(--accent); background: #111; }
         
-        .coin-box { background: rgba(0, 255, 136, 0.15); color: var(--accent); padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 5px; }
+        .card-balance { margin: 0 20px; background: var(--surface); padding: 25px; border-radius: 24px; border: 1px solid var(--glass); text-align: left; }
+        .balance-val { font-size: 32px; font-weight: 900; color: #fff; margin-top: 5px; }
 
-        /* --- BALANCE CARD --- */
-        .balance-card { margin: 0 20px; background: linear-gradient(145deg, #1a1a1a, #0d0d0d); padding: 25px; border-radius: 20px; border: 1px solid var(--glass); position: relative; overflow: hidden; }
-        .balance-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0,255,136,0.05) 0%, transparent 70%); pointer-events: none; }
-        .balance-label { color: var(--text-secondary); font-size: 13px; margin-bottom: 5px; }
-        .balance-amount { font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+        .grid-games { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .game-item { background: #0f0f0f; border-radius: 20px; padding: 20px 10px; text-align: center; border: 1px solid var(--glass); transition: 0.3s; }
+        .game-item:active { transform: scale(0.95); border-color: var(--accent); }
+        .game-item img { width: 65px; height: 65px; margin-bottom: 10px; }
+        .game-title { font-size: 13px; font-weight: 600; color: #ccc; }
 
-        /* --- GRID SYSTEM --- */
-        .section-header { padding: 25px 20px 15px; font-size: 14px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 20px; }
-        
-        .card { 
-            background: var(--surface); border-radius: 18px; padding: 20px 10px; text-align: center; 
-            border: 1px solid var(--glass); transition: 0.3s; position: relative;
-        }
-        .card:active { transform: translateY(3px); border-color: var(--accent); }
-        .card img { width: 70px; height: 70px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)); }
-        .card-name { font-size: 13px; font-weight: 600; color: #eee; }
-        .badge { position: absolute; top: 10px; right: 10px; background: var(--accent); color: #000; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 5px; text-transform: uppercase; }
+        /* --- MODAL (TUZATILGAN) --- */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; display: none; flex-direction: column; padding: 25px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .price-card { background: #161616; padding: 18px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border: 1px solid var(--glass); }
+        .btn-buy { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 12px; }
 
-        /* --- MODALS --- */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; display: none; flex-direction: column; padding: 20px; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .price-list { overflow-y: auto; flex: 1; }
-        .price-row { background: #181818; padding: 18px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border: 1px solid var(--glass); }
-        .btn-buy { background: var(--accent); color: #000; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 13px; }
-
-        /* --- NAVIGATION --- */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #080808; display: flex; padding: 15px 0; border-top: 1px solid var(--glass); z-index: 999; }
-        .nav-link { flex: 1; text-align: center; color: #555; font-size: 11px; cursor: pointer; transition: 0.3s; }
-        .nav-link.active { color: var(--accent); }
-        .nav-link i { font-size: 22px; display: block; margin-bottom: 5px; }
-
-        .page { display: none; animation: fadeIn 0.4s ease; }
-        .active-page { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        input { width: 100%; background: #1a1a1a; border: 1px solid var(--glass); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-sizing: border-box; }
+        /* --- NAV --- */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #050505; display: flex; padding: 15px 0; border-top: 1px solid var(--glass); }
+        .nav-tab { flex: 1; text-align: center; color: #444; font-size: 10px; cursor: pointer; }
+        .nav-tab.active { color: var(--accent); }
+        .nav-tab i { font-size: 20px; display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="p-home" class="page active-page">
+    <div class="side-shape shape-left"></div>
+    <div class="side-shape shape-right"></div>
+
+    <div id="page-home">
         <div class="header">
-            <div class="user-box">
-                <img id="u-img" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix">
-                <div class="user-name" id="u-name">Yuklanmoqda...</div>
+            <div class="profile">
+                <img id="user-avatar" src="https://i.ibb.co/6NGp879/default-avatar.png">
+                <span id="user-name" style="font-weight: 700;">Mijoz</span>
             </div>
-            <div class="coin-box"><i class="fas fa-coins"></i> <span id="u-coins">0</span></div>
+            <div style="color: var(--accent); font-weight: 800;"><i class="fas fa-bolt"></i> BMA</div>
         </div>
 
-        <div class="electric-container">
-            <div class="triangle t-left"></div>
-            <div class="electric-line"></div>
-            <div class="triangle t-right"></div>
+        <div class="electric-wrapper">
+            <div class="triangle-geom t-l"></div>
+            <div class="line-flow"></div>
+            <div class="triangle-geom t-r"></div>
         </div>
 
-        <div class="balance-card">
-            <div class="balance-label">Asosiy balans</div>
-            <div class="balance-amount">0 UZS</div>
+        <div class="card-balance">
+            <div style="font-size: 12px; color: var(--text-secondary);">Mening hisobim:</div>
+            <div class="balance-val">0 UZS</div>
         </div>
 
-        <div class="section-header">Mashhur o'yinlar</div>
-        <div class="grid">
-            <div class="card" onclick="openPrices('pubg')">
-                <div class="badge">Global</div>
-                <img src="https://www.pubgmobile.com/common/images/icon_logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/8002/8002123.png'">
-                <div class="card-name">PUBG Mobile</div>
+        <div class="grid-games">
+            <div class="game-item" onclick="showPrices('pubg')">
+                <img src="https://www.pubgmobile.com/common/images/icon_logo.png">
+                <div class="game-title">PUBG Mobile</div>
             </div>
-            <div class="card" onclick="openPrices('ff')">
-                <div class="badge">SNG</div>
-                <img src="https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/588/588308.png'">
-                <div class="card-name">Free Fire</div>
+            <div class="game-item" onclick="showPrices('ff')">
+                <img src="https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png">
+                <div class="game-title">Free Fire</div>
             </div>
-            <div class="card" onclick="openPrices('mlbb')">
-                <div class="badge">Global</div>
-                <img src="https://m.mobilelegends.com/static/images/index/logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/681/681494.png'">
-                <div class="card-name">Mobile Legends</div>
+            <div class="game-item" onclick="showPrices('mlbb')">
+                <img src="https://m.mobilelegends.com/static/images/index/logo.png">
+                <div class="game-title">Mobile Legends</div>
             </div>
-            <div class="card" onclick="openPrices('phone')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3414/3414552.png" style="filter: hue-rotate(90deg) brightness(1.5);">
-                <div class="card-name">Uyali Aloqa</div>
+            <div class="game-item" onclick="showPrices('phone')">
+                <img src="https://cdn-icons-png.flaticon.com/512/3532/3532157.png" style="filter: brightness(2);">
+                <div class="game-title">Aloqa</div>
             </div>
         </div>
     </div>
 
-    <div id="p-settings" class="page">
-        <div class="section-header">Sozlamalar</div>
-        <div style="padding: 0 20px;">
-            <div class="price-row" onclick="openEdit()">
-                <span><i class="fas fa-edit"></i> Profilni tahrirlash</span>
-                <i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="price-row" onclick="window.location.href='https://t.me/BMA_Owner'">
-                <span><i class="fas fa-headset"></i> Qo'llab-quvvatlash</span>
-                <i class="fas fa-external-link-alt"></i>
-            </div>
-        </div>
-    </div>
-
-    <nav class="nav">
-        <div class="nav-link active" onclick="showPage('home', this)"><i class="fas fa-th-large"></i>Asosiy</div>
-        <div class="nav-link" onclick="showPage('settings', this)"><i class="fas fa-user-gear"></i>Profil</div>
-    </nav>
-
-    <div id="m-prices" class="modal">
+    <div id="price-modal" class="modal-overlay">
         <div class="modal-header">
-            <h2 id="m-title" style="margin:0">Narxlar</h2>
-            <i class="fas fa-times fa-lg" onclick="closeM('m-prices')"></i>
+            <h2 id="modal-label" style="margin:0; font-size: 18px;">Narxlar</h2>
+            <i class="fas fa-times-circle fa-2x" onclick="closeModal()" style="color: var(--text-secondary);"></i>
         </div>
-        <div id="m-list" class="price-list"></div>
+        <div id="price-list" style="overflow-y: auto; flex: 1;">
+            </div>
     </div>
 
-    <div id="m-edit" class="modal">
-        <div class="modal-header"><h2>Tahrirlash</h2><i class="fas fa-times fa-lg" onclick="closeM('m-edit')"></i></div>
-        <div style="flex:1">
-            <input type="text" id="in-name" placeholder="Ismingiz">
-            <input type="text" id="in-img" placeholder="Rasm linki (URL)">
-            <button class="btn-buy" style="width:100%; padding:18px" onclick="saveUser()">SAQLASH</button>
-        </div>
-    </div>
+    <nav class="bottom-nav">
+        <div class="nav-tab active"><i class="fas fa-home"></i>Asosiy</div>
+        <div class="nav-tab" onclick="tg.showAlert('Tez kunda...')"><i class="fas fa-history"></i>Tarix</div>
+        <div class="nav-tab" onclick="tg.showAlert('Admin: @BMA_Owner')"><i class="fas fa-user-shield"></i>Yordam</div>
+    </nav>
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.ready();
         tg.expand();
+        tg.ready();
 
-        // Ma'lumotlarni xavfsiz yuklash
-        function init() {
-            try {
-                const name = localStorage.getItem('u_name') || tg.initDataUnsafe?.user?.first_name || "Mijoz";
-                const img = localStorage.getItem('u_img') || tg.initDataUnsafe?.user?.photo_url || "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix";
-                
-                document.getElementById('u-name').innerText = name;
-                document.getElementById('u-img').src = img;
-            } catch (e) { console.error("Storage error"); }
+        // Profil ma'lumotlari
+        document.getElementById('user-name').innerText = tg.initDataUnsafe?.user?.first_name || "Baxti";
+        if(tg.initDataUnsafe?.user?.photo_url) {
+            document.getElementById('user-avatar').src = tg.initDataUnsafe.user.photo_url;
         }
-        init();
 
-        const db = {
-            pubg: [{n: "60 UC", p: "13 000"}, {n: "325 UC", p: "58 000"}, {n: "660 UC", p: "114 000"}],
-            ff: [{n: "110💎", p: "19 000"}, {n: "583💎", p: "74 000"}],
-            mlbb: [{n: "86💎", p: "16 500"}, {n: "172💎", p: "32 000"}]
+        // MA'LUMOTLAR OMBORI (NARXLAR)
+        const catalog = {
+            pubg: [ {n: "60 UC", p: "13 000"}, {n: "325 UC", p: "58 000"}, {n: "660 UC", p: "114 000"}, {n: "1320 UC", p: "228 000"} ],
+            ff: [ {n: "110 💎", p: "19 000"}, {n: "583 💎", p: "74 000"}, {n: "1188 💎", p: "147 000"} ],
+            mlbb: [ {n: "86 💎", p: "16 500"}, {n: "172 💎", p: "32 000"}, {n: "257 💎", p: "48 000"} ],
+            phone: [ {n: "10 000 so'm", p: "10 000"}, {n: "20 000 so'm", p: "20 000"}, {n: "50 000 so'm", p: "50 000"} ]
         };
 
-        function openPrices(key) {
-            const list = document.getElementById('m-list');
-            const title = document.getElementById('m-title');
-            list.innerHTML = "";
+        function showPrices(key) {
+            const list = document.getElementById('price-list');
+            const label = document.getElementById('modal-label');
+            list.innerHTML = ""; // Oldingi ma'lumotni tozalash
             
-            if(key === 'phone') {
-                title.innerText = "ALOKA";
-                list.innerHTML = `<input type="number" id="c-sum" placeholder="Summani kiriting (UZS)"><button class="btn-buy" style="width:100%" onclick="send('custom')">TASDIQLASH</button>`;
-            } else {
-                title.innerText = key.toUpperCase();
-                db[key].forEach(i => {
-                    list.innerHTML += `<div class="price-row"><div>${i.n}<br><small style="color:var(--accent)">${i.p} UZS</small></div><button class="btn-buy" onclick="send('${i.n}')">SOTIB OLISH</button></div>`;
-                });
-            }
-            document.getElementById('m-prices').style.display = 'flex';
+            if (!catalog[key]) return; // Agar kalit topilmasa chiqib ketish
+
+            label.innerText = key.toUpperCase() + " TANLANG";
+            
+            catalog[key].forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'price-card';
+                div.innerHTML = `
+                    <div>
+                        <span style="display:block; font-weight:700;">${item.n}</span>
+                        <small style="color:var(--accent)">${item.p} UZS</small>
+                    </div>
+                    <button class="btn-buy" onclick="processOrder('${item.n}', '${key}')">SOTIB OLISH</button>
+                `;
+                list.appendChild(div);
+            });
+            
+            document.getElementById('price-modal').style.display = 'flex';
         }
 
-        function send(item) {
-            let res = item;
-            if(item === 'custom') res = document.getElementById('c-sum').value + " UZS";
-            tg.sendData(JSON.stringify({item: res}));
-            closeM('m-prices');
+        function processOrder(product, cat) {
+            // Telegram botga ma'lumot yuborish
+            const orderData = {
+                product: product,
+                category: cat,
+                user: tg.initDataUnsafe?.user?.id || "Noma'lum"
+            };
+            
+            tg.sendData(JSON.stringify(orderData)); 
+            
+            // Atmen bermasligi uchun modalni yopishdan oldin kichik delay
+            setTimeout(() => {
+                closeModal();
+            }, 500);
         }
 
-        function showPage(p, el) {
-            document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active-page'));
-            document.getElementById('p-' + p).classList.add('active-page');
-            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function openEdit() { document.getElementById('m-edit').style.display = 'flex'; }
-        function closeM(id) { document.getElementById(id).style.display = 'none'; }
-        
-        function saveUser() {
-            const n = document.getElementById('in-name').value;
-            const i = document.getElementById('in-img').value;
-            if(n) localStorage.setItem('u_name', n);
-            if(i) localStorage.setItem('u_img', i);
-            init(); closeM('m-edit');
-            tg.showAlert("Tayyor!");
+        function closeModal() {
+            document.getElementById('price-modal').style.display = 'none';
         }
     </script>
 </body>
