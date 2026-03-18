@@ -44,7 +44,7 @@
             100% { transform: rotate(360deg) translateY(0px); opacity: 0.2; }
         }
 
-        /* --- ⚡️ ELEKTR TOK SIMI (TEZROQ VA SEKINROQ VARIANTLAR UCHUN SOZLANGAN) --- */
+        /* --- ⚡️ ELEKTR TOK SIMI (SEKINLASHTIRILGAN) --- */
         .electric-wrapper { display: flex; align-items: center; justify-content: center; padding: 10px 20px; gap: 8px; }
         .triangle-geom { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
         .t-l { border-right: 10px solid var(--accent); }
@@ -60,7 +60,7 @@
         /* --- INTERFEYS ELEMENTLARI --- */
         .header { padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; }
         .profile { display: flex; align-items: center; gap: 12px; }
-        .profile img { width: 45px; height: 45px; border-radius: 50%; border: 1.5px solid var(--accent); background: #111; }
+        .profile img { width: 45px; height: 45px; border-radius: 50%; border: 1.5px solid var(--accent); background: #111; object-fit: cover; }
         
         .card-balance { margin: 0 20px; background: var(--surface); padding: 25px; border-radius: 24px; border: 1px solid var(--glass); text-align: left; }
         .balance-val { font-size: 32px; font-weight: 900; color: #fff; margin-top: 5px; }
@@ -68,20 +68,29 @@
         .grid-games { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
         .game-item { background: #0f0f0f; border-radius: 20px; padding: 20px 10px; text-align: center; border: 1px solid var(--glass); transition: 0.3s; }
         .game-item:active { transform: scale(0.95); border-color: var(--accent); }
-        .game-item img { width: 65px; height: 65px; margin-bottom: 10px; }
+        .game-item img { width: 65px; height: 65px; margin-bottom: 10px; object-fit: contain; }
         .game-title { font-size: 13px; font-weight: 600; color: #ccc; }
 
         /* --- MODAL (TUZATILGAN) --- */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; display: none; flex-direction: column; padding: 25px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .price-card { background: #161616; padding: 18px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border: 1px solid var(--glass); }
+        .price-card { background: #161616; padding: 18px; border-radius: 166px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border: 1px solid var(--glass); }
         .btn-buy { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 12px; }
 
         /* --- NAV --- */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #050505; display: flex; padding: 15px 0; border-top: 1px solid var(--glass); }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #050505; display: flex; padding: 15px 0; border-top: 1px solid var(--glass); z-index: 500; }
         .nav-tab { flex: 1; text-align: center; color: #444; font-size: 10px; cursor: pointer; }
         .nav-tab.active { color: var(--accent); }
         .nav-tab i { font-size: 20px; display: block; margin-bottom: 4px; }
+
+        /* Profil Tahrirlash Inputlari */
+        .custom-input { width: 100%; background: var(--bg); border: 1px solid var(--glass); color: white; padding: 15px; border-radius: 10px; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; }
+        .custom-input:focus { border-color: var(--accent); outline: none; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        .modal-content { overflow-y: auto; flex-grow: 1; }
+
+        .page { display: none; }
+        .active-page { display: block; }
     </style>
 </head>
 <body>
@@ -89,7 +98,7 @@
     <div class="side-shape shape-left"></div>
     <div class="side-shape shape-right"></div>
 
-    <div id="page-home">
+    <div id="page-home" class="page active-page">
         <div class="header">
             <div class="profile">
                 <img id="user-avatar" src="https://i.ibb.co/6NGp879/default-avatar.png">
@@ -111,102 +120,4 @@
 
         <div class="grid-games">
             <div class="game-item" onclick="showPrices('pubg')">
-                <img src="https://www.pubgmobile.com/common/images/icon_logo.png">
-                <div class="game-title">PUBG Mobile</div>
-            </div>
-            <div class="game-item" onclick="showPrices('ff')">
-                <img src="https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png">
-                <div class="game-title">Free Fire</div>
-            </div>
-            <div class="game-item" onclick="showPrices('mlbb')">
-                <img src="https://m.mobilelegends.com/static/images/index/logo.png">
-                <div class="game-title">Mobile Legends</div>
-            </div>
-            <div class="game-item" onclick="showPrices('phone')">
-                <img src="https://cdn-icons-png.flaticon.com/512/3532/3532157.png" style="filter: brightness(2);">
-                <div class="game-title">Aloqa</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="price-modal" class="modal-overlay">
-        <div class="modal-header">
-            <h2 id="modal-label" style="margin:0; font-size: 18px;">Narxlar</h2>
-            <i class="fas fa-times-circle fa-2x" onclick="closeModal()" style="color: var(--text-secondary);"></i>
-        </div>
-        <div id="price-list" style="overflow-y: auto; flex: 1;">
-            </div>
-    </div>
-
-    <nav class="bottom-nav">
-        <div class="nav-tab active"><i class="fas fa-home"></i>Asosiy</div>
-        <div class="nav-tab" onclick="tg.showAlert('Tez kunda...')"><i class="fas fa-history"></i>Tarix</div>
-        <div class="nav-tab" onclick="tg.showAlert('Admin: @BMA_Owner')"><i class="fas fa-user-shield"></i>Yordam</div>
-    </nav>
-
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
-        // Profil ma'lumotlari
-        document.getElementById('user-name').innerText = tg.initDataUnsafe?.user?.first_name || "Baxti";
-        if(tg.initDataUnsafe?.user?.photo_url) {
-            document.getElementById('user-avatar').src = tg.initDataUnsafe.user.photo_url;
-        }
-
-        // MA'LUMOTLAR OMBORI (NARXLAR)
-        const catalog = {
-            pubg: [ {n: "60 UC", p: "13 000"}, {n: "325 UC", p: "58 000"}, {n: "660 UC", p: "114 000"}, {n: "1320 UC", p: "228 000"} ],
-            ff: [ {n: "110 💎", p: "19 000"}, {n: "583 💎", p: "74 000"}, {n: "1188 💎", p: "147 000"} ],
-            mlbb: [ {n: "86 💎", p: "16 500"}, {n: "172 💎", p: "32 000"}, {n: "257 💎", p: "48 000"} ],
-            phone: [ {n: "10 000 so'm", p: "10 000"}, {n: "20 000 so'm", p: "20 000"}, {n: "50 000 so'm", p: "50 000"} ]
-        };
-
-        function showPrices(key) {
-            const list = document.getElementById('price-list');
-            const label = document.getElementById('modal-label');
-            list.innerHTML = ""; // Oldingi ma'lumotni tozalash
-            
-            if (!catalog[key]) return; // Agar kalit topilmasa chiqib ketish
-
-            label.innerText = key.toUpperCase() + " TANLANG";
-            
-            catalog[key].forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'price-card';
-                div.innerHTML = `
-                    <div>
-                        <span style="display:block; font-weight:700;">${item.n}</span>
-                        <small style="color:var(--accent)">${item.p} UZS</small>
-                    </div>
-                    <button class="btn-buy" onclick="processOrder('${item.n}', '${key}')">SOTIB OLISH</button>
-                `;
-                list.appendChild(div);
-            });
-            
-            document.getElementById('price-modal').style.display = 'flex';
-        }
-
-        function processOrder(product, cat) {
-            // Telegram botga ma'lumot yuborish
-            const orderData = {
-                product: product,
-                category: cat,
-                user: tg.initDataUnsafe?.user?.id || "Noma'lum"
-            };
-            
-            tg.sendData(JSON.stringify(orderData)); 
-            
-            // Atmen bermasligi uchun modalni yopishdan oldin kichik delay
-            setTimeout(() => {
-                closeModal();
-            }, 500);
-        }
-
-        function closeModal() {
-            document.getElementById('price-modal').style.display = 'none';
-        }
-    </script>
-</body>
-</html>
+                <img id="pubg-logo" src="
