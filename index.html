@@ -19,116 +19,173 @@
         body {
             background-color: var(--bg);
             color: var(--text-primary);
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0 0 80px 0;
-            user-select: none;
-            display: block !important;
+            overflow-x: hidden;
         }
 
+        /* Profile & Wallet */
         .profile-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .user-info { display: flex; align-items: center; gap: 10px; }
-        .user-info img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); background: #222; }
-        .user-name { font-weight: 700; font-size: 16px; }
+        .user-info img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); }
         
-        .coin-balance { background: var(--surface); padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; border: 1px solid var(--glass); }
-
         .wallet-card { margin: 0 15px; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); padding: 20px; border-radius: 24px; border: 1px solid var(--glass); }
         .wallet-amount { font-size: 24px; font-weight: 800; margin-bottom: 15px; }
-        .wallet-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .action-btn { background: var(--glass); border: none; padding: 10px; border-radius: 12px; color: white; font-size: 10px; text-align: center; }
-        .action-btn i { font-size: 18px; display: block; margin-bottom: 5px; color: var(--accent); }
 
-        .banner-container { margin: 20px 0; padding-left: 15px; display: flex; gap: 10px; overflow-x: auto; }
-        .banner { min-width: 85%; height: 100px; background: linear-gradient(90deg, #00ff8833, #000); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent); font-weight: bold; font-size: 14px; text-align: center; padding: 0 10px; }
-
+        /* Grid */
+        .section-title { padding: 0 20px; font-size: 18px; font-weight: 700; margin: 20px 0 15px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 0 15px; }
-        .game-card { background: var(--surface); border-radius: 18px; padding: 10px; text-align: center; border: 1px solid var(--glass); }
-        .game-card img { width: 100%; border-radius: 12px; margin-bottom: 8px; min-height: 80px; background: #222; }
-        .game-name { font-size: 11px; font-weight: 600; display: block; }
+        .game-card { background: var(--surface); border-radius: 18px; padding: 10px; text-align: center; border: 1px solid var(--glass); cursor: pointer; }
+        .game-card img { width: 100%; border-radius: 12px; margin-bottom: 8px; }
+        .game-name { font-size: 11px; font-weight: 600; }
 
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--glass); z-index: 100; }
-        .nav-item { text-align: center; color: var(--text-secondary); font-size: 10px; text-decoration: none; }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
+        /* Modal (Narxlar oynasi) */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 1000;
+            display: none; flex-direction: column;
+            padding: 20px; box-sizing: border-box;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-content { overflow-y: auto; flex-grow: 1; }
+        .price-item {
+            background: var(--surface); margin-bottom: 10px; padding: 15px;
+            border-radius: 15px; display: flex; justify-content: space-between;
+            align-items: center; border: 1px solid var(--glass);
+        }
+        .buy-btn { background: var(--accent); color: #000; padding: 8px 15px; border-radius: 10px; font-weight: bold; border: none; }
+
+        /* Settings Section */
+        #settings-page { display: none; padding: 20px; }
+        .settings-item { background: var(--surface); padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; }
+
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--glass); }
+        .nav-item { text-align: center; color: var(--text-secondary); font-size: 10px; cursor: pointer; }
         .nav-item.active { color: var(--accent); }
+        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
-    <div class="profile-header">
-        <div class="user-info">
-            <img id="user-photo" src="https://i.ibb.co/6NGp879/default-avatar.png" alt="User">
-            <span class="user-name" id="user-full-name">Yuklanmoqda...</span>
+    <div id="home-page">
+        <div class="profile-header">
+            <div class="user-info">
+                <img id="u-img" src="https://i.pravatar.cc/150?u=baxti">
+                <span class="user-name" id="u-name">Yuklanmoqda...</span>
+            </div>
         </div>
-        <div class="coin-balance">
-            <i class="fas fa-coins" style="color: gold;"></i>
-            <span>12</span>
+
+        <div class="wallet-card">
+            <div class="wallet-amount">0 so'm</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Sizning balansingiz</div>
+        </div>
+
+        <div class="section-title">O'yinlar</div>
+        <div class="grid">
+            <div class="game-card" onclick="openPrices('pubg')">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Pubg_mobile_logo.png">
+                <span class="game-name">PUBG Mobile</span>
+            </div>
+            <div class="game-card" onclick="openPrices('ff')">
+                <img src="https://i.ibb.co/m0f6mXm/ff-diamond.png">
+                <span class="game-name">Free Fire</span>
+            </div>
+            <div class="game-card" onclick="openPrices('mlbb')">
+                <img src="https://logowik.com/content/uploads/images/mobile-legends-bang-bang1811.jpg">
+                <span class="game-name">Mobile Legends</span>
+            </div>
         </div>
     </div>
 
-    <div class="wallet-card">
-        <div class="wallet-amount">998 so'm</div>
-        <div class="wallet-actions">
-            <div class="action-btn"><i class="fas fa-wallet"></i>To'ldirish</div>
-            <div class="action-btn"><i class="fas fa-gift"></i>Bonus</div>
-            <div class="action-btn"><i class="fas fa-history"></i>Tarix</div>
+    <div id="settings-page">
+        <h2 class="section-title">Sozlamalar</h2>
+        <div class="settings-item" onclick="tg.showAlert('Hozircha o\'zgartirib bo\'lmaydi')">
+            <i class="fas fa-user-edit"></i> Profilni tahrirlash
+        </div>
+        <div class="settings-item" onclick="tg.openTelegramLink('https://t.me/BMA_Owner')">
+            <i class="fas fa-headset"></i> Qo'llab-quvvatlash
         </div>
     </div>
 
-    <div class="banner-container">
-        <div class="banner">BMA PREMIUM: ARZON VA TEZKOR!</div>
-    </div>
-
-    <div class="grid">
-        <div class="game-card" onclick="selectItem('PUBG Mobile', 'game')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Pubg_mobile_logo.png">
-            <span class="game-name">PUBG</span>
+    <div id="price-modal" class="modal">
+        <div class="modal-header">
+            <h2 id="modal-title">Narxlar</h2>
+            <i class="fas fa-times" onclick="closeModal()" style="font-size: 24px;"></i>
         </div>
-        <div class="game-card" onclick="selectItem('Free Fire', 'game')">
-            <img src="https://i.ibb.co/m0f6mXm/ff-diamond.png">
-            <span class="game-name">Free Fire</span>
-        </div>
-        <div class="game-card" onclick="selectItem('Mobile Legends', 'game')">
-            <img src="https://logowik.com/content/uploads/images/mobile-legends-bang-bang1811.jpg">
-            <span class="game-name">MLBB</span>
-        </div>
+        <div class="modal-content" id="modal-list">
+            </div>
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active"><i class="fas fa-home"></i>Asosiy</div>
-        <div class="nav-item"><i class="fas fa-tags"></i>Gift</div>
-        <div class="nav-item"><i class="fas fa-clock"></i>Tarix</div>
-        <div class="nav-item"><i class="fas fa-cog"></i>Sozlamalar</div>
+        <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i>Asosiy</div>
+        <div class="nav-item" onclick="tg.showAlert('Tez kunda')"><i class="fas fa-clock"></i>Tarix</div>
+        <div class="nav-item" onclick="showPage('settings')"><i class="fas fa-cog"></i>Sozlamalar</div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Foydalanuvchi ma'lumotlarini xavfsiz yuklash
-        try {
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                let user = tg.initDataUnsafe.user;
-                document.getElementById('user-full-name').innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
-                if (user.photo_url) {
-                    document.getElementById('user-photo').src = user.photo_url;
-                }
-            } else {
-                document.getElementById('user-full-name').innerText = "Baxti";
-            }
-        } catch (e) {
-            document.getElementById('user-full-name').innerText = "Mehmon";
+        // Foydalanuvchi ma'lumotlari
+        if (tg.initDataUnsafe?.user) {
+            document.getElementById('u-name').innerText = tg.initDataUnsafe.user.first_name;
+            if (tg.initDataUnsafe.user.photo_url) document.getElementById('u-img').src = tg.initDataUnsafe.user.photo_url;
         }
 
-        function selectItem(name, type) {
-            let selected = { item: name, category: type };
-            tg.MainButton.setText(`TANLANDI: ${name.toUpperCase()}`);
-            tg.MainButton.show();
-            tg.MainButton.setParams({ color: "#00ff88", text_color: "#000000" });
+        const data = {
+            pubg: [
+                {id: "60uc", n: "60 UC", p: "13.000 so'm"},
+                {id: "120uc", n: "120 UC", p: "25.000 so'm"},
+                {id: "325uc", n: "325 UC", p: "58.000 so'm"},
+                {id: "660uc", n: "660 UC", p: "114.000 so'm"}
+            ],
+            ff: [
+                {id: "110d", n: "110 💎", p: "19.000 so'm"},
+                {id: "231d", n: "231 💎", p: "35.000 so'm"},
+                {id: "weekly", n: "Haftalik obuna", p: "37.000 so'm"}
+            ],
+            mlbb: [
+                {id: "55ml", n: "55 💎 (50+5)", p: "10.500 so'm"},
+                {id: "86ml", n: "86 💎 (78+8)", p: "16.500 so'm"},
+                {id: "weekly_ml", n: "Haftalik propusk", p: "19.800 so'm"}
+            ]
+        };
+
+        function openPrices(game) {
+            const list = document.getElementById('modal-list');
+            const title = document.getElementById('modal-title');
+            list.innerHTML = "";
+            title.innerText = game.toUpperCase() + " Narxlari";
             
-            tg.onEvent('mainButtonClicked', function() {
-                tg.sendData(JSON.stringify(selected));
+            data[game].forEach(item => {
+                list.innerHTML += `
+                    <div class="price-item">
+                        <div>
+                            <b>${item.n}</b><br>
+                            <small>${item.p}</small>
+                        </div>
+                        <button class="buy-btn" onclick="order('${item.n}', '${game}')">Sotib olish</button>
+                    </div>
+                `;
             });
+            document.getElementById('price-modal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('price-modal').style.display = 'none'; }
+
+        function order(item, game) {
+            tg.sendData(JSON.stringify({item: item, category: game}));
+            closeModal();
+        }
+
+        function showPage(page) {
+            document.getElementById('home-page').style.display = page === 'home' ? 'block' : 'none';
+            document.getElementById('settings-page').style.display = page === 'settings' ? 'block' : 'none';
+            
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
         }
     </script>
 </body>
