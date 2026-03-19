@@ -12,26 +12,18 @@
             --card-bg: #11151c; 
             --accent: #00ff88; 
             --accent-glow: rgba(0, 255, 136, 0.4);
-            --purple: #6c5ce7;
+            --purple: #5865f2;
             --text: #ffffff; 
             --sub-text: #8b949e; 
             --border: rgba(255,255,255,0.05);
+            --error: #ff4757;
         }
         
         * { box-sizing: border-box; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* --- 🌀 PRO ANIMATSIYALAR & ORQA FON --- */
+        /* --- ORQA FON & ANIMATSIYA --- */
         .bg-particles { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle at 50% 0%, #151030 0%, var(--bg) 60%); }
-        
-        .geo-shape { position: fixed; border: 1.5px solid var(--accent-glow); z-index: -1; pointer-events: none; }
-        .shape-1 { top: 10%; left: -60px; width: 150px; height: 150px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); animation: float-rotate 15s ease-in-out infinite alternate; filter: drop-shadow(0 0 10px var(--accent-glow)); }
-        .shape-2 { bottom: 15%; right: -50px; width: 120px; height: 120px; border-radius: 20px; animation: float-rotate-rev 18s linear infinite; border-color: rgba(108, 92, 231, 0.3); }
-        
-        @keyframes float-rotate { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(40px) rotate(180deg); } }
-        @keyframes float-rotate-rev { 0% { transform: rotate(360deg) scale(1); } 50% { transform: rotate(180deg) scale(1.2); } 100% { transform: rotate(0deg) scale(1); } }
-
-        /* --- ⚡️ TOK SIMI (YANGILANGAN) --- */
         .power-line { display: flex; align-items: center; padding: 15px 20px; gap: 10px; opacity: 0.8; }
         .power-node { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 2s infinite; }
         .power-beam { height: 1.5px; flex: 1; background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent); background-size: 200% 100%; animation: beam-flow 2.5s linear infinite; }
@@ -43,82 +35,83 @@
         .page-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Header */
-        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%); }
+        /* Header & Balance */
+        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .user-card { display: flex; align-items: center; gap: 12px; }
-        .user-card img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--purple); padding: 2px; }
+        .user-card img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--purple); }
         .username-badge { font-size: 11px; color: var(--accent); background: rgba(0, 255, 136, 0.1); padding: 2px 6px; border-radius: 4px; margin-top: 3px; display: inline-block; }
+        
+        .wallet-btn { background: rgba(88, 101, 242, 0.15); border: 1px solid var(--purple); padding: 10px 15px; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .wallet-btn:active { transform: scale(0.9); }
 
-        /* Balance */
-        .balance-card { margin: 0 20px; background: linear-gradient(145deg, #1f1b4d, #110e2b); padding: 25px; border-radius: 20px; border: 1px solid rgba(108, 92, 231, 0.2); position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
-        .balance-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(108,92,231,0.1) 0%, transparent 60%); pointer-events: none; }
+        .balance-card { margin: 0 20px; background: linear-gradient(145deg, #1f1b4d, #110e2b); padding: 25px; border-radius: 20px; border: 1px solid rgba(88, 101, 242, 0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         .balance-title { font-size: 12px; color: var(--sub-text); text-transform: uppercase; letter-spacing: 1px; }
-        .balance-amount { font-size: 32px; font-weight: 900; margin: 5px 0; font-family: 'Courier New', monospace; letter-spacing: -1px; }
+        .balance-amount { font-size: 32px; font-weight: 900; margin: 5px 0; font-family: 'Courier New', monospace; }
 
-        /* Grid */
-        .section-title { padding: 25px 20px 15px; font-weight: 800; color: #fff; font-size: 16px; display: flex; align-items: center; gap: 8px; }
-        .section-title i { color: var(--accent); }
+        /* Grid - Catalog */
+        .section-title { padding: 25px 20px 15px; font-weight: 800; font-size: 16px; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
-        .game-card { background: var(--card-bg); border-radius: 16px; padding: 20px 10px; text-align: center; border: 1px solid var(--border); transition: all 0.2s; position: relative; overflow: hidden; }
-        .game-card:active { transform: scale(0.96); border-color: var(--accent); background: rgba(0, 255, 136, 0.05); }
-        .game-card img { width: 65px; height: 65px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .game-card span { display: block; font-size: 13px; font-weight: 700; color: #e1e1e1; }
+        .game-card { background: var(--card-bg); border-radius: 16px; padding: 20px 10px; text-align: center; border: 1px solid var(--border); transition: 0.2s; }
+        .game-card:active { transform: scale(0.96); border-color: var(--accent); }
+        .game-card img { width: 65px; height: 65px; border-radius: 12px; margin-bottom: 12px; }
+        .game-card span { display: block; font-size: 13px; font-weight: 700; }
 
-        /* History State */
-        .empty-history { text-align: center; padding: 50px 20px; color: var(--sub-text); }
-        .empty-history i { font-size: 48px; margin-bottom: 15px; color: #333; }
-
-        /* Modals */
+        /* Modals Umumiy */
         .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: flex-end; }
-        .modal-content { background: #0f131a; width: 100%; max-height: 85vh; border-radius: 25px 25px 0 0; padding: 25px 20px; display: flex; flex-direction: column; border-top: 1px solid var(--border); animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-content { background: #0f131a; width: 100%; max-height: 85vh; border-radius: 25px 25px 0 0; padding: 25px 20px; display: flex; flex-direction: column; border-top: 1px solid var(--border); animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-header h2 { margin: 0; font-size: 20px; }
         .close-btn { background: #1c2128; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        
-        .price-list { overflow-y: auto; padding-bottom: 20px; }
-        .price-row { background: var(--card-bg); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border: 1px solid var(--border); transition: 0.2s; }
-        .price-row:active { border-color: var(--purple); }
-        
-        .val-amount { font-weight: 800; font-size: 15px; display: block; }
-        .val-cost { color: var(--accent); font-size: 12px; font-weight: 600; }
-        .buy-btn { background: linear-gradient(90deg, var(--accent), #00cc6a); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 900; font-size: 12px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(0,255,136,0.2); }
 
-        .custom-input { width: 100%; background: #0a0c10; border: 1px solid var(--purple); color: white; padding: 18px; border-radius: 15px; font-size: 16px; margin-bottom: 15px; outline: none; }
-        .custom-input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(0,255,136,0.2); }
+        /* --- XARID MODAL --- */
+        .price-row { background: var(--card-bg); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border: 1px solid var(--border); }
+        .buy-btn { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 900; font-size: 12px; text-transform: uppercase; }
+        
+        /* --- TO'LOV MODAL (YANGI) --- */
+        .pay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .pay-method { background: #1a1e24; border: 1px solid var(--border); border-radius: 12px; padding: 15px 5px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .pay-method.active { border-color: var(--purple); background: rgba(88, 101, 242, 0.1); }
+        .pay-method img { height: 24px; margin-bottom: 5px; object-fit: contain; }
+        .pay-method span { display: block; font-size: 10px; font-weight: bold; color: #ccc; }
+        
+        .input-group { position: relative; margin-bottom: 10px; }
+        .amount-input { width: 100%; background: #0a0c10; border: 1px solid var(--purple); color: white; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: bold; outline: none; }
+        .amount-input:focus { box-shadow: 0 0 10px rgba(88, 101, 242, 0.3); }
+        .currency-label { position: absolute; right: 15px; top: 15px; color: var(--sub-text); font-weight: bold; }
+        
+        .pay-limits { display: flex; justify-content: space-between; font-size: 11px; color: var(--sub-text); margin-bottom: 20px; }
+        .main-btn { width: 100%; background: var(--purple); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 15px; transition: 0.2s; }
+        .main-btn:active { transform: scale(0.98); }
+
+        .error-msg { color: var(--error); font-size: 12px; margin-top: 5px; display: none; text-align: center; font-weight: bold; }
 
         /* Nav */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11, 14, 20, 0.95); backdrop-filter: blur(10px); display: flex; padding: 12px 0 25px; border-top: 1px solid var(--border); z-index: 1000; }
-        .nav-item { flex: 1; text-align: center; color: var(--sub-text); font-size: 11px; font-weight: 600; transition: 0.3s; cursor: pointer; }
-        .nav-item.active { color: var(--accent); transform: translateY(-3px); }
+        .nav-item { flex: 1; text-align: center; color: var(--sub-text); font-size: 11px; font-weight: 600; cursor: pointer; }
+        .nav-item.active { color: var(--accent); }
         .nav-item i { display: block; font-size: 22px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
     <div class="bg-particles"></div>
-    <div class="geo-shape shape-1"></div>
-    <div class="geo-shape shape-2"></div>
 
     <div id="page-home" class="page-content active">
         <div class="header">
             <div class="user-card">
                 <img id="u-ava" src="https://ui-avatars.com/api/?name=B&background=222&color=fff">
                 <div>
-                    <div id="u-name" style="font-weight: 800; font-size: 16px;">Aniqlanmoqda...</div>
-                    <div class="username-badge" id="u-handle">@username</div>
+                    <div id="u-name" style="font-weight: 800; font-size: 16px;">Baxtiyor</div>
+                    <div class="username-badge" id="u-handle">@Baxti_dev</div>
                 </div>
             </div>
-            <div style="background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 12px; font-weight: bold;">
-                <i class="fas fa-wallet" style="color: var(--purple);"></i>
+            <div class="wallet-btn" onclick="openTopupModal()">
+                <i class="fas fa-wallet" style="color: var(--accent); margin-right: 5px;"></i> To'ldirish
             </div>
         </div>
 
         <div class="power-line">
-            <div class="power-node"></div>
-            <div class="power-beam"></div>
-            <div class="power-node" style="animation-delay: 1s;"></div>
+            <div class="power-node"></div><div class="power-beam"></div><div class="power-node"></div>
         </div>
 
         <div class="balance-card">
@@ -126,28 +119,62 @@
             <div class="balance-amount">0 <span style="font-size: 16px; color: var(--accent);">UZS</span></div>
         </div>
 
-        <div class="section-title"><i class="fas fa-fire"></i> Katalog</div>
+        <div class="section-title"><i class="fas fa-fire" style="color:var(--accent)"></i> Katalog</div>
         <div class="grid" id="game-grid"></div>
     </div>
 
     <div id="page-history" class="page-content">
-        <div class="header">
-            <h2 style="margin:0; font-size: 20px;">Xaridlar tarixi</h2>
-        </div>
-        <div class="empty-history">
-            <i class="fas fa-box-open"></i>
+        <div class="header"><h2 style="margin:0;">Xaridlar tarixi</h2></div>
+        <div style="text-align: center; padding: 50px 20px; color: var(--sub-text);">
+            <i class="fas fa-box-open" style="font-size: 48px; margin-bottom: 15px; color:#333"></i>
             <h3>Hozircha tarix bo'sh</h3>
-            <p>Siz hali hech qanday xarid amalga oshirmadingiz.</p>
+        </div>
+    </div>
+
+    <div id="modal-topup" class="modal-bg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="margin:0; font-size: 18px;">Mavjud hisob to'ldirish usullari</h2>
+                <div class="close-btn" onclick="closeModal('modal-topup')"><i class="fas fa-times"></i></div>
+            </div>
+            
+            <div class="pay-grid">
+                <div class="pay-method active" onclick="selectPay(this, 'uzcard')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Uzcard_logo.png/640px-Uzcard_logo.png">
+                    <span>UZCARD</span>
+                </div>
+                <div class="pay-method" onclick="selectPay(this, 'humo')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Humo_logo.png/640px-Humo_logo.png">
+                    <span>HUMO</span>
+                </div>
+                <div class="pay-method" onclick="selectPay(this, 'bankomat')" style="border-color: var(--accent);">
+                    <i class="fas fa-money-bill-wave" style="font-size: 20px; color: var(--accent); display: block; margin-bottom: 5px;"></i>
+                    <span>BANKOMAT</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 5px; font-size: 12px; color: var(--sub-text);">Miqdorni kiriting</div>
+            <div class="input-group">
+                <input type="number" id="topup-amount" class="amount-input" placeholder="0" value="10000">
+                <span class="currency-label">UZS</span>
+            </div>
+            <div class="pay-limits">
+                <span>Minimal: 1,000 UZS</span>
+                <span>Maksimal: 5,000,000 UZS</span>
+            </div>
+            <div id="topup-error" class="error-msg"><i class="fas fa-exclamation-circle"></i> Summa talab qilinadi yoki noto'g'ri!</div>
+
+            <button class="main-btn" onclick="processTopup()">Davom etish</button>
         </div>
     </div>
 
     <div id="modal-buy" class="modal-bg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="m-title">Mahsulot</h2>
-                <div class="close-btn" onclick="closeM()"><i class="fas fa-times"></i></div>
+                <h2 id="m-title" style="margin:0;">Mahsulot</h2>
+                <div class="close-btn" onclick="closeModal('modal-buy')"><i class="fas fa-times"></i></div>
             </div>
-            <div class="price-list" id="m-body"></div>
+            <div id="m-body" style="overflow-y: auto; padding-bottom: 20px;"></div>
         </div>
     </div>
 
@@ -162,123 +189,113 @@
         tg.ready();
         tg.expand();
 
-        // VALYUTALAR BAZASI (Kengaytirilgan)
+        let currentUser = { id: '000', name: 'Baxtiyor', username: 'Baxti_dev' };
+        let selectedPaymentMethod = 'uzcard';
+
+        // KATALOG BAZASI
         const catalog = [
             { id: 'pubg', name: 'PUBG Mobile', img: 'https://www.pubgmobile.com/common/images/icon_logo.png', prices: [
-                { amount: "60 UC", cost: "12 000" }, { amount: "325 UC", cost: "58 000" }, 
-                { amount: "660 UC", cost: "115 000" }, { amount: "1320 UC", cost: "230 000" },
-                { amount: "1800 UC", cost: "290 000" }, { amount: "3850 UC", cost: "580 000" },
-                { amount: "8100 UC", cost: "1 150 000" }
+                { amount: "60 UC", cost: "12 000" }, { amount: "325 UC", cost: "58 000" }, { amount: "660 UC", cost: "115 000" }
             ]},
             { id: 'ff', name: 'Free Fire', img: 'https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png', prices: [
-                { amount: "110 💎", cost: "19 000" }, { amount: "231 💎", cost: "38 000" }, 
-                { amount: "583 💎", cost: "75 000" }, { amount: "1188 💎", cost: "145 000" },
-                { amount: "2420 💎", cost: "290 000" }
+                { amount: "110 💎", cost: "19 000" }, { amount: "231 💎", cost: "38 000" }
             ]},
             { id: 'mlbb', name: 'Mobile Legends', img: 'https://m.mobilelegends.com/static/images/index/logo.png', prices: [
-                { amount: "86 💎", cost: "16 000" }, { amount: "172 💎", cost: "32 000" }, 
-                { amount: "257 💎", cost: "48 000" }, { amount: "514 💎", cost: "95 000" },
-                { amount: "706 💎", cost: "130 000" }
-            ]},
-            { id: 'roblox', name: 'Roblox', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/512px-Roblox_player_icon_black.svg.png', prices: [
-                { amount: "400 Robux", cost: "75 000" }, { amount: "800 Robux", cost: "145 000" }
-            ]},
-            { id: 'tg', name: 'Telegram Premium', img: 'https://cdn-icons-png.flaticon.com/512/5968/5968804.png', prices: [
-                { amount: "1 Oylik", cost: "45 000" }, { amount: "1 Yillik", cost: "380 000" }
-            ]},
-            { id: 'aloqa', name: 'Uyali Aloqa', img: 'https://cdn-icons-png.flaticon.com/512/3532/3532157.png', custom: true }
+                { amount: "86 💎", cost: "16 000" }, { amount: "172 💎", cost: "32 000" }
+            ]}
         ];
 
-        let currentUser = { id: '000', name: 'Baxtiyor', username: 'Baxti_dev' };
-
         function initApp() {
-            // PROFIL MA'LUMOTLARINI OLISH (@username bilan)
             const u = tg.initDataUnsafe?.user;
             if (u) {
-                currentUser = { 
-                    id: u.id, 
-                    name: u.first_name + (u.last_name ? " " + u.last_name : ""), 
-                    username: u.username ? u.username : "username_yoq" 
-                };
+                currentUser = { id: u.id, name: u.first_name, username: u.username ? u.username : "username_yoq" };
                 if (u.photo_url) document.getElementById('u-ava').src = u.photo_url;
             }
-            
             document.getElementById('u-name').innerText = currentUser.name;
             document.getElementById('u-handle').innerText = "@" + currentUser.username;
 
-            // KATALOGNI CHIZISH
             const grid = document.getElementById('game-grid');
-            catalog.forEach(game => {
-                grid.innerHTML += `
-                    <div class="game-card" onclick="openGame('${game.id}')">
-                        <img src="${game.img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/8002/8002123.png'">
-                        <span>${game.name}</span>
-                    </div>
-                `;
+            catalog.forEach(g => {
+                grid.innerHTML += `<div class="game-card" onclick="openGame('${g.id}')">
+                    <img src="${g.img}"><span>${g.name}</span></div>`;
             });
         }
 
-        // MAHSULOT MODALINI OCHISH
+        // --- TO'LOV TIZIMI MANTIQI ---
+        function openTopupModal() {
+            document.getElementById('modal-topup').style.display = 'flex';
+            document.getElementById('topup-error').style.display = 'none';
+        }
+
+        function selectPay(element, method) {
+            document.querySelectorAll('.pay-method').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            selectedPaymentMethod = method;
+
+            // Agar Bankomat tanlansa srazu ogohlantiramiz
+            if(method === 'bankomat') {
+                tg.showAlert("Bankomat orqali to'lov qilish uchun Admin bilan bog'lanasiz.");
+            }
+        }
+
+        function processTopup() {
+            const amountInput = document.getElementById('topup-amount').value;
+            const amount = parseInt(amountInput);
+            const errorMsg = document.getElementById('topup-error');
+
+            // 1. BANKOMAT TANLANSA: To'g'ridan-to'g'ri Adminga (Baxtiga) yo'naltirish
+            if (selectedPaymentMethod === 'bankomat') {
+                // Telegramning rasmiy API'si orqali lichkaga o'tish
+                tg.openTelegramLink('https://t.me/Baxti_dev'); 
+                return;
+            }
+
+            // 2. BOSHQA USULLAR: Summani tekshirish
+            if (!amountInput || amount < 1000 || amount > 5000000) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+            
+            errorMsg.style.display = 'none';
+
+            // To'lov so'rovini JSON shaklida botga yuborish
+            const topupData = {
+                action: "topup_balance",
+                method: selectedPaymentMethod.toUpperCase(),
+                amount: amount,
+                client_id: currentUser.id,
+                client_user: "@" + currentUser.username
+            };
+
+            tg.sendData(JSON.stringify(topupData));
+            setTimeout(() => { tg.close(); }, 100);
+        }
+
+        // --- XARID MANTIQI ---
         function openGame(id) {
             const game = catalog.find(g => g.id === id);
             document.getElementById('m-title').innerText = game.name;
             const body = document.getElementById('m-body');
             body.innerHTML = "";
-
-            if (game.custom) {
-                body.innerHTML = `
-                    <p style="color:var(--sub-text); margin-top:0;">O'tkazmoqchi bo'lgan summani yozing:</p>
-                    <input type="number" id="c-sum" class="custom-input" placeholder="Summa (masalan: 20000)">
-                    <button class="buy-btn" style="width:100%; padding:18px; font-size: 14px;" onclick="processOrder('${game.name}', document.getElementById('c-sum').value + ' so\\'m', document.getElementById('c-sum').value)">TASDIQLASH</button>
-                `;
-            } else {
-                game.prices.forEach(p => {
-                    // Parametrlarni toza va aniq yuborish (undefined xatosini oldini oladi)
-                    body.innerHTML += `
-                        <div class="price-row">
-                            <div>
-                                <span class="val-amount">${p.amount}</span>
-                                <span class="val-cost">${p.cost} UZS</span>
-                            </div>
-                            <button class="buy-btn" onclick="processOrder('${game.name}', '${p.amount}', '${p.cost}')">Sotib olish</button>
-                        </div>
-                    `;
-                });
-            }
+            game.prices.forEach(p => {
+                body.innerHTML += `<div class="price-row">
+                    <div><span style="font-weight:800">${p.amount}</span><br><span style="color:var(--accent);font-size:12px;">${p.cost} UZS</span></div>
+                    <button class="buy-btn" onclick="sendBuy('${game.name}', '${p.amount}', '${p.cost}')">Sotib olish</button>
+                </div>`;
+            });
             document.getElementById('modal-buy').style.display = 'flex';
         }
 
-        // XARIDNI BOTGA YUBORISH (Eng muhim qism)
-        function processOrder(gameName, packageName, priceValue) {
-            if(!packageName || packageName.trim() === "so'm") {
-                tg.showAlert("Iltimos, summani kiriting!");
-                return;
-            }
-
-            // Botga yuboriladigan toza obyekt (JSON)
-            const orderData = {
-                action: "new_order",
-                game: gameName,       // Masalan: "PUBG Mobile"
-                package: packageName, // Masalan: "60 UC"
-                price: priceValue,    // Masalan: "12 000"
-                client_id: currentUser.id,
-                client_user: "@" + currentUser.username
-            };
-
-            // Obyektni string (matn) holatiga keltirib jo'natamiz
-            tg.sendData(JSON.stringify(orderData));
-            
-            // Xarid ketgach oynani yopish
-            setTimeout(() => { tg.close(); }, 150);
+        function sendBuy(gName, pName, price) {
+            tg.sendData(JSON.stringify({ action: "new_order", game: gName, package: pName, price: price }));
+            tg.close();
         }
 
-        function closeM() { document.getElementById('modal-buy').style.display = 'none'; }
-
-        // SAHIFALARNI ALMASHTIRISH (Tarix va Asosiy)
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        
         function switchPage(pageId, el) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.getElementById('page-' + pageId).classList.add('active');
-            
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             el.classList.add('active');
         }
