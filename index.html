@@ -17,6 +17,9 @@
             --sub-text: #8b949e; 
             --border: rgba(255,255,255,0.05);
             --error: #ff4757;
+            --success: #2ed573;
+            --warning: #ffa502;
+            --danger: #ff4757;
         }
         
         * { box-sizing: border-box; }
@@ -51,9 +54,9 @@
         /* Grid - Catalog */
         .section-title { padding: 25px 20px 15px; font-weight: 800; font-size: 16px; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
-        .game-card { background: var(--card-bg); border-radius: 16px; padding: 20px 10px; text-align: center; border: 1px solid var(--border); transition: 0.2s; }
+        .game-card { background: var(--card-bg); border-radius: 16px; padding: 20px 10px; text-align: center; border: 1px solid var(--border); transition: 0.2s; cursor: pointer;}
         .game-card:active { transform: scale(0.96); border-color: var(--accent); }
-        .game-card img { width: 65px; height: 65px; border-radius: 12px; margin-bottom: 12px; }
+        .game-card img { width: 65px; height: 65px; border-radius: 12px; margin-bottom: 12px; object-fit: cover;}
         .game-card span { display: block; font-size: 13px; font-weight: 700; }
 
         /* Modals Umumiy */
@@ -65,9 +68,11 @@
 
         /* --- XARID MODAL --- */
         .price-row { background: var(--card-bg); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border: 1px solid var(--border); }
-        .buy-btn { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 900; font-size: 12px; text-transform: uppercase; }
-        
-        /* --- TO'LOV MODAL (YANGI) --- */
+        .buy-btn { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 900; font-size: 12px; text-transform: uppercase; cursor: pointer;}
+        .custom-input { width: 100%; background: #0a0c10; border: 1px solid var(--purple); color: white; padding: 15px; border-radius: 12px; font-size: 16px; outline: none; margin-bottom: 15px; }
+        .input-label {font-size: 12px; color: var(--sub-text); margin-bottom: 5px; display: block;}
+
+        /* --- TO'LOV MODAL (Mavjud usullar) --- */
         .pay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
         .pay-method { background: #1a1e24; border: 1px solid var(--border); border-radius: 12px; padding: 15px 5px; text-align: center; cursor: pointer; transition: 0.2s; }
         .pay-method.active { border-color: var(--purple); background: rgba(88, 101, 242, 0.1); }
@@ -80,10 +85,35 @@
         .currency-label { position: absolute; right: 15px; top: 15px; color: var(--sub-text); font-weight: bold; }
         
         .pay-limits { display: flex; justify-content: space-between; font-size: 11px; color: var(--sub-text); margin-bottom: 20px; }
-        .main-btn { width: 100%; background: var(--purple); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 15px; transition: 0.2s; }
+        .main-btn { width: 100%; background: var(--purple); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 15px; transition: 0.2s; cursor: pointer;}
         .main-btn:active { transform: scale(0.98); }
 
         .error-msg { color: var(--error); font-size: 12px; margin-top: 5px; display: none; text-align: center; font-weight: bold; }
+
+        /* --- TO'LOV KO'RSATMALARI MODALI --- */
+        .warning-box { background: rgba(255, 71, 87, 0.1); border: 1px solid var(--danger); border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .warning-title { color: var(--danger); font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 14px;}
+        .warning-text { color: #ccc; font-size: 12px; margin: 0; line-height: 1.4; }
+        
+        .timer-row { display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 15px; font-size: 14px;}
+        .timer-val { color: var(--danger); display: flex; align-items: center; gap: 5px;}
+        
+        .card-box { background: linear-gradient(135deg, #5865f2, #404eed); border-radius: 12px; padding: 20px; margin-bottom: 15px; position: relative;}
+        .card-type { font-weight: bold; margin-bottom: 15px; text-transform: uppercase; font-size: 16px;}
+        .card-number { font-size: 20px; font-weight: bold; font-family: 'Courier New', monospace; letter-spacing: 2px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
+        .card-name { font-size: 12px; opacity: 0.9; }
+        .copy-icon { cursor: pointer; opacity: 0.7; transition: 0.2s;}
+        .copy-icon:active { opacity: 1; transform: scale(1.1);}
+
+        .amount-box { background: #1a1e24; border: 1px solid var(--border); border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
+        .amount-val { font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 10px;}
+        
+        .rules-title { font-weight: bold; margin-bottom: 10px; font-size: 14px;}
+        .rule-item { border-radius: 8px; padding: 12px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px;}
+        .rule-good { background: rgba(46, 213, 115, 0.1); border: 1px solid rgba(46, 213, 115, 0.3); }
+        .rule-bad { background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.3); }
+        .rule-icon-good { color: var(--success); margin-top: 2px;}
+        .rule-icon-bad { color: var(--danger); margin-top: 2px;}
 
         /* Nav */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11, 14, 20, 0.95); backdrop-filter: blur(10px); display: flex; padding: 12px 0 25px; border-top: 1px solid var(--border); z-index: 1000; }
@@ -99,10 +129,10 @@
     <div id="page-home" class="page-content active">
         <div class="header">
             <div class="user-card">
-                <img id="u-ava" src="https://ui-avatars.com/api/?name=B&background=222&color=fff">
+                <img id="u-ava" src="https://ui-avatars.com/api/?name=U&background=222&color=fff">
                 <div>
-                    <div id="u-name" style="font-weight: 800; font-size: 16px;">Baxtiyor</div>
-                    <div class="username-badge" id="u-handle">@Baxti_dev</div>
+                    <div id="u-name" style="font-weight: 800; font-size: 16px;">Foydalanuvchi</div>
+                    <div class="username-badge" id="u-handle">@username</div>
                 </div>
             </div>
             <div class="wallet-btn" onclick="openTopupModal()">
@@ -115,7 +145,7 @@
         </div>
 
         <div class="balance-card">
-            <div class="balance-title">Asosiy Balans</div>
+            <div class="balance-title">Mening hisobim:</div>
             <div class="balance-amount">0 <span style="font-size: 16px; color: var(--accent);">UZS</span></div>
         </div>
 
@@ -140,22 +170,20 @@
             
             <div class="pay-grid">
                 <div class="pay-method active" onclick="selectPay(this, 'uzcard')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Uzcard_logo.png/640px-Uzcard_logo.png">
-                    <span>UZCARD</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Uzcard_logo.png/640px-Uzcard_logo.png" alt="Uzcard">
                 </div>
                 <div class="pay-method" onclick="selectPay(this, 'humo')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Humo_logo.png/640px-Humo_logo.png">
-                    <span>HUMO</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Humo_logo.png/640px-Humo_logo.png" alt="Humo" style="filter: brightness(0) invert(1);">
                 </div>
                 <div class="pay-method" onclick="selectPay(this, 'bankomat')" style="border-color: var(--accent);">
-                    <i class="fas fa-money-bill-wave" style="font-size: 20px; color: var(--accent); display: block; margin-bottom: 5px;"></i>
+                    <i class="fas fa-money-bill-wave" style="font-size: 24px; color: var(--accent); display: block; margin-bottom: 5px;"></i>
                     <span>BANKOMAT</span>
                 </div>
             </div>
 
             <div style="margin-bottom: 5px; font-size: 12px; color: var(--sub-text);">Miqdorni kiriting</div>
             <div class="input-group">
-                <input type="number" id="topup-amount" class="amount-input" placeholder="0" value="10000">
+                <input type="number" id="topup-amount" class="amount-input" placeholder="0" value="15000">
                 <span class="currency-label">UZS</span>
             </div>
             <div class="pay-limits">
@@ -167,6 +195,73 @@
             <button class="main-btn" onclick="processTopup()">Davom etish</button>
         </div>
     </div>
+
+    <div id="modal-payment-instruction" class="modal-bg">
+        <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header">
+                <h2 style="margin:0; font-size: 18px;">To'lovni amalga oshirish</h2>
+                <div class="close-btn" onclick="closeModal('modal-payment-instruction')"><i class="fas fa-times"></i></div>
+            </div>
+            
+            <div class="warning-box">
+                <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> MUHIM! Quyida ko'rsatilgan summani to'lashingiz shart!</div>
+                <p class="warning-text">Hatto 1 so'm kam yoki ko'p bo'lsa ham to'lov avtomatik qabul qilinmaydi.</p>
+            </div>
+
+            <div class="timer-row">
+                <span>To'lov muddati:</span>
+                <span class="timer-val"><i class="far fa-clock"></i> <span id="payment-timer">05:00</span></span>
+            </div>
+
+            <div class="card-box">
+                <div class="card-type" id="display-card-type">Uzcard</div>
+                <div class="card-number">
+                    <span id="display-card-number">8802 5022 6036 5472</span>
+                    <i class="far fa-copy copy-icon" onclick="copyText('8802502260365472', 'Karta raqami nusxalandi!')"></i>
+                </div>
+                <div class="card-name">Admin</div>
+            </div>
+
+            <div style="margin-bottom: 5px; font-size: 12px; color: var(--sub-text);">Miqdor</div>
+            <div class="amount-box">
+                <div class="amount-val"><i class="fas fa-money-bill-wave" style="color:var(--success)"></i> <span id="display-amount">15 000</span> UZS</div>
+                <i class="far fa-copy copy-icon" onclick="copyAmount()"></i>
+            </div>
+
+            <div class="rules-title">Qanday to'lash kerak:</div>
+            <div class="rule-item rule-good">
+                <i class="fas fa-check-circle rule-icon-good"></i>
+                <div>
+                    <strong>To'g'ri:</strong><br>
+                    Aynan shu summani yuborish!
+                </div>
+            </div>
+            <div class="rule-item rule-good">
+                <i class="fas fa-check-circle rule-icon-good"></i>
+                <div>
+                    <strong>To'g'ri:</strong><br>
+                    5 Daqiqa ichida to'lov qilish!
+                </div>
+            </div>
+            <div class="rule-item rule-bad">
+                <i class="fas fa-times-circle rule-icon-bad"></i>
+                <div>
+                    <strong>Noto'g'ri:</strong><br>
+                    Boshqa summa yuborish
+                </div>
+            </div>
+            <div class="rule-item rule-bad">
+                <i class="fas fa-times-circle rule-icon-bad"></i>
+                <div>
+                    <strong>Noto'g'ri:</strong><br>
+                    Bankomatdan tashlash
+                </div>
+            </div>
+
+            <button class="main-btn" style="margin-top: 15px;" onclick="confirmPayment()">To'lov qildim</button>
+        </div>
+    </div>
+
 
     <div id="modal-buy" class="modal-bg">
         <div class="modal-content">
@@ -189,30 +284,44 @@
         tg.ready();
         tg.expand();
 
-        let currentUser = { id: '000', name: 'Baxtiyor', username: 'Baxti_dev' };
+        let currentUser = { id: 'Noma\'lum', name: 'Mijoz', username: 'Kiritilmagan' };
         let selectedPaymentMethod = 'uzcard';
+        let currentTopupAmount = 0;
+        let timerInterval;
 
-        // KATALOG BAZASI
+        // KATALOG BAZASI (Kengaytirilgan, Logolar bilan)
         const catalog = [
-            { id: 'pubg', name: 'PUBG Mobile', img: 'https://www.pubgmobile.com/common/images/icon_logo.png', prices: [
-                { amount: "60 UC", cost: "12 000" }, { amount: "325 UC", cost: "58 000" }, { amount: "660 UC", cost: "115 000" }
+            { id: 'pubg', name: 'PUBG Mobile', img: 'https://www.pubgmobile.com/common/images/icon_logo.png', hasInput: true, inputLabel: "ID raqamingizni kiriting:", prices: [
+                { amount: "60 UC", cost: "12 000" }, { amount: "325 UC", cost: "58 000" }, { amount: "660 UC", cost: "115 000" }, { amount: "1800 UC", cost: "290 000" }
             ]},
-            { id: 'ff', name: 'Free Fire', img: 'https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png', prices: [
-                { amount: "110 💎", cost: "19 000" }, { amount: "231 💎", cost: "38 000" }
+            { id: 'ff', name: 'Free Fire', img: 'https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png', hasInput: true, inputLabel: "ID raqamingizni kiriting:", prices: [
+                { amount: "110 💎", cost: "19 000" }, { amount: "231 💎", cost: "38 000" }, { amount: "583 💎", cost: "75 000" }
             ]},
-            { id: 'mlbb', name: 'Mobile Legends', img: 'https://m.mobilelegends.com/static/images/index/logo.png', prices: [
-                { amount: "86 💎", cost: "16 000" }, { amount: "172 💎", cost: "32 000" }
-            ]}
+            { id: 'mlbb', name: 'Mobile Legends', img: 'https://m.mobilelegends.com/static/images/index/logo.png', hasInput: true, inputLabel: "ID va Server raqamingizni kiriting:", prices: [
+                { amount: "86 💎", cost: "16 000" }, { amount: "172 💎", cost: "32 000" }, { amount: "257 💎", cost: "48 000" }
+            ]},
+            { id: 'roblox', name: 'Roblox', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/512px-Roblox_player_icon_black.svg.png', hasInput: true, inputLabel: "Roblox profilingiz linkini kiriting:", prices: [
+                { amount: "400 Robux", cost: "75 000" }, { amount: "800 Robux", cost: "145 000" }
+            ]},
+            { id: 'brawl', name: 'Brawl Stars', img: 'https://play-lh.googleusercontent.com/EiOAgGf0Hh4A12B20aF2FweJc0uM2oKjS16Sg_0oT7xWv8-eW2JkZq1K1wU9QZ9T8w', hasInput: true, inputLabel: "Supercell ID pochtangizni kiriting:", prices: [
+                { amount: "30 💎", cost: "25 000" }, { amount: "80 💎", cost: "65 000" }, { amount: "Brawl Pass", cost: "95 000" }
+            ]},
+            { id: 'aloqa', name: 'Uyali Aloqa', img: 'https://cdn-icons-png.flaticon.com/512/3532/3532157.png', customInputOnly: true, inputLabel: "Telefon raqamingizni kiriting (+998...):" }
         ];
 
         function initApp() {
+            // Mijoz ma'lumotlarini to'liq olish
             const u = tg.initDataUnsafe?.user;
             if (u) {
-                currentUser = { id: u.id, name: u.first_name, username: u.username ? u.username : "username_yoq" };
+                currentUser = { 
+                    id: u.id, 
+                    name: (u.first_name || '') + ' ' + (u.last_name || ''), 
+                    username: u.username ? '@' + u.username : 'Mavjud emas' 
+                };
                 if (u.photo_url) document.getElementById('u-ava').src = u.photo_url;
             }
-            document.getElementById('u-name').innerText = currentUser.name;
-            document.getElementById('u-handle').innerText = "@" + currentUser.username;
+            document.getElementById('u-name').innerText = currentUser.name.trim() || 'Mijoz';
+            document.getElementById('u-handle').innerText = currentUser.username;
 
             const grid = document.getElementById('game-grid');
             catalog.forEach(g => {
@@ -231,11 +340,6 @@
             document.querySelectorAll('.pay-method').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
             selectedPaymentMethod = method;
-
-            // Agar Bankomat tanlansa srazu ogohlantiramiz
-            if(method === 'bankomat') {
-                tg.showAlert("Bankomat orqali to'lov qilish uchun Admin bilan bog'lanasiz.");
-            }
         }
 
         function processTopup() {
@@ -243,55 +347,174 @@
             const amount = parseInt(amountInput);
             const errorMsg = document.getElementById('topup-error');
 
-            // 1. BANKOMAT TANLANSA: To'g'ridan-to'g'ri Adminga (Baxtiga) yo'naltirish
+            // 1. BANKOMAT TANLANSA: @Pain_power ga yo'naltirish
             if (selectedPaymentMethod === 'bankomat') {
-                // Telegramning rasmiy API'si orqali lichkaga o'tish
-                tg.openTelegramLink('https://t.me/Baxti_dev'); 
+                tg.openTelegramLink('https://t.me/Pain_power'); 
                 return;
             }
 
-            // 2. BOSHQA USULLAR: Summani tekshirish
+            // 2. UZCARD/HUMO: Limitlarni tekshirish va To'lov yo'riqnomasini ochish
             if (!amountInput || amount < 1000 || amount > 5000000) {
                 errorMsg.style.display = 'block';
                 return;
             }
             
             errorMsg.style.display = 'none';
+            currentTopupAmount = amount;
 
-            // To'lov so'rovini JSON shaklida botga yuborish
+            // 1-chi modalni yopib, 2-chi modalni ochish
+            closeModal('modal-topup');
+            showPaymentInstruction(amount, selectedPaymentMethod);
+        }
+
+        function showPaymentInstruction(amount, method) {
+            // Ma'lumotlarni joylash
+            document.getElementById('display-card-type').innerText = method.toUpperCase();
+            document.getElementById('display-amount').innerText = amount.toLocaleString('ru-RU');
+            
+            document.getElementById('modal-payment-instruction').style.display = 'flex';
+            
+            // Taymerni boshlash
+            startTimer(5 * 60); 
+        }
+
+        function confirmPayment() {
+            // "To'lov qildim" bosilganda botga xabar ketadi
             const topupData = {
-                action: "topup_balance",
+                action: "topup_balance_check",
                 method: selectedPaymentMethod.toUpperCase(),
-                amount: amount,
+                expected_amount: currentTopupAmount,
                 client_id: currentUser.id,
-                client_user: "@" + currentUser.username
+                client_name: currentUser.name,
+                client_user: currentUser.username
             };
 
             tg.sendData(JSON.stringify(topupData));
-            setTimeout(() => { tg.close(); }, 100);
+            tg.close();
         }
 
-        // --- XARID MANTIQI ---
+        function copyText(text, msg) {
+            navigator.clipboard.writeText(text).then(() => {
+                tg.showAlert(msg);
+            });
+        }
+
+        function copyAmount() {
+            copyText(currentTopupAmount.toString(), "Summa nusxalandi!");
+        }
+
+        function startTimer(duration) {
+            clearInterval(timerInterval);
+            let timer = duration, minutes, seconds;
+            const display = document.getElementById('payment-timer');
+            
+            timerInterval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    display.textContent = "Vaqt tugadi";
+                    display.style.color = "#8b949e";
+                }
+            }, 1000);
+        }
+
+
+        // --- XARID MANTIQI (Undefined to'g'irlandi) ---
         function openGame(id) {
             const game = catalog.find(g => g.id === id);
             document.getElementById('m-title').innerText = game.name;
             const body = document.getElementById('m-body');
             body.innerHTML = "";
-            game.prices.forEach(p => {
-                body.innerHTML += `<div class="price-row">
-                    <div><span style="font-weight:800">${p.amount}</span><br><span style="color:var(--accent);font-size:12px;">${p.cost} UZS</span></div>
-                    <button class="buy-btn" onclick="sendBuy('${game.name}', '${p.amount}', '${p.cost}')">Sotib olish</button>
-                </div>`;
-            });
+
+            // ID kiritish maydoni (agar o'yinda bo'lsa)
+            let inputHtml = "";
+            if (game.hasInput || game.customInputOnly) {
+                inputHtml = `
+                    <label class="input-label">${game.inputLabel}</label>
+                    <input type="text" id="game-uid" class="custom-input" placeholder="Bu yerga yozing...">
+                `;
+                body.innerHTML += inputHtml;
+            }
+
+            if (game.customInputOnly) {
+                // Uyali aloqa kabi erkin summa kiritiladiganlar uchun
+                body.innerHTML += `
+                    <label class="input-label">O'tkaziladigan summa (UZS):</label>
+                    <input type="number" id="custom-amount" class="custom-input" placeholder="Masalan: 20000">
+                    <button class="buy-btn" style="width:100%; padding: 15px;" onclick="sendCustomBuy('${game.name}')">To'lash</button>
+                `;
+            } else {
+                // Paketlar ro'yxati (Undefined xatosi shu yerda to'g'irlandi)
+                game.prices.forEach((p, index) => {
+                    body.innerHTML += `<div class="price-row">
+                        <div><span style="font-weight:800">${p.amount}</span><br><span style="color:var(--accent);font-size:12px;">${p.cost} UZS</span></div>
+                        <button class="buy-btn" onclick="sendBuy('${game.id}', ${index})">Sotib olish</button>
+                    </div>`;
+                });
+            }
+            
             document.getElementById('modal-buy').style.display = 'flex';
         }
 
-        function sendBuy(gName, pName, price) {
-            tg.sendData(JSON.stringify({ action: "new_order", game: gName, package: pName, price: price }));
+        // Paketli xaridlar
+        function sendBuy(gameId, priceIndex) {
+            const game = catalog.find(g => g.id === gameId);
+            const pack = game.prices[priceIndex];
+            
+            let uid = "Kiritilmagan";
+            if (game.hasInput) {
+                uid = document.getElementById('game-uid').value;
+                if (!uid) { tg.showAlert("Iltimos, ID raqamni kiriting!"); return; }
+            }
+
+            const orderData = {
+                action: "new_order",
+                game: game.name,
+                package: pack.amount,
+                price: pack.cost,
+                game_uid: uid,
+                client_id: currentUser.id,
+                client_name: currentUser.name,
+                client_user: currentUser.username
+            };
+
+            tg.sendData(JSON.stringify(orderData));
             tg.close();
         }
 
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        // Erkin summali xaridlar (Uyali aloqa)
+        function sendCustomBuy(gameName) {
+            const uid = document.getElementById('game-uid').value;
+            const amount = document.getElementById('custom-amount').value;
+            
+            if (!uid || !amount) { tg.showAlert("Iltimos, barcha maydonlarni to'ldiring!"); return; }
+
+            const orderData = {
+                action: "new_order",
+                game: gameName,
+                package: "Erkin summa",
+                price: amount,
+                game_uid: uid,
+                client_id: currentUser.id,
+                client_name: currentUser.name,
+                client_user: currentUser.username
+            };
+
+            tg.sendData(JSON.stringify(orderData));
+            tg.close();
+        }
+
+        function closeModal(id) { 
+            document.getElementById(id).style.display = 'none'; 
+            if(id === 'modal-payment-instruction') clearInterval(timerInterval);
+        }
         
         function switchPage(pageId, el) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
