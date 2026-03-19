@@ -41,4 +41,249 @@
         /* --- TARKIBIY QISMLAR --- */
         .page-content { padding-bottom: 90px; display: none; animation: fadeIn 0.3s ease-out; }
         .page-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform:
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Header */
+        .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%); }
+        .user-card { display: flex; align-items: center; gap: 12px; }
+        .user-card img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--purple); padding: 2px; }
+        .username-badge { font-size: 11px; color: var(--accent); background: rgba(0, 255, 136, 0.1); padding: 2px 6px; border-radius: 4px; margin-top: 3px; display: inline-block; }
+
+        /* Balance */
+        .balance-card { margin: 0 20px; background: linear-gradient(145deg, #1f1b4d, #110e2b); padding: 25px; border-radius: 20px; border: 1px solid rgba(108, 92, 231, 0.2); position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+        .balance-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(108,92,231,0.1) 0%, transparent 60%); pointer-events: none; }
+        .balance-title { font-size: 12px; color: var(--sub-text); text-transform: uppercase; letter-spacing: 1px; }
+        .balance-amount { font-size: 32px; font-weight: 900; margin: 5px 0; font-family: 'Courier New', monospace; letter-spacing: -1px; }
+
+        /* Grid */
+        .section-title { padding: 25px 20px 15px; font-weight: 800; color: #fff; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+        .section-title i { color: var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
+        .game-card { background: var(--card-bg); border-radius: 16px; padding: 20px 10px; text-align: center; border: 1px solid var(--border); transition: all 0.2s; position: relative; overflow: hidden; }
+        .game-card:active { transform: scale(0.96); border-color: var(--accent); background: rgba(0, 255, 136, 0.05); }
+        .game-card img { width: 65px; height: 65px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .game-card span { display: block; font-size: 13px; font-weight: 700; color: #e1e1e1; }
+
+        /* History State */
+        .empty-history { text-align: center; padding: 50px 20px; color: var(--sub-text); }
+        .empty-history i { font-size: 48px; margin-bottom: 15px; color: #333; }
+
+        /* Modals */
+        .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: flex-end; }
+        .modal-content { background: #0f131a; width: 100%; max-height: 85vh; border-radius: 25px 25px 0 0; padding: 25px 20px; display: flex; flex-direction: column; border-top: 1px solid var(--border); animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-header h2 { margin: 0; font-size: 20px; }
+        .close-btn { background: #1c2128; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        
+        .price-list { overflow-y: auto; padding-bottom: 20px; }
+        .price-row { background: var(--card-bg); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border: 1px solid var(--border); transition: 0.2s; }
+        .price-row:active { border-color: var(--purple); }
+        
+        .val-amount { font-weight: 800; font-size: 15px; display: block; }
+        .val-cost { color: var(--accent); font-size: 12px; font-weight: 600; }
+        .buy-btn { background: linear-gradient(90deg, var(--accent), #00cc6a); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 900; font-size: 12px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(0,255,136,0.2); }
+
+        .custom-input { width: 100%; background: #0a0c10; border: 1px solid var(--purple); color: white; padding: 18px; border-radius: 15px; font-size: 16px; margin-bottom: 15px; outline: none; }
+        .custom-input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(0,255,136,0.2); }
+
+        /* Nav */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11, 14, 20, 0.95); backdrop-filter: blur(10px); display: flex; padding: 12px 0 25px; border-top: 1px solid var(--border); z-index: 1000; }
+        .nav-item { flex: 1; text-align: center; color: var(--sub-text); font-size: 11px; font-weight: 600; transition: 0.3s; cursor: pointer; }
+        .nav-item.active { color: var(--accent); transform: translateY(-3px); }
+        .nav-item i { display: block; font-size: 22px; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-particles"></div>
+    <div class="geo-shape shape-1"></div>
+    <div class="geo-shape shape-2"></div>
+
+    <div id="page-home" class="page-content active">
+        <div class="header">
+            <div class="user-card">
+                <img id="u-ava" src="https://ui-avatars.com/api/?name=B&background=222&color=fff">
+                <div>
+                    <div id="u-name" style="font-weight: 800; font-size: 16px;">Aniqlanmoqda...</div>
+                    <div class="username-badge" id="u-handle">@username</div>
+                </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 12px; font-weight: bold;">
+                <i class="fas fa-wallet" style="color: var(--purple);"></i>
+            </div>
+        </div>
+
+        <div class="power-line">
+            <div class="power-node"></div>
+            <div class="power-beam"></div>
+            <div class="power-node" style="animation-delay: 1s;"></div>
+        </div>
+
+        <div class="balance-card">
+            <div class="balance-title">Asosiy Balans</div>
+            <div class="balance-amount">0 <span style="font-size: 16px; color: var(--accent);">UZS</span></div>
+        </div>
+
+        <div class="section-title"><i class="fas fa-fire"></i> Katalog</div>
+        <div class="grid" id="game-grid"></div>
+    </div>
+
+    <div id="page-history" class="page-content">
+        <div class="header">
+            <h2 style="margin:0; font-size: 20px;">Xaridlar tarixi</h2>
+        </div>
+        <div class="empty-history">
+            <i class="fas fa-box-open"></i>
+            <h3>Hozircha tarix bo'sh</h3>
+            <p>Siz hali hech qanday xarid amalga oshirmadingiz.</p>
+        </div>
+    </div>
+
+    <div id="modal-buy" class="modal-bg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="m-title">Mahsulot</h2>
+                <div class="close-btn" onclick="closeM()"><i class="fas fa-times"></i></div>
+            </div>
+            <div class="price-list" id="m-body"></div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchPage('home', this)"><i class="fas fa-home"></i>Asosiy</div>
+        <div class="nav-item" onclick="switchPage('history', this)"><i class="fas fa-history"></i>Tarix</div>
+        <div class="nav-item" onclick="tg.showAlert('Admin paneli va sozlamalar bot ichida mavjud.')"><i class="fas fa-cog"></i>Sozlamalar</div>
+    </nav>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        // VALYUTALAR BAZASI (Kengaytirilgan)
+        const catalog = [
+            { id: 'pubg', name: 'PUBG Mobile', img: 'https://www.pubgmobile.com/common/images/icon_logo.png', prices: [
+                { amount: "60 UC", cost: "12 000" }, { amount: "325 UC", cost: "58 000" }, 
+                { amount: "660 UC", cost: "115 000" }, { amount: "1320 UC", cost: "230 000" },
+                { amount: "1800 UC", cost: "290 000" }, { amount: "3850 UC", cost: "580 000" },
+                { amount: "8100 UC", cost: "1 150 000" }
+            ]},
+            { id: 'ff', name: 'Free Fire', img: 'https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png', prices: [
+                { amount: "110 💎", cost: "19 000" }, { amount: "231 💎", cost: "38 000" }, 
+                { amount: "583 💎", cost: "75 000" }, { amount: "1188 💎", cost: "145 000" },
+                { amount: "2420 💎", cost: "290 000" }
+            ]},
+            { id: 'mlbb', name: 'Mobile Legends', img: 'https://m.mobilelegends.com/static/images/index/logo.png', prices: [
+                { amount: "86 💎", cost: "16 000" }, { amount: "172 💎", cost: "32 000" }, 
+                { amount: "257 💎", cost: "48 000" }, { amount: "514 💎", cost: "95 000" },
+                { amount: "706 💎", cost: "130 000" }
+            ]},
+            { id: 'roblox', name: 'Roblox', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/512px-Roblox_player_icon_black.svg.png', prices: [
+                { amount: "400 Robux", cost: "75 000" }, { amount: "800 Robux", cost: "145 000" }
+            ]},
+            { id: 'tg', name: 'Telegram Premium', img: 'https://cdn-icons-png.flaticon.com/512/5968/5968804.png', prices: [
+                { amount: "1 Oylik", cost: "45 000" }, { amount: "1 Yillik", cost: "380 000" }
+            ]},
+            { id: 'aloqa', name: 'Uyali Aloqa', img: 'https://cdn-icons-png.flaticon.com/512/3532/3532157.png', custom: true }
+        ];
+
+        let currentUser = { id: '000', name: 'Baxtiyor', username: 'Baxti_dev' };
+
+        function initApp() {
+            // PROFIL MA'LUMOTLARINI OLISH (@username bilan)
+            const u = tg.initDataUnsafe?.user;
+            if (u) {
+                currentUser = { 
+                    id: u.id, 
+                    name: u.first_name + (u.last_name ? " " + u.last_name : ""), 
+                    username: u.username ? u.username : "username_yoq" 
+                };
+                if (u.photo_url) document.getElementById('u-ava').src = u.photo_url;
+            }
+            
+            document.getElementById('u-name').innerText = currentUser.name;
+            document.getElementById('u-handle').innerText = "@" + currentUser.username;
+
+            // KATALOGNI CHIZISH
+            const grid = document.getElementById('game-grid');
+            catalog.forEach(game => {
+                grid.innerHTML += `
+                    <div class="game-card" onclick="openGame('${game.id}')">
+                        <img src="${game.img}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/8002/8002123.png'">
+                        <span>${game.name}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // MAHSULOT MODALINI OCHISH
+        function openGame(id) {
+            const game = catalog.find(g => g.id === id);
+            document.getElementById('m-title').innerText = game.name;
+            const body = document.getElementById('m-body');
+            body.innerHTML = "";
+
+            if (game.custom) {
+                body.innerHTML = `
+                    <p style="color:var(--sub-text); margin-top:0;">O'tkazmoqchi bo'lgan summani yozing:</p>
+                    <input type="number" id="c-sum" class="custom-input" placeholder="Summa (masalan: 20000)">
+                    <button class="buy-btn" style="width:100%; padding:18px; font-size: 14px;" onclick="processOrder('${game.name}', document.getElementById('c-sum').value + ' so\\'m', document.getElementById('c-sum').value)">TASDIQLASH</button>
+                `;
+            } else {
+                game.prices.forEach(p => {
+                    // Parametrlarni toza va aniq yuborish (undefined xatosini oldini oladi)
+                    body.innerHTML += `
+                        <div class="price-row">
+                            <div>
+                                <span class="val-amount">${p.amount}</span>
+                                <span class="val-cost">${p.cost} UZS</span>
+                            </div>
+                            <button class="buy-btn" onclick="processOrder('${game.name}', '${p.amount}', '${p.cost}')">Sotib olish</button>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('modal-buy').style.display = 'flex';
+        }
+
+        // XARIDNI BOTGA YUBORISH (Eng muhim qism)
+        function processOrder(gameName, packageName, priceValue) {
+            if(!packageName || packageName.trim() === "so'm") {
+                tg.showAlert("Iltimos, summani kiriting!");
+                return;
+            }
+
+            // Botga yuboriladigan toza obyekt (JSON)
+            const orderData = {
+                action: "new_order",
+                game: gameName,       // Masalan: "PUBG Mobile"
+                package: packageName, // Masalan: "60 UC"
+                price: priceValue,    // Masalan: "12 000"
+                client_id: currentUser.id,
+                client_user: "@" + currentUser.username
+            };
+
+            // Obyektni string (matn) holatiga keltirib jo'natamiz
+            tg.sendData(JSON.stringify(orderData));
+            
+            // Xarid ketgach oynani yopish
+            setTimeout(() => { tg.close(); }, 150);
+        }
+
+        function closeM() { document.getElementById('modal-buy').style.display = 'none'; }
+
+        // SAHIFALARNI ALMASHTIRISH (Tarix va Asosiy)
+        function switchPage(pageId, el) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        initApp();
+    </script>
+</body>
+</html>
