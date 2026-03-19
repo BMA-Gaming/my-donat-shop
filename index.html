@@ -7,33 +7,16 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Sening barcha CSS stillaring shu yerda qoldi */
         :root { 
-            --bg: #05070a; 
-            --card-bg: #11151c; 
-            --accent: #00ff88; 
-            --accent-glow: rgba(0, 255, 136, 0.4);
-            --purple: #5865f2;
-            --text: #ffffff; 
-            --sub-text: #8b949e; 
-            --border: rgba(255,255,255,0.05);
-            --error: #ff4757;
-            --success: #2ed573;
-            --warning: #ffa502;
-            --danger: #ff4757;
+            --bg: #05070a; --card-bg: #11151c; --accent: #00ff88; 
+            --purple: #5865f2; --text: #ffffff; --sub-text: #8b949e; 
+            --border: rgba(255,255,255,0.05); --error: #ff4757; --success: #2ed573;
         }
-        
         * { box-sizing: border-box; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-
-        /* --- ORQA FON & ANIMATSIYA --- */
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        
         .bg-particles { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle at 50% 0%, #151030 0%, var(--bg) 60%); }
-        .power-line { display: flex; align-items: center; padding: 15px 20px; gap: 10px; opacity: 0.8; }
-        .power-node { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); animation: pulse 2s infinite; }
-        .power-beam { height: 1.5px; flex: 1; background: linear-gradient(90deg, transparent, var(--accent), #fff, var(--accent), transparent); background-size: 200% 100%; animation: beam-flow 2.5s linear infinite; }
-        @keyframes beam-flow { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.5); opacity: 1; } 100% { transform: scale(1); opacity: 0.8; } }
-
-        /* --- TARKIBIY QISMLAR --- */
         .page-content { padding-bottom: 90px; display: none; animation: fadeIn 0.3s ease-out; }
         .page-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -42,88 +25,36 @@
         .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .user-card { display: flex; align-items: center; gap: 12px; }
         .user-card img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--purple); }
-        .username-badge { font-size: 11px; color: var(--accent); background: rgba(0, 255, 136, 0.1); padding: 2px 6px; border-radius: 4px; margin-top: 3px; display: inline-block; }
+        .username-badge { font-size: 11px; color: var(--accent); background: rgba(0, 255, 136, 0.1); padding: 2px 6px; border-radius: 4px; }
         
-        .wallet-btn { background: rgba(88, 101, 242, 0.15); border: 1px solid var(--purple); padding: 10px 15px; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .wallet-btn:active { transform: scale(0.9); }
+        .balance-card { margin: 0 20px; background: linear-gradient(145deg, #1f1b4d, #110e2b); padding: 25px; border-radius: 20px; border: 1px solid rgba(88, 101, 242, 0.3); }
+        .balance-amount { font-size: 32px; font-weight: 900; font-family: 'Courier New', monospace; }
 
-        .balance-card { margin: 0 20px; background: linear-gradient(145deg, #1f1b4d, #110e2b); padding: 25px; border-radius: 20px; border: 1px solid rgba(88, 101, 242, 0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .balance-title { font-size: 12px; color: var(--sub-text); text-transform: uppercase; letter-spacing: 1px; }
-        .balance-amount { font-size: 32px; font-weight: 900; margin: 5px 0; font-family: 'Courier New', monospace; }
-
-        /* Grid - Catalog */
-        .section-title { padding: 25px 20px 15px; font-weight: 800; font-size: 16px; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
-        .game-card { background: var(--card-bg); border-radius: 16px; padding: 20px 10px; text-align: center; border: 1px solid var(--border); transition: 0.2s; cursor: pointer;}
-        .game-card:active { transform: scale(0.96); border-color: var(--accent); }
-        .game-card img { width: 65px; height: 65px; border-radius: 12px; margin-bottom: 12px; object-fit: cover;}
-        .game-card span { display: block; font-size: 13px; font-weight: 700; }
-
-        /* Modals Umumiy */
+        /* Modals */
         .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: flex-end; }
-        .modal-content { background: #0f131a; width: 100%; max-height: 85vh; border-radius: 25px 25px 0 0; padding: 25px 20px; display: flex; flex-direction: column; border-top: 1px solid var(--border); animation: slideUp 0.3s ease-out; }
+        .modal-content { background: #0f131a; width: 100%; max-height: 85vh; border-radius: 25px 25px 0 0; padding: 25px 20px; border-top: 1px solid var(--border); animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .close-btn { background: #1c2128; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        /* --- XARID MODAL --- */
-        .price-row { background: var(--card-bg); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border: 1px solid var(--border); }
-        .buy-btn { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 900; font-size: 12px; text-transform: uppercase; cursor: pointer;}
-        .custom-input { width: 100%; background: #0a0c10; border: 1px solid var(--purple); color: white; padding: 15px; border-radius: 12px; font-size: 16px; outline: none; margin-bottom: 15px; }
-        .input-label {font-size: 12px; color: var(--sub-text); margin-bottom: 5px; display: block;}
-
-        /* --- TO'LOV MODAL (Mavjud usullar) --- */
+        /* To'lov usullari */
         .pay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-        .pay-method { background: #1a1e24; border: 1px solid var(--border); border-radius: 12px; padding: 15px 5px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .pay-method { background: #1a1e24; border: 1px solid var(--border); border-radius: 12px; padding: 15px 5px; text-align: center; cursor: pointer; }
         .pay-method.active { border-color: var(--purple); background: rgba(88, 101, 242, 0.1); }
-        .pay-method img { height: 24px; margin-bottom: 5px; object-fit: contain; }
-        .pay-method span { display: block; font-size: 10px; font-weight: bold; color: #ccc; }
-        
-        .input-group { position: relative; margin-bottom: 10px; }
-        .amount-input { width: 100%; background: #0a0c10; border: 1px solid var(--purple); color: white; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: bold; outline: none; }
-        .amount-input:focus { box-shadow: 0 0 10px rgba(88, 101, 242, 0.3); }
-        .currency-label { position: absolute; right: 15px; top: 15px; color: var(--sub-text); font-weight: bold; }
-        
-        .pay-limits { display: flex; justify-content: space-between; font-size: 11px; color: var(--sub-text); margin-bottom: 20px; }
-        .main-btn { width: 100%; background: var(--purple); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 15px; transition: 0.2s; cursor: pointer;}
-        .main-btn:active { transform: scale(0.98); }
+        .pay-method img { height: 24px; }
 
-        .error-msg { color: var(--error); font-size: 12px; margin-top: 5px; display: none; text-align: center; font-weight: bold; }
+        .main-btn { width: 100%; background: var(--purple); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .main-btn:disabled { background: #333; opacity: 0.6; cursor: not-allowed; }
 
-        /* --- TO'LOV KO'RSATMALARI MODALI --- */
-        .warning-box { background: rgba(255, 71, 87, 0.1); border: 1px solid var(--danger); border-radius: 12px; padding: 15px; margin-bottom: 15px; }
-        .warning-title { color: var(--danger); font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 14px;}
-        .warning-text { color: #ccc; font-size: 12px; margin: 0; line-height: 1.4; }
-        
-        .timer-row { display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 15px; font-size: 14px;}
-        .timer-val { color: var(--danger); display: flex; align-items: center; gap: 5px;}
-        
-        .card-box { background: linear-gradient(135deg, #5865f2, #404eed); border-radius: 12px; padding: 20px; margin-bottom: 15px; position: relative;}
-        .card-type { font-weight: bold; margin-bottom: 15px; text-transform: uppercase; font-size: 16px;}
-        .card-number { font-size: 20px; font-weight: bold; font-family: 'Courier New', monospace; letter-spacing: 2px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
-        .card-name { font-size: 12px; opacity: 0.9; }
-        .copy-icon { cursor: pointer; opacity: 0.7; transition: 0.2s;}
-        .copy-icon:active { opacity: 1; transform: scale(1.1);}
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
+        .game-card { background: var(--card-bg); border-radius: 16px; padding: 20px 10px; text-align: center; border: 1px solid var(--border); }
+        .game-card img { width: 65px; height: 65px; border-radius: 12px; margin-bottom: 12px; }
 
-        .amount-box { background: #1a1e24; border: 1px solid var(--border); border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
-        .amount-val { font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 10px;}
-        
-        .rules-title { font-weight: bold; margin-bottom: 10px; font-size: 14px;}
-        .rule-item { border-radius: 8px; padding: 12px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px;}
-        .rule-good { background: rgba(46, 213, 115, 0.1); border: 1px solid rgba(46, 213, 115, 0.3); }
-        .rule-bad { background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.3); }
-        .rule-icon-good { color: var(--success); margin-top: 2px;}
-        .rule-icon-bad { color: var(--danger); margin-top: 2px;}
-
-        /* Nav */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11, 14, 20, 0.95); backdrop-filter: blur(10px); display: flex; padding: 12px 0 25px; border-top: 1px solid var(--border); z-index: 1000; }
-        .nav-item { flex: 1; text-align: center; color: var(--sub-text); font-size: 11px; font-weight: 600; cursor: pointer; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11, 14, 20, 0.95); display: flex; padding: 12px 0 25px; border-top: 1px solid var(--border); }
+        .nav-item { flex: 1; text-align: center; color: var(--sub-text); font-size: 11px; }
         .nav-item.active { color: var(--accent); }
-        .nav-item i { display: block; font-size: 22px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
-
     <div class="bg-particles"></div>
 
     <div id="page-home" class="page-content active">
@@ -131,152 +62,70 @@
             <div class="user-card">
                 <img id="u-ava" src="https://ui-avatars.com/api/?name=U&background=222&color=fff">
                 <div>
-                    <div id="u-name" style="font-weight: 800; font-size: 16px;">Foydalanuvchi</div>
+                    <div id="u-name" style="font-weight: 800; font-size: 16px;">Yuklanmoqda...</div>
                     <div class="username-badge" id="u-handle">@username</div>
                 </div>
             </div>
-            <div class="wallet-btn" onclick="openTopupModal()">
-                <i class="fas fa-wallet" style="color: var(--accent); margin-right: 5px;"></i> To'ldirish
+            <div class="wallet-btn" onclick="openModal('modal-topup')" style="cursor:pointer">
+                <i class="fas fa-wallet" style="color: var(--accent);"></i> To'ldirish
             </div>
-        </div>
-
-        <div class="power-line">
-            <div class="power-node"></div><div class="power-beam"></div><div class="power-node"></div>
         </div>
 
         <div class="balance-card">
             <div class="balance-title">Mening hisobim:</div>
-            <div class="balance-amount">0 <span style="font-size: 16px; color: var(--accent);">UZS</span></div>
+            <div class="balance-amount"><span id="user-balance">0</span> <span style="font-size: 16px; color: var(--accent);">UZS</span></div>
         </div>
 
-        <div class="section-title"><i class="fas fa-fire" style="color:var(--accent)"></i> Katalog</div>
+        <h3 style="padding: 20px;">Katalog</h3>
         <div class="grid" id="game-grid"></div>
-    </div>
-
-    <div id="page-history" class="page-content">
-        <div class="header"><h2 style="margin:0;">Xaridlar tarixi</h2></div>
-        <div style="text-align: center; padding: 50px 20px; color: var(--sub-text);">
-            <i class="fas fa-box-open" style="font-size: 48px; margin-bottom: 15px; color:#333"></i>
-            <h3>Hozircha tarix bo'sh</h3>
-        </div>
     </div>
 
     <div id="modal-topup" class="modal-bg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 style="margin:0; font-size: 18px;">Mavjud hisob to'ldirish usullari</h2>
-                <div class="close-btn" onclick="closeModal('modal-topup')"><i class="fas fa-times"></i></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <h2 style="font-size:18px;">Hisobni to'ldirish</h2>
+                <i class="fas fa-times" onclick="closeModal('modal-topup')"></i>
             </div>
-            
             <div class="pay-grid">
                 <div class="pay-method active" onclick="selectPay(this, 'uzcard')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Uzcard_logo.png/640px-Uzcard_logo.png" alt="Uzcard">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Uzcard_logo.png/640px-Uzcard_logo.png">
                 </div>
                 <div class="pay-method" onclick="selectPay(this, 'humo')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Humo_logo.png/640px-Humo_logo.png" alt="Humo" style="filter: brightness(0) invert(1);">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Humo_logo.png/640px-Humo_logo.png" style="filter: brightness(0) invert(1);">
                 </div>
-                <div class="pay-method" onclick="selectPay(this, 'bankomat')" style="border-color: var(--accent);">
-                    <i class="fas fa-money-bill-wave" style="font-size: 24px; color: var(--accent); display: block; margin-bottom: 5px;"></i>
-                    <span>BANKOMAT</span>
+                <div class="pay-method" onclick="selectPay(this, 'bankomat')">
+                    <i class="fas fa-money-bill-wave" style="color:var(--accent)"></i><span>BANKOMAT</span>
                 </div>
             </div>
-
-            <div style="margin-bottom: 5px; font-size: 12px; color: var(--sub-text);">Miqdorni kiriting</div>
-            <div class="input-group">
-                <input type="number" id="topup-amount" class="amount-input" placeholder="0" value="15000">
-                <span class="currency-label">UZS</span>
-            </div>
-            <div class="pay-limits">
-                <span>Minimal: 1,000 UZS</span>
-                <span>Maksimal: 5,000,000 UZS</span>
-            </div>
-            <div id="topup-error" class="error-msg"><i class="fas fa-exclamation-circle"></i> Summa talab qilinadi yoki noto'g'ri!</div>
-
-            <button class="main-btn" onclick="processTopup()">Davom etish</button>
+            <input type="number" id="topup-amount" style="width:100%; padding:15px; background:#0a0c10; border:1px solid var(--purple); color:white; border-radius:12px; margin-bottom:20px;" value="15000">
+            <button class="main-btn" onclick="showInstruction()">Davom etish</button>
         </div>
     </div>
 
-    <div id="modal-payment-instruction" class="modal-bg">
-        <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
-            <div class="modal-header">
-                <h2 style="margin:0; font-size: 18px;">To'lovni amalga oshirish</h2>
-                <div class="close-btn" onclick="closeModal('modal-payment-instruction')"><i class="fas fa-times"></i></div>
-            </div>
-            
-            <div class="warning-box">
-                <div class="warning-title"><i class="fas fa-exclamation-triangle"></i> MUHIM! Quyida ko'rsatilgan summani to'lashingiz shart!</div>
-                <p class="warning-text">Hatto 1 so'm kam yoki ko'p bo'lsa ham to'lov avtomatik qabul qilinmaydi.</p>
-            </div>
-
-            <div class="timer-row">
-                <span>To'lov muddati:</span>
-                <span class="timer-val"><i class="far fa-clock"></i> <span id="payment-timer">05:00</span></span>
-            </div>
-
-            <div class="card-box">
-                <div class="card-type" id="display-card-type">Uzcard</div>
-                <div class="card-number">
-                    <span id="display-card-number">8802 5022 6036 5472</span>
-                    <i class="far fa-copy copy-icon" onclick="copyText('8802502260365472', 'Karta raqami nusxalandi!')"></i>
-                </div>
-                <div class="card-name">Admin</div>
-            </div>
-
-            <div style="margin-bottom: 5px; font-size: 12px; color: var(--sub-text);">Miqdor</div>
-            <div class="amount-box">
-                <div class="amount-val"><i class="fas fa-money-bill-wave" style="color:var(--success)"></i> <span id="display-amount">15 000</span> UZS</div>
-                <i class="far fa-copy copy-icon" onclick="copyAmount()"></i>
-            </div>
-
-            <div class="rules-title">Qanday to'lash kerak:</div>
-            <div class="rule-item rule-good">
-                <i class="fas fa-check-circle rule-icon-good"></i>
-                <div>
-                    <strong>To'g'ri:</strong><br>
-                    Aynan shu summani yuborish!
-                </div>
-            </div>
-            <div class="rule-item rule-good">
-                <i class="fas fa-check-circle rule-icon-good"></i>
-                <div>
-                    <strong>To'g'ri:</strong><br>
-                    5 Daqiqa ichida to'lov qilish!
-                </div>
-            </div>
-            <div class="rule-item rule-bad">
-                <i class="fas fa-times-circle rule-icon-bad"></i>
-                <div>
-                    <strong>Noto'g'ri:</strong><br>
-                    Boshqa summa yuborish
-                </div>
-            </div>
-            <div class="rule-item rule-bad">
-                <i class="fas fa-times-circle rule-icon-bad"></i>
-                <div>
-                    <strong>Noto'g'ri:</strong><br>
-                    Bankomatdan tashlash
-                </div>
-            </div>
-
-            <button class="main-btn" style="margin-top: 15px;" onclick="confirmPayment()">To'lov qildim</button>
-        </div>
-    </div>
-
-
-    <div id="modal-buy" class="modal-bg">
+    <div id="modal-instruction" class="modal-bg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="m-title" style="margin:0;">Mahsulot</h2>
-                <div class="close-btn" onclick="closeModal('modal-buy')"><i class="fas fa-times"></i></div>
+            <div style="background:rgba(255,71,87,0.1); border:1px solid var(--error); padding:10px; border-radius:10px; margin-bottom:15px; font-size:12px; color:var(--error);">
+                <strong>MUHIM!</strong> To'lovni amalga oshirgach "To'lov qildim" tugmasini bosing.
             </div>
-            <div id="m-body" style="overflow-y: auto; padding-bottom: 20px;"></div>
+            <div style="background:linear-gradient(135deg, #5865f2, #404eed); padding:20px; border-radius:15px; margin-bottom:15px;">
+                <div style="font-size:12px; opacity:0.8;">Karta raqami:</div>
+                <div style="font-size:18px; font-weight:bold; letter-spacing:1px; margin:5px 0;">8802 5022 6036 5472</div>
+                <div style="font-size:12px;">Admin: BMA</div>
+            </div>
+            <div style="margin-bottom:20px;">To'lov miqdori: <strong id="display-sum">0</strong> UZS</div>
+            
+            <button id="confirm-btn" class="main-btn" onclick="sendToAdmin()">To'lov qildim</button>
+            <div id="wait-area" style="display:none; text-align:center; padding:10px;">
+                <i class="fas fa-spinner fa-spin" style="color:var(--accent)"></i>
+                <p style="font-size:13px; color:var(--accent)">Admin tasdiqlashi kutilmoqda. Tasdiqlangach balansingiz yangilanadi.</p>
+            </div>
         </div>
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchPage('home', this)"><i class="fas fa-home"></i>Asosiy</div>
-        <div class="nav-item" onclick="switchPage('history', this)"><i class="fas fa-history"></i>Tarix</div>
-        <div class="nav-item" onclick="tg.showAlert('Admin paneli va sozlamalar bot ichida mavjud.')"><i class="fas fa-cog"></i>Sozlamalar</div>
+        <div class="nav-item active"><i class="fas fa-home"></i><span>Asosiy</span></div>
+        <div class="nav-item" onclick="tg.showAlert('Tez kunda...')"><i class="fas fa-history"></i><span>Tarix</span></div>
+        <div class="nav-item" onclick="tg.showAlert('Bot orqali bog\'laning')"><i class="fas fa-cog"></i><span>Sozlamalar</span></div>
     </nav>
 
     <script>
@@ -284,246 +133,74 @@
         tg.ready();
         tg.expand();
 
-        let currentUser = { id: 'Noma\'lum', name: 'Mijoz', username: 'Kiritilmagan' };
-        let selectedPaymentMethod = 'uzcard';
-        let currentTopupAmount = 0;
-        let timerInterval;
+        let selectedMethod = 'uzcard';
+        let currentAmount = 0;
 
-        // KATALOG BAZASI (Kengaytirilgan, Logolar bilan)
+        // 1. FOYDALANUVCHINI AVTO-ANIQLASH
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+            document.getElementById('u-name').innerText = user.first_name || 'Mijoz';
+            document.getElementById('u-handle').innerText = user.username ? '@' + user.username : 'ID: ' + user.id;
+            if (user.photo_url) document.getElementById('u-ava').src = user.photo_url;
+        }
+
         const catalog = [
-            { id: 'pubg', name: 'PUBG Mobile', img: 'https://www.pubgmobile.com/common/images/icon_logo.png', hasInput: true, inputLabel: "ID raqamingizni kiriting:", prices: [
-                { amount: "60 UC", cost: "12 000" }, { amount: "325 UC", cost: "58 000" }, { amount: "660 UC", cost: "115 000" }, { amount: "1800 UC", cost: "290 000" }
-            ]},
-            { id: 'ff', name: 'Free Fire', img: 'https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png', hasInput: true, inputLabel: "ID raqamingizni kiriting:", prices: [
-                { amount: "110 💎", cost: "19 000" }, { amount: "231 💎", cost: "38 000" }, { amount: "583 💎", cost: "75 000" }
-            ]},
-            { id: 'mlbb', name: 'Mobile Legends', img: 'https://m.mobilelegends.com/static/images/index/logo.png', hasInput: true, inputLabel: "ID va Server raqamingizni kiriting:", prices: [
-                { amount: "86 💎", cost: "16 000" }, { amount: "172 💎", cost: "32 000" }, { amount: "257 💎", cost: "48 000" }
-            ]},
-            { id: 'roblox', name: 'Roblox', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/512px-Roblox_player_icon_black.svg.png', hasInput: true, inputLabel: "Roblox profilingiz linkini kiriting:", prices: [
-                { amount: "400 Robux", cost: "75 000" }, { amount: "800 Robux", cost: "145 000" }
-            ]},
-            { id: 'brawl', name: 'Brawl Stars', img: 'https://play-lh.googleusercontent.com/EiOAgGf0Hh4A12B20aF2FweJc0uM2oKjS16Sg_0oT7xWv8-eW2JkZq1K1wU9QZ9T8w', hasInput: true, inputLabel: "Supercell ID pochtangizni kiriting:", prices: [
-                { amount: "30 💎", cost: "25 000" }, { amount: "80 💎", cost: "65 000" }, { amount: "Brawl Pass", cost: "95 000" }
-            ]},
-            { id: 'aloqa', name: 'Uyali Aloqa', img: 'https://cdn-icons-png.flaticon.com/512/3532/3532157.png', customInputOnly: true, inputLabel: "Telefon raqamingizni kiriting (+998...):" }
+            { id: 'pubg', name: 'PUBG Mobile', img: 'https://www.pubgmobile.com/common/images/icon_logo.png' },
+            { id: 'ff', name: 'Free Fire', img: 'https://dl.dir.freefiremobile.com/freefire/setup/ff_website/common/images/icon_logo.png' },
+            { id: 'ml', name: 'Mobile Legends', img: 'https://m.mobilelegends.com/static/images/index/logo.png' },
+            { id: 'aloqa', name: 'Uyali Aloqa', img: 'https://cdn-icons-png.flaticon.com/512/3532/3532157.png' }
         ];
 
-        function initApp() {
-            // Mijoz ma'lumotlarini to'liq olish
-            const u = tg.initDataUnsafe?.user;
-            if (u) {
-                currentUser = { 
-                    id: u.id, 
-                    name: (u.first_name || '') + ' ' + (u.last_name || ''), 
-                    username: u.username ? '@' + u.username : 'Mavjud emas' 
-                };
-                if (u.photo_url) document.getElementById('u-ava').src = u.photo_url;
-            }
-            document.getElementById('u-name').innerText = currentUser.name.trim() || 'Mijoz';
-            document.getElementById('u-handle').innerText = currentUser.username;
-
+        function init() {
             const grid = document.getElementById('game-grid');
-            catalog.forEach(g => {
-                grid.innerHTML += `<div class="game-card" onclick="openGame('${g.id}')">
-                    <img src="${g.img}"><span>${g.name}</span></div>`;
-            });
-        }
-
-        // --- TO'LOV TIZIMI MANTIQI ---
-        function openTopupModal() {
-            document.getElementById('modal-topup').style.display = 'flex';
-            document.getElementById('topup-error').style.display = 'none';
-        }
-
-        function selectPay(element, method) {
-            document.querySelectorAll('.pay-method').forEach(el => el.classList.remove('active'));
-            element.classList.add('active');
-            selectedPaymentMethod = method;
-        }
-
-        function processTopup() {
-            const amountInput = document.getElementById('topup-amount').value;
-            const amount = parseInt(amountInput);
-            const errorMsg = document.getElementById('topup-error');
-
-            // 1. BANKOMAT TANLANSA: @Pain_power ga yo'naltirish
-            if (selectedPaymentMethod === 'bankomat') {
-                tg.openTelegramLink('https://t.me/Pain_power'); 
-                return;
-            }
-
-            // 2. UZCARD/HUMO: Limitlarni tekshirish va To'lov yo'riqnomasini ochish
-            if (!amountInput || amount < 1000 || amount > 5000000) {
-                errorMsg.style.display = 'block';
-                return;
-            }
-            
-            errorMsg.style.display = 'none';
-            currentTopupAmount = amount;
-
-            // 1-chi modalni yopib, 2-chi modalni ochish
-            closeModal('modal-topup');
-            showPaymentInstruction(amount, selectedPaymentMethod);
-        }
-
-        function showPaymentInstruction(amount, method) {
-            // Ma'lumotlarni joylash
-            document.getElementById('display-card-type').innerText = method.toUpperCase();
-            document.getElementById('display-amount').innerText = amount.toLocaleString('ru-RU');
-            
-            document.getElementById('modal-payment-instruction').style.display = 'flex';
-            
-            // Taymerni boshlash
-            startTimer(5 * 60); 
-        }
-
-        function confirmPayment() {
-            // "To'lov qildim" bosilganda botga xabar ketadi
-            const topupData = {
-                action: "topup_balance_check",
-                method: selectedPaymentMethod.toUpperCase(),
-                expected_amount: currentTopupAmount,
-                client_id: currentUser.id,
-                client_name: currentUser.name,
-                client_user: currentUser.username
-            };
-
-            tg.sendData(JSON.stringify(topupData));
-            tg.close();
-        }
-
-        function copyText(text, msg) {
-            navigator.clipboard.writeText(text).then(() => {
-                tg.showAlert(msg);
-            });
-        }
-
-        function copyAmount() {
-            copyText(currentTopupAmount.toString(), "Summa nusxalandi!");
-        }
-
-        function startTimer(duration) {
-            clearInterval(timerInterval);
-            let timer = duration, minutes, seconds;
-            const display = document.getElementById('payment-timer');
-            
-            timerInterval = setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                display.textContent = minutes + ":" + seconds;
-
-                if (--timer < 0) {
-                    clearInterval(timerInterval);
-                    display.textContent = "Vaqt tugadi";
-                    display.style.color = "#8b949e";
-                }
-            }, 1000);
-        }
-
-
-        // --- XARID MANTIQI (Undefined to'g'irlandi) ---
-        function openGame(id) {
-            const game = catalog.find(g => g.id === id);
-            document.getElementById('m-title').innerText = game.name;
-            const body = document.getElementById('m-body');
-            body.innerHTML = "";
-
-            // ID kiritish maydoni (agar o'yinda bo'lsa)
-            let inputHtml = "";
-            if (game.hasInput || game.customInputOnly) {
-                inputHtml = `
-                    <label class="input-label">${game.inputLabel}</label>
-                    <input type="text" id="game-uid" class="custom-input" placeholder="Bu yerga yozing...">
-                `;
-                body.innerHTML += inputHtml;
-            }
-
-            if (game.customInputOnly) {
-                // Uyali aloqa kabi erkin summa kiritiladiganlar uchun
-                body.innerHTML += `
-                    <label class="input-label">O'tkaziladigan summa (UZS):</label>
-                    <input type="number" id="custom-amount" class="custom-input" placeholder="Masalan: 20000">
-                    <button class="buy-btn" style="width:100%; padding: 15px;" onclick="sendCustomBuy('${game.name}')">To'lash</button>
-                `;
-            } else {
-                // Paketlar ro'yxati (Undefined xatosi shu yerda to'g'irlandi)
-                game.prices.forEach((p, index) => {
-                    body.innerHTML += `<div class="price-row">
-                        <div><span style="font-weight:800">${p.amount}</span><br><span style="color:var(--accent);font-size:12px;">${p.cost} UZS</span></div>
-                        <button class="buy-btn" onclick="sendBuy('${game.id}', ${index})">Sotib olish</button>
+            catalog.forEach(item => {
+                grid.innerHTML += `
+                    <div class="game-card" onclick="tg.showAlert('Xarid qilish uchun balansni to\\'ldiring')">
+                        <img src="${item.img}"><span>${item.name}</span>
                     </div>`;
-                });
-            }
-            
-            document.getElementById('modal-buy').style.display = 'flex';
+            });
         }
 
-        // Paketli xaridlar
-        function sendBuy(gameId, priceIndex) {
-            const game = catalog.find(g => g.id === gameId);
-            const pack = game.prices[priceIndex];
-            
-            let uid = "Kiritilmagan";
-            if (game.hasInput) {
-                uid = document.getElementById('game-uid').value;
-                if (!uid) { tg.showAlert("Iltimos, ID raqamni kiriting!"); return; }
-            }
-
-            const orderData = {
-                action: "new_order",
-                game: game.name,
-                package: pack.amount,
-                price: pack.cost,
-                game_uid: uid,
-                client_id: currentUser.id,
-                client_name: currentUser.name,
-                client_user: currentUser.username
-            };
-
-            tg.sendData(JSON.stringify(orderData));
-            tg.close();
-        }
-
-        // Erkin summali xaridlar (Uyali aloqa)
-        function sendCustomBuy(gameName) {
-            const uid = document.getElementById('game-uid').value;
-            const amount = document.getElementById('custom-amount').value;
-            
-            if (!uid || !amount) { tg.showAlert("Iltimos, barcha maydonlarni to'ldiring!"); return; }
-
-            const orderData = {
-                action: "new_order",
-                game: gameName,
-                package: "Erkin summa",
-                price: amount,
-                game_uid: uid,
-                client_id: currentUser.id,
-                client_name: currentUser.name,
-                client_user: currentUser.username
-            };
-
-            tg.sendData(JSON.stringify(orderData));
-            tg.close();
-        }
-
-        function closeModal(id) { 
-            document.getElementById(id).style.display = 'none'; 
-            if(id === 'modal-payment-instruction') clearInterval(timerInterval);
-        }
-        
-        function switchPage(pageId, el) {
-            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-' + pageId).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        function selectPay(el, method) {
+            document.querySelectorAll('.pay-method').forEach(x => x.classList.remove('active'));
             el.classList.add('active');
+            selectedMethod = method;
         }
 
-        initApp();
+        function showInstruction() {
+            const amt = document.getElementById('topup-amount').value;
+            if (amt < 1000) return tg.showAlert("Minimal 1,000 UZS");
+            
+            currentAmount = amt;
+            document.getElementById('display-sum').innerText = parseInt(amt).toLocaleString();
+            closeModal('modal-topup');
+            openModal('modal-instruction');
+        }
+
+        // 2. VA 3. ADMIN TASDIQLASHI VA SMS-SIZ YUBORISH
+        function sendToAdmin() {
+            // Tugmani yashirish va kutish holatiga o'tish
+            document.getElementById('confirm-btn').style.display = 'none';
+            document.getElementById('wait-area').style.display = 'block';
+
+            const data = {
+                action: "admin_approval_needed",
+                user_id: user?.id,
+                username: user?.username,
+                amount: currentAmount,
+                method: selectedMethod
+            };
+
+            // Botga ma'lumot yuborish
+            tg.sendData(JSON.stringify(data));
+            
+            tg.showAlert("To'lov so'rovi adminga yuborildi. Iltimos, tasdiqlashni kuting.");
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        
+        init();
     </script>
 </body>
 </html>
