@@ -21,30 +21,24 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Header */
         .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .user-card { display: flex; align-items: center; gap: 12px; }
         .user-card img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--purple); object-fit: cover; }
         .username-badge { font-size: 11px; color: var(--accent); background: rgba(0, 255, 136, 0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; }
         
-        /* Balance */
         .balance-card { margin: 0 20px; background: linear-gradient(145deg, #1f1b4d, #110e2b); padding: 20px; border-radius: 20px; border: 1px solid rgba(88, 101, 242, 0.3); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         .balance-amount { font-size: 28px; font-weight: 900; margin-top: 5px; }
 
-        /* Modals */
         .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: flex-end; }
         .modal-content { background: #0f131a; width: 100%; max-height: 90vh; border-radius: 25px 25px 0 0; padding: 25px 20px; border-top: 1px solid var(--border); animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-        /* Timer Badge */
         .timer-badge { background: rgba(255, 71, 87, 0.1); color: var(--error); padding: 5px 15px; border-radius: 20px; font-weight: bold; border: 1px solid var(--error); margin-bottom: 10px; display: inline-block; }
 
-        /* Grid */
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
         .game-card { background: var(--card-bg); border-radius: 16px; padding: 15px; text-align: center; border: 1px solid var(--border); transition: 0.2s; }
         .game-card img { width: 60px; height: 60px; border-radius: 12px; margin-bottom: 10px; object-fit: cover; }
 
-        /* History */
         .history-item { background: var(--card-bg); margin: 10px 20px; padding: 15px; border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--purple); }
 
         .main-btn { width: 100%; background: var(--purple); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 16px; transition: 0.3s; }
@@ -133,17 +127,12 @@
         tg.ready();
         tg.expand();
 
+        // !!! MUHIM: RENDER HAVOLASINI SHU YERGA YOZ !!!
+        const SERVER_URL = "https://SIZNING-LOYIHA-NOMINGIZ.render.com"; 
+
         let timeLeft = 300;
         let timerInterval;
         let currentAmount = 0;
-
-        // Foydalanuvchini har qanday holatda aniqlash
-        const user = tg.initDataUnsafe?.user;
-        if (user) {
-            document.getElementById('u-name').innerText = user.first_name || 'Mijoz';
-            document.getElementById('u-handle').innerText = user.username ? '@' + user.username : 'ID: ' + user.id;
-            if (user.photo_url) document.getElementById('u-ava').src = user.photo_url;
-        }
 
         const catalog = [
             { id: 'pubg', name: 'PUBG Mobile UC', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6A6R_N431Uf6W9v73MAn_1uT_Q6Wv53vU6A&s' },
@@ -152,7 +141,8 @@
             { id: 'tg_prem', name: 'TG Premium', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png' }
         ];
 
-        function init() {
+        // 1. Katalog va foydalanuvchini yuklash
+        function initApp() {
             const grid = document.getElementById('game-grid');
             grid.innerHTML = '';
             catalog.forEach(item => {
@@ -162,6 +152,35 @@
                         <span>${item.name}</span>
                     </div>`;
             });
+            loadUserData();
+        }
+
+        // 2. Serverdan balans va ma'lumotlarni olish
+        function loadUserData() {
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                document.getElementById('u-name').innerText = user.first_name || 'Mijoz';
+                document.getElementById('u-handle').innerText = user.username ? '@' + user.username : 'ID: ' + user.id;
+                if (user.photo_url) document.getElementById('u-ava').src = user.photo_url;
+
+                // Serverdan ma'lumotlarni tortish
+                fetch(`${SERVER_URL}/get-balance/${user.id}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        document.getElementById('user-balance').innerText = (data.balance || 0).toLocaleString();
+                        
+                        const historyList = document.getElementById('history-list');
+                        if(data.history && data.history.length > 0) {
+                            historyList.innerHTML = '';
+                            data.history.reverse().forEach(item => {
+                                historyList.innerHTML += `<div class="history-item"><b>+${item.amount} UZS</b><br><small>${item.date}</small></div>`;
+                            });
+                        }
+                    })
+                    .catch(e => console.error("Xato:", e));
+            } else {
+                setTimeout(loadUserData, 500);
+            }
         }
 
         function switchPage(page, el) {
@@ -174,7 +193,6 @@
         function startPaymentFlow() {
             const amt = document.getElementById('topup-amount').value;
             if (amt < 1000) return tg.showAlert("Minimal to'lov 1,000 UZS");
-            
             currentAmount = amt;
             document.getElementById('display-sum').innerText = parseInt(amt).toLocaleString();
             closeModal('modal-topup');
@@ -199,16 +217,11 @@
         }
 
         function confirmPayment() {
-            const btn = document.getElementById('pay-confirm-btn');
-            btn.style.display = 'none';
+            const user = tg.initDataUnsafe?.user;
+            document.getElementById('pay-confirm-btn').style.display = 'none';
             document.getElementById('wait-area').style.display = 'block';
 
-            const data = {
-                action: "pay_confirm",
-                amount: currentAmount,
-                user_id: user?.id || 0
-            };
-
+            const data = { action: "pay_confirm", amount: currentAmount, user_id: user?.id || 0 };
             tg.sendData(JSON.stringify(data));
             tg.HapticFeedback.notificationOccurred('success');
         }
@@ -216,7 +229,7 @@
         function copyCard(num) {
             navigator.clipboard.writeText(num);
             tg.HapticFeedback.impactOccurred('medium');
-            tg.showConfirm("Karta nusxalandi!");
+            tg.showAlert("Karta raqami nusxalandi!");
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
@@ -225,7 +238,7 @@
             if(id === 'modal-instruction') clearInterval(timerInterval);
         }
 
-        init();
+        initApp();
     </script>
 </body>
 </html>
