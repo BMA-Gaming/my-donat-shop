@@ -14,36 +14,24 @@
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        
         .bg-particles { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle at 50% 0%, #151030 0%, var(--bg) 60%); }
         .page-content { padding-bottom: 90px; display: none; animation: fadeIn 0.3s ease-out; }
         .page-content.active { display: block; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
         .user-card { display: flex; align-items: center; gap: 12px; }
         .user-card img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--purple); object-fit: cover; }
         .username-badge { font-size: 11px; color: var(--accent); background: rgba(0, 255, 136, 0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; }
-        
         .balance-card { margin: 0 20px; background: linear-gradient(145deg, #1f1b4d, #110e2b); padding: 20px; border-radius: 20px; border: 1px solid rgba(88, 101, 242, 0.3); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         .balance-amount { font-size: 28px; font-weight: 900; margin-top: 5px; }
-
         .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: flex-end; }
         .modal-content { background: #0f131a; width: 100%; max-height: 90vh; border-radius: 25px 25px 0 0; padding: 25px 20px; border-top: 1px solid var(--border); animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
         .timer-badge { background: rgba(255, 71, 87, 0.1); color: var(--error); padding: 5px 15px; border-radius: 20px; font-weight: bold; border: 1px solid var(--error); margin-bottom: 10px; display: inline-block; }
-
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
-        .game-card { background: var(--card-bg); border-radius: 16px; padding: 15px; text-align: center; border: 1px solid var(--border); transition: 0.2s; }
-        .game-card img { width: 60px; height: 60px; border-radius: 12px; margin-bottom: 10px; object-fit: cover; }
-
-        .history-item { background: var(--card-bg); margin: 10px 20px; padding: 15px; border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--purple); }
-
-        .main-btn { width: 100%; background: var(--purple); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 16px; transition: 0.3s; }
-        .main-btn:disabled { opacity: 0.5; }
-
+        .game-card { background: var(--card-bg); border-radius: 16px; padding: 15px; text-align: center; border: 1px solid var(--border); transition: 0.2s; cursor: pointer; }
+        .history-item { background: var(--card-bg); margin: 10px 20px; padding: 15px; border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--purple); margin-bottom: 10px; }
+        .main-btn { width: 100%; background: var(--purple); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 16px; transition: 0.3s; cursor: pointer; }
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11, 14, 20, 0.98); display: flex; padding: 12px 0 25px; border-top: 1px solid var(--border); }
         .nav-item { flex: 1; text-align: center; color: var(--sub-text); font-size: 11px; display: flex; flex-direction: column; gap: 4px; cursor: pointer; }
         .nav-item.active { color: var(--accent); }
@@ -99,7 +87,6 @@
                 <div id="payment-timer" class="timer-badge">05:00</div>
                 <h2 style="font-size:18px; margin:0;">To'lov yo'riqnomasi</h2>
             </div>
-            
             <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:15px; margin-bottom:15px; border:1px solid var(--border);">
                 <div style="font-size:12px; opacity:0.8;">Karta raqami:</div>
                 <div style="font-size:18px; font-weight:bold; letter-spacing:1px; margin:10px 0;" onclick="copyCard('8802502260365472')">
@@ -107,7 +94,6 @@
                 </div>
                 <div style="font-size:13px;">To'lanadigan summa: <b id="display-sum" style="color:var(--accent);">0</b> <b>UZS</b></div>
             </div>
-
             <button id="pay-confirm-btn" class="main-btn" onclick="confirmPayment()">Pul to'ladim</button>
             <div id="wait-area" style="display:none; text-align:center; padding:15px;">
                 <i class="fas fa-spinner fa-spin" style="color:var(--accent); font-size:24px; margin-bottom:10px;"></i>
@@ -127,7 +113,6 @@
         tg.ready();
         tg.expand();
 
-        // !!! MUHIM: RENDER HAVOLASINI SHU YERGA YOZ !!!
         const SERVER_URL = "https://telegram-1-4tqg.onrender.com"; 
 
         let timeLeft = 300;
@@ -141,21 +126,19 @@
             { id: 'tg_prem', name: 'TG Premium', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png' }
         ];
 
-        // 1. Katalog va foydalanuvchini yuklash
         function initApp() {
             const grid = document.getElementById('game-grid');
             grid.innerHTML = '';
             catalog.forEach(item => {
                 grid.innerHTML += `
                     <div class="game-card" onclick="tg.showAlert('Balans yetarli emas!')">
-                        <img src="${item.img}">
-                        <span>${item.name}</span>
+                        <img src="${item.img}" style="width:60px; height:60px; border-radius:12px; margin-bottom:10px;">
+                        <div style="font-size:13px;">${item.name}</div>
                     </div>`;
             });
             loadUserData();
         }
 
-        // 2. Serverdan balans va ma'lumotlarni olish
         function loadUserData() {
             const user = tg.initDataUnsafe?.user;
             if (user) {
@@ -163,21 +146,19 @@
                 document.getElementById('u-handle').innerText = user.username ? '@' + user.username : 'ID: ' + user.id;
                 if (user.photo_url) document.getElementById('u-ava').src = user.photo_url;
 
-                // Serverdan ma'lumotlarni tortish
                 fetch(`${SERVER_URL}/get-balance/${user.id}`)
                     .then(r => r.json())
                     .then(data => {
                         document.getElementById('user-balance').innerText = (data.balance || 0).toLocaleString();
-                        
                         const historyList = document.getElementById('history-list');
                         if(data.history && data.history.length > 0) {
                             historyList.innerHTML = '';
                             data.history.reverse().forEach(item => {
-                                historyList.innerHTML += `<div class="history-item"><b>+${item.amount} UZS</b><br><small>${item.date}</small></div>`;
+                                historyList.innerHTML += `<div class="history-item"><b>+${Number(item.amount).toLocaleString()} UZS</b><br><small>${item.date} - ${item.status}</small></div>`;
                             });
                         }
                     })
-                    .catch(e => console.error("Xato:", e));
+                    .catch(e => console.error("Fetch error:", e));
             } else {
                 setTimeout(loadUserData, 500);
             }
@@ -220,16 +201,14 @@
             const user = tg.initDataUnsafe?.user;
             document.getElementById('pay-confirm-btn').style.display = 'none';
             document.getElementById('wait-area').style.display = 'block';
-
             const data = { action: "pay_confirm", amount: currentAmount, user_id: user?.id || 0 };
             tg.sendData(JSON.stringify(data));
-            tg.HapticFeedback.notificationOccurred('success');
         }
 
         function copyCard(num) {
             navigator.clipboard.writeText(num);
             tg.HapticFeedback.impactOccurred('medium');
-            tg.showAlert("Karta raqami nusxalandi!");
+            tg.showAlert("Karta nusxalandi!");
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
