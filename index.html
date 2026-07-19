@@ -1,563 +1,164 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BMA Premium Shop 3D Edition</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        /* CSS RESET & VARIABLES */
-        :root {
-            --bg-glow: linear-gradient(-45deg, #050505, #2a0007, #001f0c, #000c2a);
-            --neon-red: #ff0044;
-            --neon-green: #00ff66;
-            --neon-blue: #00e5ff;
-            --neon-purple: #9d00ff;
-            --glass-card: rgba(15, 15, 15, 0.75);
-            --text-main: #ffffff;
-            --text-secondary: #aaaaaa;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMA Premium Shop</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f4f7f9;
+      margin: 0;
+      padding: 15px;
+    }
+    h2 { text-align: center; color: #2c3e50; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      cursor: pointer;
+    }
+    .card img { width: 100%; height: 100px; object-fit: cover; }
+    .card-content { padding: 10px; font-weight: bold; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* DYNAMIC GRADIENT ANIMATION */
-        @keyframes masterBackground {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        body {
-            background: var(--bg-glow);
-            background-size: 400% 400%;
-            animation: masterBackground 15s ease infinite;
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: 100px;
-        }
-
-        /* CUSTOM SCROLLBAR */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.3);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--neon-blue);
-            border-radius: 10px;
-        }
-
-        /* LIGHT EFFECTS AND BACKGROUND GLOWS */
-        .neon-sphere-1 {
-            position: fixed; width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(255,0,68,0.15) 0%, transparent 70%);
-            top: -50px; left: -100px; z-index: -1; pointer-events: none;
-        }
-        .neon-sphere-2 {
-            position: fixed; width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%);
-            bottom: 100px; right: -150px; z-index: -1; pointer-events: none;
-        }
-
-        /* HEADER SECTION */
-        .header {
-            padding: 25px 20px;
-            text-align: center;
-            background: rgba(5, 5, 5, 0.85);
-            border-bottom: 2px solid transparent;
-            border-image: linear-gradient(to right, var(--neon-red), var(--neon-blue), var(--neon-green)) 1;
-            backdrop-filter: blur(15px);
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-        }
-
-        .header h1 {
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, #ffffff, #888888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .header h1 span {
-            background: linear-gradient(45deg, var(--neon-red), var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* CYBERPUNK USER PROFILE INFOBAR */
-        .user-stat-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px auto 0 auto;
-            max-width: 500px;
-            background: rgba(0,0,0,0.4);
-            padding: 10px 20px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .user-tag {
-            font-size: 14px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .user-tag i { color: var(--neon-blue); }
-
-        .balance-badge {
-            background: linear-gradient(135deg, rgba(0,255,102,0.1), rgba(0,255,102,0.02));
-            padding: 8px 18px;
-            border-radius: 20px;
-            border: 1px solid var(--neon-green);
-            font-size: 16px;
-            font-weight: 800;
-            color: #00ff66;
-            text-shadow: 0 0 10px rgba(0,255,102,0.3);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: inset 0 0 10px rgba(0,255,102,0.1);
-        }
-
-        /* NAVIGATION TABS WITH GLOW */
-        .navigation-tabs {
-            display: flex;
-            max-width: 500px;
-            margin: 25px auto;
-            padding: 6px;
-            background: rgba(10, 10, 10, 0.8);
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-        }
-
-        .tab-trigger {
-            flex: 1;
-            padding: 14px;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 700;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .tab-trigger.active {
-            background: linear-gradient(135deg, #111, #222);
-            color: var(--neon-blue);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
-            text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
-        }
-
-        /* APP MAIN VIEWPORT */
-        .main-viewport {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        .view-section {
-            display: none;
-            animation: sectionSlideIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        @keyframes sectionSlideIn {
-            from { opacity: 0; transform: translateY(30px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* 3D LUXURY PREMIUM CARDS GRID */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            perspective: 1200px;
-        }
-
-        @media (max-width: 400px) {
-            .products-grid { grid-template-columns: 1fr; }
-        }
-
-        .product-card {
-            background: var(--glass-card);
-            border-radius: 24px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.08);
-            transform-style: preserve-3d;
-            transition: transform 0.15s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
-            position: relative;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Interactive Card Glow Colors */
-        .product-card.pubg-card { border-bottom: 3px solid #ff4500; box-shadow: 0 10px 25px rgba(255, 69, 0, 0.08); }
-        .product-card.mlbb-card { border-bottom: 3px solid #00bfff; box-shadow: 0 10px 25px rgba(0, 191, 255, 0.08); }
-        .product-card.ff-card { border-bottom: 3px solid #ff8c00; box-shadow: 0 10px 25px rgba(255, 140, 0, 0.08); }
-        .product-card.brawl-card { border-bottom: 3px solid #9932cc; box-shadow: 0 10px 25px rgba(153, 50, 204, 0.08); }
-
-        .product-card:hover {
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        /* Game Badge Top Right */
-        .game-badge {
-            position: absolute; top: 12px; right: 12px;
-            background: rgba(0,0,0,0.6); padding: 4px 8px;
-            border-radius: 8px; font-size: 10px; font-weight: 700;
-            text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1);
-            transform: translateZ(15px);
-        }
-
-        .product-card.pubg-card .game-badge { color: #ff4500; }
-        .product-card.mlbb-card .game-badge { color: #00bfff; }
-        .product-card.ff-card .game-badge { color: #ff8c00; }
-        .product-card.brawl-card .game-badge { color: #9932cc; }
-
-        /* THE CHOSEN GAME LOGOS */
-        .image-wrapper {
-            position: relative; width: 100px; height: 100px;
-            margin: 15px auto; transform: translateZ(40px);
-        }
-
-        .image-wrapper img {
-            width: 100%; height: 100%; object-fit: cover;
-            border-radius: 22px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-            border: 2px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover .image-wrapper img {
-            transform: scale(1.08);
-        }
-
-        .product-card h3 {
-            font-size: 17px; font-weight: 800; margin-bottom: 6px;
-            letter-spacing: 0.5px; transform: translateZ(25px);
-            color: #f5f5f5;
-        }
-
-        .product-card .items-count {
-            font-size: 13px; color: var(--text-secondary);
-            margin-bottom: 15px; transform: translateZ(20px);
-        }
-
-        .product-card .price-tag {
-            font-size: 20px; font-weight: 900; margin-bottom: 18px;
-            transform: translateZ(30px); display: block;
-        }
-
-        .product-card.pubg-card .price-tag { color: #ff6347; }
-        .product-card.mlbb-card .price-tag { color: #30d5fc; }
-        .product-card.ff-card .price-tag { color: #ffa500; }
-        .product-card.brawl-card .price-tag { color: #ba55d3; }
-
-        /* BUTTON DESIGN WITH AUDIO & HAPTIC TRIGGERS */
-        .action-buy-btn {
-            width: 100%; padding: 12px; border: none;
-            border-radius: 16px; font-size: 14px; font-weight: 800;
-            color: #fff; cursor: pointer; transform: translateZ(45px);
-            transition: all 0.2s ease;
-            letter-spacing: 1px; text-transform: uppercase;
-        }
-
-        .pubg-card .action-buy-btn { background: linear-gradient(90deg, #ff4500, #b23300); box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4); }
-        .mlbb-card .action-buy-btn { background: linear-gradient(90deg, #00bfff, #0077b3); box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4); }
-        .ff-card .action-buy-btn { background: linear-gradient(90deg, #ff8c00, #b36200); box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4); }
-        .brawl-card .action-buy-btn { background: linear-gradient(90deg, #9932cc, #591d78); box-shadow: 0 4px 15px rgba(153, 50, 204, 0.4); }
-
-        .action-buy-btn:active {
-            transform: translateZ(20px) scale(0.96);
-            box-shadow: none;
-        }
-
-        /* ACCOUNT OVERVIEW & HISTORY SHEET */
-        .history-list-wrapper {
-            background: var(--glass-card); border-radius: 24px;
-            padding: 20px; border: 1px solid rgba(255,255,255,0.06);
-            backdrop-filter: blur(10px);
-        }
-
-        .history-node {
-            background: rgba(0,0,0,0.3); padding: 16px;
-            border-radius: 16px; margin-bottom: 12px;
-            border-left: 4px solid var(--neon-blue);
-            display: flex; justify-content: space-between; align-items: center;
-            transition: 0.2s;
-        }
-
-        .history-node:hover { background: rgba(255,255,255,0.02); }
-        .history-node.negative { border-left-color: var(--neon-red); }
-        .history-node.positive { border-left-color: var(--neon-green); }
-
-        .history-meta h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-        .history-meta span { font-size: 12px; color: var(--text-secondary); }
-        .history-value { font-size: 16px; font-weight: 800; }
-
-        /* MODAL SCREEN SYSTEM */
-        .overlay-mask {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 9999;
-        }
-
-        .overlay-mask.active { opacity: 1; pointer-events: all; }
-
-        .cyber-modal {
-            background: linear-gradient(145deg, #0f0f12, #1a1a24);
-            width: 88%; max-width: 400px; padding: 30px; border-radius: 28px;
-            text-align: center; border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 40px rgba(0, 229, 255, 0.25);
-            transform: scale(0.85); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .overlay-mask.active .cyber-modal { transform: scale(1); }
-
-        .cyber-modal .modal-icon {
-            font-size: 45px; color: var(--neon-blue); margin-bottom: 15px;
-            animation: pulseIcon 2s infinite;
-        }
-
-        @keyframes pulseIcon {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .cyber-modal h2 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
-        .cyber-modal p { color: var(--text-secondary); font-size: 15px; line-height: 1.5; margin-bottom: 25px; }
-
-        .flex-buttons { display: flex; gap: 12px; }
-        .modal-action {
-            flex: 1; padding: 14px; border: none; border-radius: 14px;
-            font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s;
-        }
-
-        .modal-action.abort { background: #222; color: #fff; }
-        .modal-action.confirm { background: var(--neon-green); color: #000; font-weight: 800; box-shadow: 0 0 15px rgba(0,255,102,0.3); }
-
-    </style>
+    /* --- Ikkinchi oyna (valyuta ro'yxati) --- */
+    #currencyScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #f4f7f9;
+      padding: 15px;
+      overflow-y: auto;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: #3498db;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .product-row {
+      background: white;
+      border-radius: 12px;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    .product-row .name { font-weight: bold; }
+    .product-row .price { color: #27ae60; font-weight: bold; }
+    .buy-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #loading, #error { text-align: center; margin-top: 30px; color: #888; }
+  </style>
 </head>
 <body>
+  <h2>🎮 O'yinni tanlang</h2>
+  <div class="grid" id="gamesGrid">
+    <!-- O'yin kartalari JS orqali /games so'rovidan keyin chiqariladi -->
+  </div>
+  <div id="loading">Yuklanmoqda...</div>
 
-    <div class="neon-sphere-1"></div>
-    <div class="neon-sphere-2"></div>
+  <!-- Ikkinchi oyna: tanlangan o'yinning valyuta paketlari -->
+  <div id="currencyScreen">
+    <button class="back-btn" onclick="goBack()">← Orqaga</button>
+    <h2 id="currencyTitle"></h2>
+    <div id="productsList"></div>
+  </div>
 
-    <div class="header">
-        <h1><span>BMA</span> GAMING</h1>
-        <div class="user-stat-container">
-            <div class="user-tag"><i class="fa-solid fa-user-shield"></i> <span id="usernameSlot">Gamer</span></div>
-            <div class="balance-badge" id="balanceDisplay"><i class="fa-solid fa-bolt"></i> 0 UZS</div>
-        </div>
-    </div>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
 
-    <div class="navigation-tabs">
-        <button class="tab-trigger active" onclick="navigateTabs('shopView', this)"><i class="fa-solid fa-shop"></i> Do'kon</button>
-        <button class="tab-trigger" onclick="navigateTabs('historyView', this)"><i class="fa-solid fa-receipt"></i> Tarix</button>
-    </div>
+    // MUHIM: bu yerga bot serveringiz manzilini yozing
+    // (masalan Render/Railway'da deploy qilingandan keyingi https:// manzil)
+    const API_BASE = "https://SIZNING-BOT-SERVERINGIZ.onrender.com";
 
-    <div class="main-viewport">
-        
-        <div id="shopView" class="view-section active">
-            <div class="products-grid" id="containerGrid">
-                </div>
-        </div>
+    // O'yin kartalari uchun rasm (istalgancha almashtiring)
+    const GAME_IMAGES = {
+      pubgm: "https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=300",
+      brawlstars: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300",
+      mlbb: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300",
+      freefire: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=300",
+    };
 
-        <div id="historyView" class="view-section">
-            <div class="history-list-wrapper">
-                <h3 style="margin-bottom: 20px; font-size: 18px; letter-spacing: 0.5px;"><i class="fa-solid fa-clock-rotate-left" style="color:var(--neon-blue);"></i> Moliyaviy operatsiyalar</h3>
-                <div id="historyOutputNode"></div>
-            </div>
-        </div>
+    let GAMES = {};
 
-    </div>
+    async function loadGames() {
+      try {
+        const res = await fetch(`${API_BASE}/games`);
+        GAMES = await res.json();
+        renderGamesGrid();
+        document.getElementById("loading").style.display = "none";
+      } catch (e) {
+        document.getElementById("loading").textContent =
+          "Xatolik: o'yinlar ro'yxatini yuklab bo'lmadi.";
+      }
+    }
 
-    <div class="overlay-mask" id="checkoutModal">
-        <div class="cyber-modal">
-            <div class="modal-icon"><i class="fa-solid fa-circle-check"></i></div>
-            <h2>Xaridni Tasdiqlang</h2>
-            <p id="checkoutTargetText">Tanlangan mahsulotni sotib olishni tasdiqlaysizmi?</p>
-            <div class="flex-buttons">
-                <button class="modal-action abort" onclick="dismissModal()">Bekor qilish</button>
-                <button class="modal-action confirm" id="executeOrderBtn">Sotib olish</button>
-            </div>
-        </div>
-    </div>
+    function renderGamesGrid() {
+      const grid = document.getElementById("gamesGrid");
+      grid.innerHTML = "";
+      for (const key in GAMES) {
+        const game = GAMES[key];
+        const card = document.createElement("div");
+        card.className = "card";
+        card.onclick = () => openGame(key);
+        card.innerHTML = `
+          <img src="${GAME_IMAGES[key] || ""}" />
+          <div class="card-content">${game.title}</div>
+        `;
+        grid.appendChild(card);
+      }
+    }
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+    // --- Ikkinchi oynani ochish ---
+    function openGame(gameKey) {
+      const game = GAMES[gameKey];
+      document.getElementById("currencyTitle").textContent =
+        `💎 ${game.title} (${game.currency})`;
 
-        // RENDER LINKINGIZNI SHU YERGA YOZING!
-        const RENDER_API = "https://telegram-aj69.onrender.com"; 
-        const currentUserId = tg.initDataUnsafe?.user?.id || "6685828485";
+      const list = document.getElementById("productsList");
+      list.innerHTML = "";
+      game.products.forEach((p) => {
+        const row = document.createElement("div");
+        row.className = "product-row";
+        row.innerHTML = `
+          <span class="name">${p.name}</span>
+          <span class="price">$${p.priceUSD}</span>
+          <button class="buy-btn">Sotib olish</button>
+        `;
+        row.querySelector(".buy-btn").onclick = () => buyProduct(p.id);
+        list.appendChild(row);
+      });
 
-        let liveBalance = 0;
-        let selectedProduct = null;
+      document.getElementById("currencyScreen").style.display = "block";
+    }
 
-        // ORIGINAL GAME IMAGES LOGOS (PUBG, MLBB, FREE FIRE, BRAWL)
-        const premiumProducts = [
-            { id: 101, name: "PUBG Mobile UC", count: "60 UC Instant", price: 12000, type: "pubg-card", logo: "https://i.pinimg.com/736x/82/32/30/823230b05b38f83038a3d61183ff1c88.jpg", tag: "pubg" },
-            { id: 102, name: "PUBG Mobile UC", count: "325 UC Pack", price: 60000, type: "pubg-card", logo: "https://i.pinimg.com/736x/82/32/30/823230b05b38f83038a3d61183ff1c88.jpg", tag: "pubg" },
-            { id: 103, name: "Mobile Legends", count: "86 Diamonds", price: 18000, type: "mlbb-card", logo: "https://i.pinimg.com/736x/95/67/6f/95676f272a806969cfb8ec96cc9a1286.jpg", tag: "mlbb" },
-            { id: 104, name: "Mobile Legends", count: "172 Diamonds", price: 35000, type: "mlbb-card", logo: "https://i.pinimg.com/736x/95/67/6f/95676f272a806969cfb8ec96cc9a1286.jpg", tag: "mlbb" },
-            { id: 105, name: "Free Fire💎", count: "100 Diamonds", price: 15000, type: "ff-card", logo: "https://i.pinimg.com/736x/2d/ff/c2/2dffc29b79cb97ee61b608892f33c307.jpg", tag: "freefire" },
-            { id: 106, name: "Brawl Stars", count: "30 Gems", price: 14000, type: "brawl-card", logo: "https://i.pinimg.com/736x/9a/d0/25/9ad0257e5b22b102ce55b8ef3a7266be.jpg", tag: "brawl" }
-        ];
+    function goBack() {
+      document.getElementById("currencyScreen").style.display = "none";
+    }
 
-        // ADVANCED MATH/PHYSICS-BASED 3D ENGINE
-        function trigger3DMatrix() {
-            const items = document.querySelectorAll('.product-card');
-            items.forEach(node => {
-                node.addEventListener('mousemove', (event) => {
-                    const bounding = node.getBoundingClientRect();
-                    const currentX = event.clientX - bounding.left;
-                    const currentY = event.clientY - bounding.top;
-                    const midpointX = bounding.width / 2;
-                    const midpointY = bounding.height / 2;
+    // Botga faqat productId yuboriladi - narx serverda hal qilinadi
+    function buyProduct(productId) {
+      tg.sendData(JSON.stringify({ action: "buy_item", productId }));
+    }
 
-                    const dynamicRotationX = ((currentY - midpointY) / midpointY) * -16; 
-                    const dynamicRotationY = ((currentX - midpointX) / midpointX) * 16;
-
-                    node.style.transform = `perspective(1200px) rotateX(${dynamicRotationX}deg) rotateY(${dynamicRotationY}deg) scale3d(1.04, 1.04, 1.04)`;
-                });
-
-                node.addEventListener('mouseleave', () => {
-                    node.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                });
-            });
-        }
-
-        // DRAW PRODUCTS
-        function buildStorefront() {
-            const layout = document.getElementById('containerGrid');
-            layout.innerHTML = "";
-            premiumProducts.forEach(item => {
-                layout.innerHTML += `
-                    <div class="product-card ${item.type}">
-                        <div class="game-badge">${item.tag}</div>
-                        <div class="image-wrapper">
-                            <img src="${item.logo}" alt="${item.name}">
-                        </div>
-                        <h3>${item.name}</h3>
-                        <div class="items-count">${item.count}</div>
-                        <span class="price-tag">${item.price.toLocaleString()} UZS</span>
-                        <button class="action-buy-btn" onclick="presentCheckout('${item.name} - ${item.count}', ${item.price})">Sotib olish</button>
-                    </div>
-                `;
-            });
-            trigger3DMatrix();
-        }
-
-        // TABS CONTROLLER
-        function navigateTabs(targetSectionId, buttonReference) {
-            document.querySelectorAll('.tab-trigger').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
-            
-            buttonReference.classList.add('active');
-            document.getElementById(targetSectionId).classList.add('active');
-            
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-        }
-
-        // INITIATE DIALOG MODAL
-        function presentCheckout(productDetails, costValue) {
-            selectedProduct = { title: productDetails, bill: costValue };
-            document.getElementById('checkoutTargetText').innerHTML = `Siz haqiqatdan ham <b>${productDetails}</b> mahsulotini <br><span style="color:#00ff66; font-size:18px; font-weight:800;">${costValue.toLocaleString()} UZS</span> evaziga sotib olmoqchimisiz?`;
-            document.getElementById('checkoutModal').classList.add('active');
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-        }
-
-        function dismissModal() {
-            document.getElementById('checkoutModal').classList.remove('active');
-        }
-
-        // WEB INTERACTION CONFIRMATION
-        document.getElementById('executeOrderBtn').addEventListener('click', () => {
-            if (liveBalance >= selectedProduct.bill) {
-                tg.sendData(JSON.stringify({ 
-                    action: "buy_item", 
-                    item: selectedProduct.title, 
-                    price: selectedProduct.bill 
-                }));
-                tg.close();
-            } else {
-                tg.showAlert(`⚠️ Hisobingizda mablag' yetarli emas!\n\nSizga yana ${(selectedProduct.bill - liveBalance).toLocaleString()} UZS kerak. Bot ichida /pay buyrug'ini yuborib balansni to'ldiring.`);
-                dismissModal();
-            }
-        });
-
-        // DISPATCH NETWORK CONNECTIVITY FOR WALLET
-        async function loadProfileMatrix() {
-            try {
-                const username = tg.initDataUnsafe?.user?.first_name || "Gamer";
-                document.getElementById('usernameSlot').innerText = username;
-
-                const networkPipe = await fetch(`${RENDER_API}/get-user/${currentUserId}`);
-                const parsedPayload = await networkPipe.json();
-                
-                liveBalance = parsedPayload.balance;
-                document.getElementById('balanceDisplay').innerHTML = `<i class="fa-solid fa-bolt"></i> ${liveBalance.toLocaleString()} UZS`;
-
-                const outputNode = document.getElementById('historyOutputNode');
-                if (!parsedPayload.history || parsedPayload.history.length === 0) {
-                    outputNode.innerHTML = `<p style="text-align:center; color:gray; padding:20px 0; font-size:14px;">Hech qanday tarixiy ma'lumot topilmadi.</p>`;
-                } else {
-                    outputNode.innerHTML = parsedPayload.history.reverse().map(log => `
-                        <div class="history-node ${log.amount > 0 ? 'positive' : 'negative'}">
-                            <div class="history-meta">
-                                <h4>${log.status}</h4>
-                                <span>${log.date}</span>
-                            </div>
-                            <div class="history-value" style="color: ${log.amount > 0 ? '#00ff66' : '#ff0044'}">
-                                ${log.amount > 0 ? '+' : ''}${log.amount.toLocaleString()} UZS
-                            </div>
-                        </div>
-                    `).join('');
-                }
-            } catch (networkError) {
-                console.error("API xatoligi yuz berdi:", networkError);
-            }
-        }
-
-        // CONTEXT MAIN EXECUTION
-        buildStorefront();
-        loadProfileMatrix();
-
-    </script>
+    loadGames();
+  </script>
 </body>
 </html>
