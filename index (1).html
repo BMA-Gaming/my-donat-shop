@@ -217,9 +217,9 @@ const tg = window.Telegram.WebApp;
 tg.ready(); tg.expand();
 try { tg.setHeaderColor('#0e1117'); tg.setBackgroundColor('#0e1117'); } catch(e){}
 
-const API = location.origin;          // server bilan bir joyda turgani uchun
+const API = "https://telegram-1-4tqg.onrender.com";   // server bilan bir joyda turgani uchun
 const INIT = tg.initData || "";
-const SUPPORT = "your_admin_username"; // <-- o'z usernameingizni yozing
+const SUPPORT = "Masharipov_Baxtiyor"; // <-- o'z usernameingizni yozing
 
 let ME = null, GAMES = {}, selected = null, currentGame = null;
 const fmt = n => Number(n||0).toLocaleString('ru-RU');
